@@ -30,7 +30,7 @@ These techniques helped the team generate, discuss, and refine different project
 
 ## Selected Idea
 
-After evaluating multiple ideas, the team selected the **Sports Field Booking Platform** as the final **MVP** idea.
+After evaluating multiple ideas, the team selected (urSport) the **Sports Field Booking Platform** as the final **MVP** idea.
 
 The platform is designed to help users **find nearby sports fields, view their information, and book them through one easy-to-use platform**.
 
