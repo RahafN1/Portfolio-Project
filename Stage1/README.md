@@ -28,10 +28,10 @@ All team members will contribute to both **Frontend and Backend development** th
 
 | Team Member      | Specialization       | Responsibilities                                                                                                              |
 | ---------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Sarah Alkhubaizy  | Full Stack Developer | Contribute to Frontend and Backend development, database integration, testing, documentation, and feature development.        |
-| Rahaf Alabdalh | Full Stack Developer | Contribute to Frontend and Backend development, API development, system integration, testing, and feature development.        |
-| Dhay Aldhwayan    | Full Stack Developer | Contribute to Frontend and Backend development, user interface implementation, database integration, testing, and bug fixing. |
-| Zahraa Alhussain | Full Stack Developer | Contribute to Frontend and Backend development, API development, interface implementation, testing, and documentation.        |
+| Sarah Alkhubaizy  |Backend Developer | Contribute to Frontend and Backend development, database integration, testing, documentation, and feature development.        |
+| Rahaf Alabdalh | Project manager | Contribute to Frontend and Backend development, API development, system integration, testing, and feature development.        |
+| Dhay Aldhwayan    | UI/UX Designer & Frontend Developer | Contribute to Frontend and Backend development, user interface implementation, database integration, testing, and bug fixing. |
+| Zahraa Alhussain | Backend Developer | Contribute to Frontend and Backend development, API development, interface implementation, testing, and documentation.        |
 
 All team members will participate in technical discussions, code reviews, debugging, testing, documentation, and feature development.
 
@@ -243,7 +243,7 @@ The idea was rejected because implementing a secure permission and data access s
 
 ### 3.1 MVP Summary
 
-The selected idea is a **Sports Field Booking Platform**, a platform that helps users discover nearby sports fields, view their information, and book them easily.
+The selected idea is a **Sports Field Booking Platform(urSport)**, a platform that helps users discover nearby sports fields, view their information, and book them easily.
 
 Users can use their location to find nearby sports fields, view field details, and select a suitable field for booking.
 
