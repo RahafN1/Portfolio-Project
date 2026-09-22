@@ -73,7 +73,6 @@ The MVP focuses on simplifying the process of searching for and booking sports f
 * Advanced and complete management dashboard for sports field owners.
 * Automatic synchronization with sports field owners' systems.
 * Coverage of all cities across Saudi Arabia.
-* Advanced map navigation and real-time location tracking.
 
 ---
 
