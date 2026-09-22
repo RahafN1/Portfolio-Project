@@ -6,15 +6,15 @@
 
 #### Purpose
 
-The Sports Field Booking Platform is a platform that allows users to easily find nearby sports fields, view their information, check available time slots, and make bookings through one place. The platform also includes a women’s feature that helps female users identify sports fields that provide suitable options for women.
+The Sports Field Booking Platform is a platform designed specifically for women to easily find sports fields, view their information, check available time slots, and make bookings through one place. The platform focuses on helping female users find sports fields that provide suitable options for women.
 
 #### Project Objectives
 
-* **Provide an easy-to-use platform** that allows users to search for nearby sports fields, view their information and available time slots, and make bookings through a single platform during the MVP stage.
+* **Provide an easy-to-use platform** that allows female users to search for nearby sports fields, view their information and available time slots, and make bookings through a single platform during the MVP stage.
+  
+* **Reduce the time and effort** female users spend searching for suitable sports fields by providing location-based search, manual search, and organized field information.
 
-* **Reduce the time and effort** users spend searching for suitable sports fields by providing location-based search, manual search, and organized field information.
-
-* **Simplify the sports field booking process** through a digital system that allows users to select a suitable field and time slot and complete their booking easily, while providing a feature that helps women identify sports fields that offer suitable options for them.
+* **Simplify the sports field booking process** through a digital system that allows female users to select a suitable field and time slot and complete their booking easily.
 
 ---
 
@@ -26,9 +26,9 @@ The Sports Field Booking Platform is a platform that allows users to easily find
 | -------- | ---------------------------------- | ------------------------------------------------- |
 | Internal | Team Members                       | Design, develop, test, and document the platform  |
 | Internal | Holberton Trainers and Supervisors | Provide guidance and evaluate the project         |
-| External | Individual Users                   | Search for and book sports fields                 |
-| External | Groups and Sports Teams            | Find suitable fields and make bookings            |
-| External | Sports Field Owners                | Provide sports field information and availability |
+| External | Female Users                   | Search for and book suitable sports fields                 |
+| External | Women’s Sports Groups and Teams            | Find suitable fields and make bookings            |
+| External | Sports Field Owners                | Provide sports field information and availabilityProvide sports field information and availability |
 
 #### Team Roles
 
@@ -47,13 +47,13 @@ The Sports Field Booking Platform is a platform that allows users to easily find
 
 ### Project Scope Overview
 
-The Sports Field Booking Platform is a digital platform designed to help users find nearby sports fields, view field information, check available time slots, and make bookings through a single, user-friendly platform.
+The Sports Field Booking Platform is a digital platform designed specifically for women to help them find suitable sports fields, view field information, check available time slots, and make bookings through a single, user-friendly platform.
 
-The MVP focuses on simplifying the process of searching for and booking sports fields, while also providing a feature that helps women identify sports fields that offer suitable options for them.
+The MVP focuses on simplifying the process of searching for and booking sports fields for female users.
 
 ### In-Scope (Included in MVP)
 
-* Search for nearby sports fields based on the user's location.
+* Search for suitable sports fields based on the user's location.
 * Manually search for sports fields.
 * View sports field details, including name, location, sport type, price, and available time slots.
 * View available booking time slots.
@@ -62,9 +62,11 @@ The MVP focuses on simplifying the process of searching for and booking sports f
 * User registration and login.
 * User profile completion.
 * View previously booked sports fields and booking details.
-* Women’s feature to help identify sports fields that offer suitable options for women.
+* Display sports fields that are available and suitable for women.
 * Responsive user interface for different screen sizes.
-* Initial database containing a limited number of sports fields within a specific city or area.
+* Initial database containing a limited number of sports fields suitable for women within a specific city or area.
+* Online payment processing using Moyasar.
+
 
 ### Out-of-Scope (Excluded from MVP)
 
