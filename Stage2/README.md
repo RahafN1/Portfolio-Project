@@ -36,7 +36,8 @@ The Sports Field Booking Platform is a platform designed specifically for women 
 | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | -------------------- |
 | **Project manager**                     | Coordinate technical decisions, organize team tasks, track progress, facilitate communication, and review code          | Rahaf Alabdalh       |
 | **Backend Developer**                   | Develop the backend, database, APIs, authentication, and booking logic                                                  | Zahraa Ali Alhussain |
-| **Backend Developer**                   | Develop the application interface, search, field listings, booking screens, and user features                           | Sarah Alkhubaizy     |
+| **Backend Developer**                   |Develop the backend, database, APIs, authentication, and booking logic 
+| Sarah Alkhubaizy     |
 | **UI/UX Designer & Frontend Developer** | Design the user interface and user experience, create wireframes and prototypes, and ensure the platform is easy to use | Dhay Aldhwayan       |
 
 **Note:** Testing and documentation responsibilities will be shared among all team members.
@@ -70,7 +71,6 @@ The MVP focuses on simplifying the process of searching for and booking sports f
 
 ### Out-of-Scope (Excluded from MVP)
 
-* Online payment processing.
 * Ratings and reviews.
 * Advanced and complete management dashboard for sports field owners.
 * Automatic synchronization with sports field owners' systems.
