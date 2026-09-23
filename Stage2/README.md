@@ -32,13 +32,12 @@ The Sports Field Booking Platform is a platform designed specifically for women 
 
 #### Team Roles
 
-| Role                                    | Responsibilities                                                                                                        | Name                 |
+| Role | Responsibilities | Name |
 | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| **Project manager**                     | Coordinate technical decisions, organize team tasks, track progress, facilitate communication, and review code          | Rahaf Alabdalh       |
-| **Backend Developer**                   | Develop the backend, database, APIs, authentication, and booking logic                                                  | Zahraa Ali Alhussain |
-| **Backend Developer**                   |Develop the backend, database, APIs, authentication, and booking logic 
-| Sarah Alkhubaizy     |
-| **UI/UX Designer & Frontend Developer** | Design the user interface and user experience, create wireframes and prototypes, and ensure the platform is easy to use | Dhay Aldhwayan       |
+| **Project manager** | Coordinate technical decisions, organize team tasks, track progress, facilitate communication, and review code | Rahaf Alabdalh |
+| **Backend Developer** | Develop the backend, database, APIs, authentication, and booking logic | Zahraa Ali Alhussain |
+| **Backend Developer** | Develop the backend, database, APIs, authentication, and booking logic | Sarah Alkhubaizy |
+| **UI/UX Designer & Frontend Developer** | Design the user interface and user experience, create wireframes and prototypes, and ensure the platform is easy to use | Dhay Aldhwayan |
 
 **Note:** Testing and documentation responsibilities will be shared among all team members.
 
