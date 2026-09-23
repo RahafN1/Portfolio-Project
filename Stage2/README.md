@@ -103,4 +103,20 @@ The Sports Field Booking Platform may face several challenges during the plannin
 ---
 
 ### 6. Key Milestones
+The key milestones represent the major achievements and critical deliverables throughout the project lifecycle:
 
+| # | Milestone | Key Deliverable | Phase | Timeline | Status |
+| :-: | :--- | :--- | :--- | :-: | :-: |
+| **1** | **Project Initiation & Idea Approval** | Selected MVP idea (*urSport Platform*) | Stage 1 | Week 1 | Completed |
+| **2** | **Project Charter Approval** | Completed Project Charter document | Stage 2 | Week 2 | In Progress |
+| **3** | **Architecture & Design Specification** | System architecture, database design, Figma mockups, API specs, and QA plans | Stage 3 | Weeks 3–4 | Upcoming |
+| **4** | **Core MVP Development** | Functional authentication, search, booking system, and Moyasar payment gateway | Stage 4 | Weeks 5–10 | Upcoming |
+| **5** | **Testing & Quality Assurance** | Fully tested MVP, bug fixes, and responsive UI optimization | Stage 4 | Week 10 | Upcoming |
+| **6** | **Project Closure & Final Presentation** | Final project presentation, poster, landing page, and code submission | Stage 5 | Weeks 11–12 | Upcoming |
+
+| Role | Responsibilities | Name |
+| :--- | :--- | :--- |
+| **Project Manager** | Coordinate technical decisions, organize team tasks, track progress, facilitate communication, and review code | Rahaf Alabdalh |
+| **Backend Developer** | Develop the backend, database, APIs, authentication, and booking logic | Zahraa Ali Alhussain |
+| **Backend Developer** | Develop the backend, database, APIs, authentication, and booking logic | Sarah Alkhubaizy |
+| **UI/UX Designer & Frontend Developer** | Design the user interface and user experience, create wireframes and prototypes, and ensure the platform is easy to use | Dhay Aldhwayan |
