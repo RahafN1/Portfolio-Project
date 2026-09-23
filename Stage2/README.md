@@ -113,10 +113,3 @@ The key milestones represent the major achievements and critical deliverables th
 | **4** | **Core MVP Development** | Functional authentication, search, booking system, and Moyasar payment gateway | Stage 4 | Weeks 5–10 | Upcoming |
 | **5** | **Testing & Quality Assurance** | Fully tested MVP, bug fixes, and responsive UI optimization | Stage 4 | Week 10 | Upcoming |
 | **6** | **Project Closure & Final Presentation** | Final project presentation, poster, landing page, and code submission | Stage 5 | Weeks 11–12 | Upcoming |
-
-| Role | Responsibilities | Name |
-| :--- | :--- | :--- |
-| **Project Manager** | Coordinate technical decisions, organize team tasks, track progress, facilitate communication, and review code | Rahaf Alabdalh |
-| **Backend Developer** | Develop the backend, database, APIs, authentication, and booking logic | Zahraa Ali Alhussain |
-| **Backend Developer** | Develop the backend, database, APIs, authentication, and booking logic | Sarah Alkhubaizy |
-| **UI/UX Designer & Frontend Developer** | Design the user interface and user experience, create wireframes and prototypes, and ensure the platform is easy to use | Dhay Aldhwayan |
