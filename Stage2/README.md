@@ -1,10 +1,5 @@
 * **Stage:** Stage 2 – Project Charter Document
-* **Team Members:**
-  * **Sara Alkhubaizi** – Project Manager / Team Lead
-  * **Dhay Aldhwayan** – UI/UX Designer
-  * **Rahaf Alabdullah** – Frontend Lead Developer
-  * **Zahraa Ali Alhussain** – Backend & Database Developer
-
+* **Team Members:** :Sara Alkhubaizi –Dhay Aldhwayan – Rahaf Alabdullah** – Zahraa Ali Alhussain
 ---
 
 ## 1. Project Objectives
