@@ -1,114 +1,122 @@
-# Project Charter
-
-## Sports Field Booking Platform (urSoprt)
-
-### 1. Project Objectives
-
-#### Purpose
-
-The Sports Field Booking Platform is a platform designed specifically for women to easily find sports fields, view their information, check available time slots, and make bookings through one place. The platform focuses on helping female users find sports fields that provide suitable options for women.
-
-#### Project Objectives
-
-* **Provide an easy-to-use platform** that allows female users to search for nearby sports fields, view their information and available time slots, and make bookings through a single platform during the MVP stage.
-  
-* **Reduce the time and effort** female users spend searching for suitable sports fields by providing location-based search, manual search, and organized field information.
-
-* **Simplify the sports field booking process** through a digital system that allows female users to select a suitable field and time slot and complete their booking easily.
+* **Stage:** Stage 2 – Project Charter Document
+* **Team Members:**
+  * **Sara Alkhubaizi** – Project Manager / Team Lead
+  * **Dhay Aldhwayan** – UI/UX Designer
+  * **Rahaf Alabdullah** – Frontend Lead Developer
+  * **Zahraa Ali Alhussain** – Backend & Database Developer
 
 ---
 
-### 2. Stakeholders and Roles
+## 1. Project Objectives
 
-#### Stakeholders
+### 1.1 Purpose
+The purpose of **Qimma (قمة)** is to establish a unified, trustworthy digital directory for certified hiking trails across Saudi Arabia. While outdoor tourism and hiking are rapidly expanding under Saudi Vision 2030, enthusiasts currently face fragmented, unverified, and potentially unsafe route details online. Qimma addresses this gap by aggregating 33 officially certified hiking trails accredited by the Saudi Climbing and Hiking Federation (SCHF) into a single, intuitive mobile platform, ensuring safer outdoor exploration and promoting domestic eco-tourism.
 
-| Category | Stakeholder                        | Interest / Role                                   |
-| -------- | ---------------------------------- | ------------------------------------------------- |
-| Internal | Team Members                       | Design, develop, test, and document the platform  |
-| Internal | Holberton Trainers and Supervisors | Provide guidance and evaluate the project         |
-| External | Female Users                   | Search for and book suitable sports fields                 |
-| External | Women’s Sports Groups and Teams            | Find suitable fields and make bookings            |
-| External | Sports Field Owners                | Provide sports field information and availabilityProvide sports field information and availability |
+### 1.2 SMART Objectives
 
-#### Team Roles
-
-| Role | Responsibilities | Name |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| **Project manager** | Coordinate technical decisions, organize team tasks, track progress, facilitate communication, and review code | Rahaf Alabdalh |
-| **Backend Developer** | Develop the backend, database, APIs, authentication, and booking logic | Zahraa Ali Alhussain |
-| **Backend Developer** | Develop the backend, database, APIs, authentication, and booking logic | Sarah Alkhubaizy |
-| **UI/UX Designer & Frontend Developer** | Design the user interface and user experience, create wireframes and prototypes, and ensure the platform is easy to use | Dhay Aldhwayan |
-
-**Note:** Testing and documentation responsibilities will be shared among all team members.
+1. **Deliver an Accredited 33-Trail Directory:** Develop and launch a cross-platform mobile application (iOS & Android) within **12 weeks** that renders all **33 SCHF-certified** hiking trails on an interactive map of Saudi Arabia, providing 100% verified route coordinates, technical specs, and elevation profiles.
+2. **Optimize User Discovery & Offline Access:** Enable users to discover and filter trails by region (e.g., Asir, Makkah, Tabuk) and difficulty level (Easy, Moderate, Hard) in **under 3 screen interactions**, maintaining an average app load time under **2.0 seconds** with instant local caching for offline accessibility.
+3. **Establish Community Engagement Loop:** Achieve an active community feedback system where users rate (1 to 5 stars) and review trail conditions on at least **80% of listed trails within 30 days post-launch**, while maintaining an administrative moderation response time of **under 24 hours** for flagged content.
 
 ---
 
-## Define Scope
+## 2. Stakeholders and Roles
 
-### Project Scope Overview
+### 2.1 Project Stakeholders
 
-The Sports Field Booking Platform is a digital platform designed specifically for women to help them find suitable sports fields, view field information, check available time slots, and make bookings through a single, user-friendly platform.
+| Stakeholder Category | Stakeholder Group | Role / Stake in Project |
+| --- | --- | --- |
+| **Internal Stakeholders** | Project Team | Responsible for designing, building, testing, and documenting the Qimma MVP within the 12-week schedule. |
+| **Internal Stakeholders** | Instructors & Supervisors | Provide academic oversight, evaluate stage deliverables, monitor milestones, and assess code quality. |
+| **External Stakeholders** | End-Users (Saudi Hikers & Tourists) | Primary beneficiaries who explore, filter, navigate, rate, and review accredited trails across Saudi Arabia. |
+| **External Stakeholders** | Saudi Climbing & Hiking Federation (SCHF) | External governing body whose official trail accreditations, route safety ratings, and GPX datasets validate app content. |
+| **External Stakeholders** | Third-Party API Service Providers | Map SDKs (Mapbox/Google Maps) and Weather APIs (OpenWeather) providing map rendering and live meteorological forecasts. |
+| **External Stakeholders** | Administrative Content Managers | Platform administrators responsible for updating trail data schemas, managing GPX updates, and moderating reviews. |
 
-The MVP focuses on simplifying the process of searching for and booking sports fields for female users.
+### 2.2 Team Roles & Responsibilities
 
-### In-Scope (Included in MVP)
-
-* Search for suitable sports fields based on the user's location.
-* Manually search for sports fields.
-* View sports field details, including name, location, sport type, price, and available time slots.
-* View available booking time slots.
-* Book a sports field for a specific time.
-* Prevent duplicate bookings for the same time slot.
-* User registration and login.
-* User profile completion.
-* View previously booked sports fields and booking details.
-* Display sports fields that are available and suitable for women.
-* Responsive user interface for different screen sizes.
-* Initial database containing a limited number of sports fields suitable for women within a specific city or area.
-* Online payment processing using Moyasar.
-
-
-### Out-of-Scope (Excluded from MVP)
-
-* Ratings and reviews.
-* Advanced and complete management dashboard for sports field owners.
-* Automatic synchronization with sports field owners' systems.
-* Coverage of all cities across Saudi Arabia.
+| Role | Name | Core Responsibilities |
+| --- | --- | --- |
+| **Project Manager (PM)** | Sara Alkhubaizi | Tracks timeline milestones, manages task allocation in Notion, leads bi-weekly syncs, mitigates risks, and compiles project documentation. |
+| **UI/UX Designer** | Dhay Aldhwayan | Maps user journeys, designs high-fidelity wireframes/prototypes in Figma, designs custom map markers, elevation charts, and ensures Arabic/English UI accessibility. |
+| **Frontend Lead Developer** | Rahaf Alabdullah | Leads cross-platform mobile application development (Flutter/React Native), integrates Map SDKs to render GPX route polylines, implements multi-criteria search filters, and manages client-side offline storage. |
+| **Backend & Database Developer** | Zahraa Ali Alhussain | Architectures database schema (Supabase/Firebase), configures Role-Based Access Control (RBAC), constructs RESTful APIs, implements server-side caching, and integrates external weather APIs. |
+| **QA & Content Coordinator** | Shared Team Effort | Validates coordinate integrity for all 33 SCHF trails, creates test suites, executes end-to-end device testing (iOS & Android), and manages review moderation workflows. |
 
 ---
 
-## 3. Identify Risks
+## 3. Scope Definition
 
-### Risk Management Overview
+### 3.1 In-Scope Items (Included in MVP)
 
-The Sports Field Booking Platform may face several challenges during the planning, design, and development stages. The following risk register identifies the main potential risks and the strategies that will be used to reduce their impact on the project.
+* **33 Certified Trails Directory:** Cataloging all 33 official hiking trails accredited by the Saudi Climbing and Hiking Federation (SCHF).
+* **Interactive Map & GPS Route Visualization:** Dynamic interactive map rendering trail markers, start/end coordinates, and GPX route lines.
+* **Multi-Criteria Search & Filtering:** Dynamic filtering by Region (Asir, Al-Madinah, Makkah, Tabuk, Riyadh, etc.) and Difficulty Level (Easy, Moderate, Hard).
+* **Comprehensive Trail Detail Pages:** Displaying total distance (km), elevation gain (m), estimated completion time, elevation profile graph, route description, safety warnings, and the official SCHF accreditation badge.
+* **Community Rating & Review System:** 1-to-5-star rating scale and written review submissions with administrative content moderation capabilities.
+* **Offline Bookmarks ("My Trails"):** Local data caching mechanism allowing hikers to save favorite routes and view trail maps without an active internet connection.
+* **Live Weather Integration:** REST API integration displaying current temperature, wind speed, and short-term forecasts for specific trailhead coordinates.
+* **Basic Admin Management Portal:** Backend dashboard for administrators to edit trail metadata, update GPX route files, and moderate flagged reviews.
 
-### Risk Register
+### 3.2 Out-of-Scope Items (Excluded from MVP)
 
-| # | Risk                                                 | Category       | Project Phase                         | Likelihood | Impact | Mitigation Strategy                                                                            |
-| - | ---------------------------------------------------- | -------------- | ------------------------------------- | ---------- | ------ | ---------------------------------------------------------------------------------------------- |
-| 1 | Delays in completing some core features              | Timeline       | All Phases (Week 1–12)                | Medium     | High   | Prioritize core features and review task progress weekly.                                      |
-| 2 | Insufficient or outdated sports field information    | Data           | Stage 3 & 4 (Week 5–10)               | Medium     | High   | Start with a limited number of sports fields and use organized, reliable data for the MVP.     |
-| 3 | Difficulty implementing location-based field search  | Technical      | Stage 4 – MVP Development (Week 7–10) | Medium     | Medium | Test the location feature early and provide manual search as an alternative.                   |
-| 4 | Booking conflicts for the same field and time slot   | Booking System | Stage 4 – MVP Development (Week 7–10) | Low        | High   | Check time slot availability before confirming a booking and test different booking scenarios. |
-| 5 | Adding requirements or features beyond the MVP scope | Scope          | Stage 3 & 4 (Week 5–10)               | Medium     | High   | Follow the agreed MVP scope and postpone additional features to future phases.                 |
-| 6 | Issues with protecting user account and booking data | Security       | Stage 4 & 5 (Week 7–12)               | Low        | High   | Use secure authentication, validate user input, and restrict access to user information.       |
+* **Guided Tour Bookings & Payment Processing:** No commercial transactions, ticketing, or integration with tour operators or payment gateways.
+* **Social Networking Features:** Excludes direct messaging, friend lists, user followings, or live social feeds.
+* **Turn-by-Turn GPS Voice Navigation:** No real-time voice guidance or live turn prompts during active hikes.
+* **E-Commerce & Gear Rentals:** Excludes gear sales, equipment rental services, or marketplace integrations.
+* **Custom User Route Uploads:** Users cannot upload or publish unverified personal GPX routes to preserve data accuracy and hiker safety standards.
 
 ---
 
-### 5. High-Level Plan
-<img width="1800" height="1090" alt="project-timeline (urSport)" src="https://github.com/user-attachments/assets/b3aa6f7e-98f8-4c26-ade9-6d4e4ca28a83" />
+## 4. Risk Identification and Mitigation
+
+| # | Risk Description | Category | Phase | Impact / Likelihood | Risk Trigger | Mitigation Strategy | Owner |
+| :-: | --- | --- | --- | :-: | --- | --- | --- |
+| **1** | **Lack of Cellular Coverage on Trails:** Users cannot load online maps or trail details while hiking in remote areas. | Technical | Stage 4 (W7–W10) | High / High | Device loses cellular connection at trailhead. | Implement local offline caching (SQLite/AsyncStorage) so saved trail coordinates, descriptions, and elevation maps remain accessible offline. | Frontend Lead |
+| **2** | **Inaccurate or Outdated GPX Data:** Coordinate errors or outdated route polylines could compromise hiker safety. | Data | Stage 3 (W5–W6) | High / Low | Discrepancy between published route map and physical trail path. | Source GPX datasets exclusively from official SCHF records and conduct manual coordinate verification before database seeding. | QA & Content Coordinator |
+| **3** | **Complexity in Map SDK & Elevation Profiling:** Team faces a learning curve rendering interactive GPX polylines and elevation graphs. | Technical | Stage 4 (W7–W10) | Medium / Medium | Rendering lag or chart rendering errors during map testing. | Build early proof-of-concept map prototypes using lightweight open-source charting libraries (e.g., `fl_chart`). | Frontend Lead |
+| **4** | **Scope Creep:** Unplanned feature additions (e.g., social feeds or booking systems) cause delivery delays. | Scope | Stage 3 & 4 (W5–W10) | High / Medium | Feature requests outside defined MVP boundaries during development. | Enforce strict Scope boundaries; log any new feature ideas into a "Future Release Backlog" for post-MVP iterations. | Project Manager |
+| **5** | **Third-Party Weather API Rate Limit Exceeded:** Free tier rate limits lead to request failures on trail detail pages. | API | Stage 4 (W7–W10) | Medium / Low | Weather API returns HTTP 429 (Too Many Requests). | Implement aggressive client-side caching (fetching weather data once every 3–6 hours per trailhead coordinate). | Backend Lead |
+| **6** | **Unbalanced Team Workload & Schedule Slippage:** Academic commitments cause delayed deliverable submissions. | Operational | All Stages (W1–W12) | Medium / Medium | Missed task completion deadlines in Notion. | Hold bi-weekly status syncs, track async updates via Slack, and reallocate tasks promptly if delays occur. | Project Manager |
 
 ---
 
-### 6. Key Milestones
-The key milestones represent the major achievements and critical deliverables throughout the project lifecycle:
+## 5. High-Level Plan and Timeline
 
-| # | Milestone | Key Deliverable | Phase | Timeline | Status |
-| :-: | :--- | :--- | :--- | :-: | :-: |
-| **1** | **Project Initiation & Idea Approval** | Selected MVP idea (*urSport Platform*) | Stage 1 | Week 1 | Completed |
-| **2** | **Project Charter Approval** | Completed Project Charter document | Stage 2 | Week 2 | In Progress |
-| **3** | **Architecture & Design Specification** | System architecture, database design, Figma mockups, API specs, and QA plans | Stage 3 | Weeks 3–4 | Upcoming |
-| **4** | **Core MVP Development** | Functional authentication, search, booking system, and Moyasar payment gateway | Stage 4 | Weeks 5–10 | Upcoming |
-| **5** | **Testing & Quality Assurance** | Fully tested MVP, bug fixes, and responsive UI optimization | Stage 4 | Week 10 | Upcoming |
-| **6** | **Project Closure & Final Presentation** | Final project presentation, poster, landing page, and code submission | Stage 5 | Weeks 11–12 | Upcoming |
+### 5.1 Project Timeline Overview
+
+```text
++-----------------------------------------------------------------------------------+
+|                            QIMMA PROJECT TIMELINE                                 |
++-------------------+--------------------+--------------------+---------------------+
+| Stage 1 & 2       | Stage 3            | Stage 4            | Stage 5             |
+| Weeks 1 - 4       | Weeks 5 - 6        | Weeks 7 - 10       | Weeks 11 - 12       |
++-------------------+--------------------+--------------------+---------------------+
+| • Idea Approval   | • System Arch.     | • Mobile Frontend  | • QA & Testing      |
+| • Team Roles      | • Database Schema  | • Map & GPX SDK    | • Bug Fixing        |
+| • Project Charter | • Figma UI/UX      | • Backend APIs     | • Presentation      |
+|                   | • SCHF Trail Data  | • Weather API      | • Final Submission  |
++-------------------+--------------------+--------------------+---------------------+
+
+```
+
+### 5.2 Key Milestones and Dependencies
+
+| Milestone # | Milestone Name | Key Deliverables | Stage | Timeline | Prerequisites / Dependencies |
+| --- | --- | --- | --- | --- | --- |
+| **M1** | **Project Initiation & Concept Approval** | Finalized project idea (*Qimma Platform*), team role assignments, and Stage 1 Report. | Stage 1 | Weeks 1–2 | None |
+| **M2** | **Project Charter Approval** | Approved Project Charter document including SMART goals, scope, risk register, and timeline. | Stage 2 | Weeks 3–4 | Completion of Milestone M1 |
+| **M3** | **Architecture & Design Specification** | System architecture diagrams, Supabase database schema, high-fidelity Figma UI prototypes, and structured SCHF GPX dataset. | Stage 3 | Weeks 5–6 | Completion of Milestone M2 |
+| **M4** | **Core MVP Development** | Cross-platform mobile app with authentication, interactive Map SDK integration, multi-criteria filtering, and live weather API. | Stage 4 | Weeks 7–9 | Completion of Milestone M3 |
+| **M5** | **Testing & Quality Assurance** | Fully tested MVP, optimized offline caching, resolution of critical bugs, and cross-device performance validation. | Stage 4 | Week 10 | Completion of Milestone M4 |
+| **M6** | **Project Closure & Final Handover** | Live MVP demonstration, code repository release on GitHub, project poster, and final Stage 5 Closure Report. | Stage 5 | Weeks 11–12 | Completion of Milestone M5 |
+
+---
+
+*Report prepared by: Sara Alkhubaizi, Rahaf Alabdullah, Dhay Aldhwayan, Zahraa Ali Alhussain*
+
+*Stage 2 – Portfolio Project | Holberton School*
+
+```
+
+```
