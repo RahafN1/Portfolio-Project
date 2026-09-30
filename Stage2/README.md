@@ -1,5 +1,8 @@
-* **Stage:** Stage 2 – Project Charter Document
-* **Team Members:** :Sara Alkhubaizi –Dhay Aldhwayan – Rahaf Alabdullah** – Zahraa Ali Alhussain
+# Stage 2 – Project Charter Document
+
+**Project:** Qimma (قمة) – Certified Saudi Hiking Trails Directory
+**Team:** Sara Alkhubaizi –Dhay Aldhwayan – Rahaf Alabdullah – Zahraa Ali Alhussain
+
 ---
 
 ## 1. Project Objectives
