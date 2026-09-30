@@ -1,7 +1,7 @@
 # Stage 1 Report – Team Formation and Idea Development
 
-**Project:** Sports Field Booking Platform
-**Team:** Sara Alkhubaizi, Rahaf Alabdullah, Dhi Aldhuwyan, Zahraa Alhussain
+**Project:** Qimma (قمة) – Saudi Hiking Trails Platform
+**Team:** Sarah Alkhubaizy, Rahaf Alabdalh, Dhay Aldhuwyan, Zahraa Alhussain
 **Stage:** 1 – Team Formation and Idea Development
 
 ---
@@ -10,69 +10,63 @@
 
 ### 1.1 Kickoff Meeting
 
-The project began with an initial team meeting where all team members introduced themselves and discussed their interests, technical skills, learning goals, and expectations for the project.
+The project began with an initial team meeting where all members introduced themselves and discussed their backgrounds, technical skills, interests, learning goals, and expectations for the project.
 
-**Objectives:**
+**Meeting objectives:**
 
-* Introduce all team members and discuss their backgrounds, strengths, and interests.
-* Discuss individual learning goals and expected contributions.
-* Brainstorm and discuss different project ideas.
-* Establish communication and collaboration methods.
-* Agree on the decision-making process and how the final idea would be selected.
-
----
+- Introduce all team members and discuss their backgrounds, strengths, and interests.
+- Discuss individual learning goals and expected contributions.
+- Assign initial roles, including a Project Manager to coordinate Stage 1.
+- Agree on communication and collaboration methods.
+- Agree on the decision-making process and how the final idea would be selected.
 
 ### 1.2 Team Members and Roles
 
-All team members will contribute to both **Frontend and Backend development** throughout the project. The team will work collaboratively across different parts of the project rather than dividing members into separate Frontend and Backend roles.
+All team members contribute to both Frontend and Backend development. Each member also has a primary focus area that they lead.
 
-| Team Member      | Specialization       | Responsibilities                                                                                                              |
-| ---------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Sarah Alkhubaizy  |Backend Developer | Contribute to Frontend and Backend development, database integration, testing, documentation, and feature development.        |
-| Rahaf Alabdalh | Project manager | Contribute to Frontend and Backend development, API development, system integration, testing, and feature development.        |
-| Dhay Aldhwayan    | UI/UX Designer & Frontend Developer | Contribute to Frontend and Backend development, user interface implementation, database integration, testing, and bug fixing. |
-| Zahraa Alhussain | Backend Developer | Contribute to Frontend and Backend development, API development, interface implementation, testing, and documentation.        |
+| Team Member | Primary Role | Responsibilities |
+|---|---|---|
+| Rahaf Alabdalh | Project Manager | Coordinates the team and stage deliverables; Frontend and Backend development, API development, system integration, and testing. |
+| Sarah Alkhubaizy | Backend Developer | Frontend and Backend development, database integration, testing, documentation, and feature development. |
+| Dhay Aldhuwyan | UI/UX Designer & Frontend Developer | Leads design (Figma screens, visual identity); Frontend and Backend development, UI implementation, testing, and bug fixing. |
+| Zahraa Alhussain | Backend Developer | Frontend and Backend development, API development, interface implementation, testing, and documentation. |
 
-All team members will participate in technical discussions, code reviews, debugging, testing, documentation, and feature development.
-
----
+All members participate in technical discussions, code reviews, debugging, testing, and documentation.
 
 ### 1.3 Collaboration Strategies
 
-**Communication Platforms:**
+**Communication platforms:**
 
-* **Discord** – The primary platform for team discussions, meetings, and technical communication.
-* **WhatsApp** – Used for quick updates and urgent communication.
+- **Zoom** – primary platform for team meetings, discussions, and technical communication.
+- **WhatsApp** – quick updates and urgent communication.
 
-**Team Communication Rules:**
+**Team communication rules:**
 
-* Communicate clearly and respectfully.
-* Share progress and blockers with the team regularly.
-* Discuss important technical decisions collectively.
-* Inform the team early about any delays or problems.
-* Give all team members an opportunity to contribute their ideas and opinions.
+- Communicate clearly and respectfully.
+- Share progress and blockers regularly.
+- Discuss important technical decisions as a team.
+- Inform the team early about any delays or problems.
+- Give every member the opportunity to contribute ideas and opinions.
 
-**Decision-Making Process:**
+**Decision-making process:** The team discusses each decision together and first tries to reach consensus. If consensus is not reached, the decision is made by majority vote.
 
-The team discusses ideas and decisions together and first attempts to reach a consensus. If an agreement cannot be reached, the team uses majority voting to make the final decision.
+**Collaboration tools:**
 
-**Collaboration Tools:**
+| Tool | Purpose |
+|---|---|
+| GitHub | Code collaboration, version control, and Pull Requests |
+| Figma | UI/UX design and prototyping |
+| Zoom | Team meetings and discussions |
+| WhatsApp | Quick, informal communication |
 
-| Tool     | Purpose                                                |
-| -------- | ------------------------------------------------------ |
-| GitHub   | Code collaboration, version control, and Pull Requests |
-| Figma    | UI/UX design and prototyping                           |
-| Discord  | Team communication and meetings                        |
-| WhatsApp | Quick and informal communication                       |
+**Development workflow rules:**
 
-**Development Workflow Rules:**
-
-* Use feature branches during development.
-* No direct changes to the `main` branch.
-* Use Pull Requests when merging features.
-* Review code before merging important changes.
-* Write clear commit messages.
-* Keep documentation updated alongside development.
+- Use feature branches during development.
+- No direct commits to the `main` branch.
+- Merge features through Pull Requests.
+- Review code before merging.
+- Write clear commit messages.
+- Keep documentation updated alongside development.
 
 ---
 
@@ -80,162 +74,167 @@ The team discusses ideas and decisions together and first attempts to reach a co
 
 ### 2.1 Brainstorming Process
 
-The team conducted individual and group brainstorming sessions to explore different project ideas and identify real-world problems that could be addressed through a digital solution.
+The team followed four steps:
 
-The team used different brainstorming techniques, including:
+1. **Individual research:** each member looked for real-world problems in their daily life, local trends, and existing apps that could be improved.
+2. **Group session – Mind Mapping:** the team mapped problem areas to possible users and solutions (see 2.1.1).
+3. **"How Might We" questions:** the most promising problems were reframed as open questions (see 2.1.2).
+4. **SCAMPER:** the strongest idea was developed further by applying SCAMPER to an existing solution (see 2.1.3).
 
-* **Mind Mapping:** Connected ideas with potential problems, users, and features for each concept.
-* **SCAMPER Framework:** Explored ways to improve and modify existing ideas by combining or adapting features to meet user needs.
-* **"How Might We" Questions:** Reframed problems into open-ended questions to help the team generate user-focused solutions.
+The resulting five ideas were then scored against defined criteria (Section 2.3).
 
-After discussing and comparing different possibilities, the team identified four main project ideas.
+#### 2.1.1 Mind Map
 
----
+```mermaid
+mindmap
+  root((Real-world problems))
+    Sports and recreation
+      Hard to find and book sports fields
+        Sports Field Booking Platform
+    Outdoors and hiking
+      Trail info is scattered, unverified, and lacks difficulty details
+        Qimma - Saudi Hiking Trails
+    Cars and mobility
+      Diagnostic codes are hard to understand
+        CarCare - Vehicle Health App
+    Developer tools
+      APIs are hard to explore and test
+        Swagger-Like API Documentation Website
+    Organizations
+      Controlling who sees which data
+        Employee Permissions System
+```
 
-### 2.2 Ideas Generated and Evaluated
+#### 2.1.2 "How Might We" Questions
 
-#### Idea 1: Sports Field Booking Platform – Selected Idea
+| # | How Might We… | Idea it led to |
+|---|---|---|
+| 1 | How might we help hikers in Saudi Arabia find safe, officially approved trails in one place? | Qimma |
+| 2 | How might we help hikers judge whether a trail matches their fitness level before they go? | Qimma |
+| 3 | How might we help hikers quickly find trails in a specific region of Saudi Arabia? | Qimma |
+| 4 | How might we let hikers benefit from other hikers' experiences on a trail? | Qimma |
+| 5 | How might we make it easier to find and book a nearby sports field? | Sports Field Booking |
+| 6 | How might we help car owners understand their car's condition without a mechanic? | CarCare |
+| 7 | How might we make APIs easier for students to explore and test? | Swagger-Like Website |
+| 8 | How might we let organizations control data access by role? | Employee Permissions |
 
-**Idea Overview:**
+#### 2.1.3 SCAMPER Applied to Qimma
 
-A platform that helps users search for nearby sports fields, view field information, and book a suitable field from one place.
+The team used SCAMPER on an existing global trails app (Wikiloc) to shape Qimma:
 
-**Problem Addressed:**
+| Operation | Applied to Wikiloc | Result in Qimma |
+|---|---|---|
+| **Substitute** | Replace thousands of unverified user-uploaded trails | Trails approved by the Saudi Climbing and Hiking Federation |
+| **Combine** | Combine the route map with trail stats and community feedback | Route map, trail details, ratings, and comments on one trail page |
+| **Adapt** | Adapt a global app to the local context | Arabic-first, RTL interface with a Saudi regions filter |
+| **Modify** | Modify the trail page to focus on what matters for safety | Clear start/end points, difficulty, and an approval badge |
+| **Put to another use** | Use the platform as more than a hiking app | An official digital directory of approved trails that the federation can point hikers to |
+| **Eliminate** | Remove features outside the core need | No trip booking, payments, or social feed – trails only |
+| **Reverse** | Reverse who creates trails | Admins curate trails; users contribute ratings and comments instead of uploading routes |
 
-Finding a suitable sports field and knowing its location and availability can be inconvenient. Users may need to search through multiple sources or contact different sports fields separately.
+### 2.2 Ideas Generated
 
-**Target Audience:**
+#### Idea 1: Qimma – Saudi Hiking Trails Platform (Selected)
 
-Individuals, groups of friends, sports teams, and people looking for suitable sports facilities.
+**Overview:** A web platform, similar to Wikiloc, that displays the hiking trails approved by the Saudi Climbing and Hiking Federation on a map. Each trail has its own page with all its details.
 
-**Key Features:**
+**Problem addressed:** Information about hiking trails in Saudi Arabia is scattered across social media and personal posts, is often unverified, and rarely includes difficulty, distance, or elevation. Hikers, especially beginners, cannot easily tell which trails are safe and suitable for them.
 
-* Search for nearby sports fields.
-* Use the user's location to display nearby fields.
-* View sports field information.
-* Book a sports field.
-* Provide a **women's feature** to help users identify fields that offer suitable options for women.
+**Target audience:** Beginner and experienced hikers in Saudi Arabia, visitors looking for outdoor activities, and the federation as a content provider.
 
-| Strengths                                                                   | Weaknesses                                                         |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Addresses a practical problem related to finding and booking sports fields. | Requires accurate information about fields and availability.       |
-| Can be developed using standard web and application development concepts.   | Availability information needs to be updated regularly.            |
-| Location-based search makes finding nearby fields easier.                   | Building the initial sports field database requires effort.        |
-| Has potential for future expansion with additional features.                | Maps and booking integrations may increase development complexity. |
+| Strengths | Weaknesses |
+|---|---|
+| Solves a clear, growing local need as outdoor activity increases in Saudi Arabia. | Depends on receiving official trail data (GPX or coordinates) from the federation. |
+| Official approval gives the content credibility that general apps lack. | Map and route rendering adds technical work. |
+| Clear, limited MVP scope (approved trails only, no booking). | Trail content needs to be kept up to date. |
+| Uses free tools (Leaflet, OpenStreetMap). | Smaller audience than general-purpose apps. |
 
-**Reason for Selection:**
+**Risks and constraints:** delays in receiving data from the federation; permission to use the federation's name and logo; seasonal closures that must be communicated to users.
 
-The idea was selected because it addresses a clear and practical user problem while remaining feasible for the team to develop as a Full Stack project. The location-based search and women's feature also provide opportunities to create a more convenient and user-focused experience.
+#### Idea 2: Sports Field Booking Platform (Rejected)
 
----
+**Overview:** A platform to search for nearby sports fields, view their information, and book them, including a feature for identifying fields with suitable options for women.
 
-#### Idea 2: CarCare – Vehicle Health Application
+**Problem addressed:** Finding an available sports field requires contacting several places separately.
 
-**Idea Overview:**
+| Strengths | Weaknesses |
+|---|---|
+| Practical, everyday problem. | Real-time availability requires active participation from field owners. |
+| Standard full-stack concepts. | Booking and scheduling logic increases complexity. |
+| Location-based search is useful. | Similar booking apps already exist in the local market. |
 
-An application that helps car owners understand the condition of their vehicles by reading data obtained through an external **OBD-II device** connected to the car.
+**Risks and constraints:** no reliable data source for fields and availability; owners may not keep information updated.
 
-**Problem Addressed:**
+**Reason for rejection:** It was the team's initial choice, but on re-evaluation its value depends on field owners joining and updating availability, which the team cannot guarantee within the project timeframe, and it offers less differentiation from existing apps. Qimma scored higher on feasibility of data and innovation.
 
-Car owners may have difficulty understanding vehicle data and diagnostic trouble codes, especially when the information is technical and requires interpretation.
+#### Idea 3: CarCare – Vehicle Health Application (Rejected)
 
-**Target Audience:**
+**Overview:** An app that reads data from an external OBD-II device and explains the car's condition and diagnostic trouble codes in simple language.
 
-Car owners and drivers who want to understand basic information about their vehicle's condition in a simpler way.
+| Strengths | Weaknesses |
+|---|---|
+| Real problem for car owners. | Depends on external OBD-II hardware. |
+| Educational value. | Bluetooth connectivity and device compatibility are complex. |
+| Expandable. | Vehicle data must be interpreted accurately. |
 
-**Key Features:**
+**Risks and constraints:** hardware cost and availability; testing requires physical cars and devices.
 
-* Connect to an OBD-II device.
-* Display vehicle readings.
-* Detect diagnostic trouble codes.
-* Explain vehicle problems in a simple way.
+**Reason for rejection:** Hardware dependency and Bluetooth integration add complexity outside the team's full-stack web focus.
 
-| Strengths                                               | Weaknesses                                                                           |
-| ------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| Addresses a real problem faced by car owners.           | Depends on an external OBD-II device.                                                |
-| Provides technical and educational value to users.      | Bluetooth connectivity and device compatibility may increase development complexity. |
-| Can be expanded with additional features in the future. | Requires accurate handling and interpretation of vehicle data.                       |
+#### Idea 4: Swagger-Like API Documentation Website (Rejected)
 
-**Reason for Rejection:**
+**Overview:** A website for displaying, documenting, and testing API endpoints, similar to Swagger.
 
-The idea was rejected because it depends on an external device and requires OBD-II and Bluetooth integration, which adds technical complexity compared with the sports field booking platform.
+| Strengths | Weaknesses |
+|---|---|
+| Directly related to software development. | Mature tools already exist and are widely used. |
+| Good for practicing API concepts. | Hard to offer a meaningful difference. |
+| Common web technologies. | Narrow, technical audience. |
 
----
+**Risks and constraints:** low differentiation; limited real users.
 
-#### Idea 3: Swagger-Like API Documentation Website
+**Reason for rejection:** Established tools already cover this need, so the project would have little new value.
 
-**Idea Overview:**
+#### Idea 5: Employee Permissions and Data Access System (Rejected)
 
-A website that provides an interface for displaying and documenting APIs in a way similar to Swagger, allowing developers to view endpoints and interact with them.
+**Overview:** A system for organizations to manage employee roles and control which data each employee can access.
 
-**Problem Addressed:**
+| Strengths | Weaknesses |
+|---|---|
+| Real organizational problem. | Security must be implemented carefully. |
+| Strong Backend learning opportunity. | Requires extensive permission testing. |
+| Expandable with more roles. | Hard to demonstrate value without a real organization. |
 
-Developers need a clear and convenient way to understand APIs and view endpoints, parameters, requests, and responses.
+**Risks and constraints:** security mistakes carry high risk; no real organization to test with.
 
-**Target Audience:**
+**Reason for rejection:** The security and testing effort needed for a reliable permissions system is too large for the MVP timeframe.
 
-Developers, students, and programming teams working with APIs.
+### 2.3 Evaluation Criteria and Scoring
 
-**Key Features:**
+#### Criteria definitions
 
-* Display API endpoints.
-* Display request and response information.
-* Allow users to test APIs.
-* Organize API documentation.
+Each idea was scored from 1 to 5 on six criteria. All criteria have equal weight (maximum 30 points).
 
-| Strengths                                        | Weaknesses                                                        |
-| ------------------------------------------------ | ----------------------------------------------------------------- |
-| Directly related to software development.        | Similar tools already exist and are widely used.                  |
-| Suitable for learning and applying API concepts. | It may be difficult to provide a clearly differentiated solution. |
-| Can be developed using common web technologies.  | The target audience is more specialized.                          |
+| Criterion | What it measures | 1 = | 5 = |
+|---|---|---|---|
+| **Feasibility** | Can the team build the MVP in the available time with accessible data and no special hardware? | Needs hardware or data the team cannot get | Fully buildable with available skills, data, and free tools |
+| **Potential Impact** | How much value the solution brings to users and the community. | Minor convenience | Meaningful benefit, e.g. safety or saving significant effort |
+| **User Need** | How clear and common the problem is for the target users. | Few users face it | Many users face it regularly |
+| **Innovation** | How different the idea is from existing solutions in the local market. | Existing tools already do this well | No comparable local solution |
+| **Technical Alignment** | How well the project fits the team's full-stack skills and learning goals. | Mostly outside the team's skills | Uses and grows the team's full-stack skills |
+| **Scalability** | How easily the product can grow with new features and users after the MVP. | Hard to extend | Clear path to many future features |
 
-**Reason for Rejection:**
+#### Evaluation matrix
 
-The idea was rejected because there are already established tools with similar functionality, making it difficult to provide a clear and meaningful difference within the available project timeframe.
+| Idea | Feasibility | Potential Impact | User Need | Innovation | Technical Alignment | Scalability | Total |
+|---|---|---|---|---|---|---|---|
+| **Qimma** | 4 | 4 | 4 | 4 | 5 | 4 | **25/30** |
+| Sports Field Booking | 3 | 4 | 4 | 2 | 5 | 4 | 22/30 |
+| Employee Permissions System | 3 | 3 | 3 | 2 | 4 | 4 | 19/30 |
+| CarCare | 2 | 4 | 3 | 3 | 2 | 4 | 18/30 |
+| Swagger-Like Website | 5 | 2 | 2 | 1 | 4 | 3 | 17/30 |
 
----
-
-#### Idea 4: Employee Permissions and Data Access System
-
-**Idea Overview:**
-
-A system that allows organizations to manage employee permissions and control which data each employee can access based on their role.
-
-**Problem Addressed:**
-
-Organizations need to control employee access and determine which information each employee is allowed to view or manage.
-
-**Target Audience:**
-
-Organizations, managers, administrators, and employees.
-
-**Key Features:**
-
-* Employee accounts.
-* Role and permission management.
-* Data access control.
-* Administrator dashboard.
-
-| Strengths                                                   | Weaknesses                                                   |
-| ----------------------------------------------------------- | ------------------------------------------------------------ |
-| Addresses a real organizational problem.                    | Requires careful implementation of security and permissions. |
-| Provides strong opportunities for Backend development.      | Security requirements may increase project complexity.       |
-| Can be expanded with different roles and permission levels. | Requires extensive permission testing.                       |
-
-**Reason for Rejection:**
-
-The idea was rejected because implementing a secure permission and data access system requires significant attention to security and testing, which could increase the complexity of developing the MVP within the available timeframe.
-
----
-
-### 2.3 Evaluation Summary
-
-| Idea                              | Feasibility | Potential Impact | Technical Alignment | Scalability | Total Score |
-| --------------------------------- | ----------- | ---------------- | ------------------- | ----------- | ----------- |
-| CarCare                           | 3/5         | 5/5              | 3/5                 | 5/5         | 16/20       |
-| Swagger-Like Website              | 5/5         | 3/5              | 5/5                 | 4/5         | 17/20       |
-| Employee Permissions System       | 3/5         | 4/5              | 4/5                 | 5/5         | 16/20       |
-| **Sports Field Booking Platform** | **5/5**     | **5/5**          | **5/5**             | **5/5**     | **20/20**   |
+Qimma ranked first. It did not receive a full score for Feasibility because it depends on data from the federation.
 
 ---
 
@@ -243,85 +242,90 @@ The idea was rejected because implementing a secure permission and data access s
 
 ### 3.1 MVP Summary
 
-The selected idea is a **Sports Field Booking Platform(urSport)**, a platform that helps users discover nearby sports fields, view their information, and book them easily.
+**Qimma (قمة)** is a Saudi hiking trails platform. It shows the trails approved by the Saudi Climbing and Hiking Federation on a map of Saudi Arabia. Users can filter trails by region and difficulty and open a trail page containing a map with the start point, end point, and route line; difficulty, distance, elevation gain, and estimated duration; a description with tips; the federation approval badge; ratings; and comments.
 
-Users can use their location to find nearby sports fields, view field details, and select a suitable field for booking.
-
-The platform will also include a **women's feature** that helps users identify sports facilities that provide suitable options for women.
-
-The MVP focuses on making the process of finding, selecting, and booking sports fields easier and more organized.
-
----
+The platform focuses on trails only; it does not include trip organization or booking.
 
 ### 3.2 Reasons for Selection
 
-| Criteria                 | Justification                                                                                                                            |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| **Feasibility**          | The platform can be developed as a Full Stack project using Frontend, Backend, APIs, and a database that match the team's skills.        |
-| **Innovation**           | Location-based search and the women's feature provide a more user-focused experience based on specific user needs.                       |
-| **Alignment with Goals** | The project allows all team members to apply Frontend and Backend skills while working collaboratively on a complete Full Stack project. |
-| **User Need**            | Users may have difficulty finding a suitable and nearby sports field and checking available options in one place.                        |
-| **Scalability**          | Future features can include online payments, ratings, reviews, maps, and filters for sport, price, distance, and availability.           |
+The justification uses the same six criteria as the evaluation matrix.
 
----
+| Criterion | Score | Justification |
+|---|---|---|
+| Feasibility | 4/5 | Buildable as a full-stack web project using free tools (Leaflet with OpenStreetMap). Focusing only on approved trails keeps the scope manageable. The only dependency is receiving trail data from the federation. |
+| Potential Impact | 4/5 | Helps hikers choose trails that suit their level using accurate difficulty, distance, and elevation data, which supports safer hiking. |
+| User Need | 4/5 | Hiking is growing in Saudi Arabia, and trail information is currently scattered and unverified. |
+| Innovation | 4/5 | No local, Arabic-first platform focused on officially approved trails. The approval badge adds credibility that general apps do not have. |
+| Technical Alignment | 5/5 | Covers interactive maps, a REST API, authentication, a relational database, and an admin dashboard, which exercises the whole team's full-stack skills. |
+| Scalability | 4/5 | Clear future features: offline maps, GPX download, user photos, and closed-trail alerts. |
 
-### 3.3 Target Audience
+### 3.3 Problem Statement
 
-| User Type               | Description                                                                     |
-| ----------------------- | ------------------------------------------------------------------------------- |
-| **Individuals**         | People looking for a sports field to practice or play a sport.                  |
-| **Groups of Friends**   | Groups looking for a suitable field to play together.                           |
-| **Sports Teams**        | Teams that need sports fields for training or matches.                          |
-| **Women Users**         | Users looking for sports facilities that provide suitable options for women.    |
-| **Sports Field Owners** | Facility owners who want to list their fields and allow users to make bookings. |
+Hikers in Saudi Arabia lack a single reliable source for trail information. Existing information is spread across social media, is often unverified, and rarely includes difficulty, distance, or elevation, which makes choosing a suitable and safe trail difficult, especially for beginners.
 
----
+### 3.4 Target Audience
 
-### 3.4 Key MVP Features
+| User Type | Description |
+|---|---|
+| Beginner hikers | Need to know which trails are easy and safe before going. |
+| Experienced hikers | Look for new, challenging trails with accurate route details. |
+| Visitors and tourists | Look for outdoor activities in different Saudi regions. |
+| Admin (team / federation) | Adds and edits trails and moderates comments. |
 
-| # | Feature                   | Description                                                                              |
-| - | ------------------------- | ---------------------------------------------------------------------------------------- |
-| 1 | **Location-Based Search** | Use the user's location to display nearby sports fields.                                 |
-| 2 | **Sports Field Listings** | Display information such as field name, location, sport type, and other details.         |
-| 3 | **Field Details**         | Allow users to view detailed information about a selected sports field.                  |
-| 4 | **Booking**               | Allow users to select a sports field and make a booking.                                 |
-| 5 | **Women's Feature**       | Provide a way for users to identify sports fields that offer suitable options for women. |
+### 3.5 Key MVP Features
 
----
+| # | Feature | Description |
+|---|---|---|
+| 1 | Main Map | Displays all approved trails on a map of Saudi Arabia. |
+| 2 | Region Filter | Selecting a region (Asir, Madinah, Makkah, Tabuk, Riyadh, …) updates the map and trail list. |
+| 3 | Difficulty Filter | Filter trails by Easy / Medium / Hard. |
+| 4 | Trail Page | Map with start point, end point, and route line. |
+| 5 | Trail Information | Difficulty, distance (km), elevation gain, and estimated duration. |
+| 6 | Description | Trail overview and tips. |
+| 7 | Approval Badge | "Approved by the Saudi Federation" badge on every trail. |
+| 8 | Ratings | 1–5 star rating with average rating. |
+| 9 | Comments | Users write comments and read others' comments. |
+| 10 | My Trails | Save trails and view them on a saved-trails page. |
+| 11 | Authentication | Sign up and log in; required for saving, rating, and commenting. |
+| 12 | Admin Dashboard | Add and edit trails, and moderate comments. |
 
-### 3.5 Potential Challenges and Opportunities
+**Planned for later versions:** offline maps, GPX download, user-uploaded photos, and closed-trail alerts.
+
+### 3.6 Potential Challenges and Opportunities
 
 **Challenges:**
 
-* Maintaining accurate and up-to-date sports field information.
-* Ensuring that field availability information is accurate.
-* Implementing location-based functionality effectively.
-* Designing a simple and clear booking process.
-* Completing the MVP within the project's available timeframe.
+- Obtaining the official trail files (GPX or coordinates) from the federation and converting them to GeoJSON.
+- Building a fully Arabic, RTL interface that works well with the map library.
+- Moderating user comments.
+- Completing the MVP within the available timeframe.
 
 **Opportunities:**
 
-* Support different sports and types of facilities.
-* Add ratings and reviews.
-* Add online payment.
-* Add filters based on sport, price, distance, and availability.
-* Expand the women's feature with additional information about suitable facilities.
-* Add maps and improve location-based search.
-* Allow sports field owners to manage their field information and availability.
+- Becoming the federation's official digital reference for approved trails.
+- Offline maps and GPX download for trails with no network coverage.
+- User-uploaded photos and closed-trail or seasonal alerts.
+- Adding new trails as the federation approves them.
+
+### 3.7 Expected Outcomes
+
+| Outcome | Expected Result |
+|---|---|
+| One trusted source | Hikers find all approved trails in one place. |
+| Better trail choice | Hikers choose trails based on difficulty, distance, and elevation. |
+| Safer planning | Hikers know a trail's difficulty and elevation before going. |
+| Shared experience | Ratings and comments help hikers learn from each other. |
+| Scalable foundation | The MVP can grow with offline maps, GPX, photos, and alerts. |
+
+### 3.8 External Stakeholder – Questions for the Federation
+
+1. Can we obtain the official route files (GPX or coordinates) for the approved trails?
+2. Who determines the difficulty level of each trail, and based on what standard?
+3. May we use the federation's name and logo in the "Approved" badge?
+4. Who will add new trails in the future: the federation or our admin?
+5. Are there seasonally closed trails or warnings we should display?
 
 ---
 
-### 3.6 Expected Outcomes
-
-| Outcome                         | Expected Result                                                                         |
-| ------------------------------- | --------------------------------------------------------------------------------------- |
-| **Easier Field Discovery**      | Users can find nearby sports fields through one platform.                               |
-| **Simplified Booking**          | Users can view field information and make bookings through the platform.                |
-| **Location-Based Search**       | Users can discover sports field options near their location.                            |
-| **Support for Women's Options** | Users can identify sports facilities that provide suitable options for women.           |
-| **Scalable Foundation**         | The MVP can be expanded in the future with payments, reviews, maps, and other features. |
-
----
-
-*Report prepared by: Sara Alkhubaizi, Rahaf Alabdullah, Dhi Aldhuwyan, Zahraa Alhussain*
+*Report prepared by: Sarah Alkhubaizy, Rahaf Alabdalh, Dhay Aldhuwyan, Zahraa Alhussain*
 *Stage 1 – Portfolio Project | Holberton School*
