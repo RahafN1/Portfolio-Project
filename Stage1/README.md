@@ -87,12 +87,12 @@ The resulting five ideas were then scored against defined criteria (Section 2.3)
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {
-  'cScale0': '#7a9e7e', 'cScaleLabel0': '#ffffff',
+  'git0': '#ddb892', 'gitBranchLabel0': '#1f2a1f',
   'cScale1': '#8b5e3c', 'cScaleLabel1': '#ffffff',
   'cScale2': '#a3b18a', 'cScaleLabel2': '#1f2a1f',
   'cScale3': '#588157', 'cScaleLabel3': '#ffffff',
   'cScale4': '#b08968', 'cScaleLabel4': '#ffffff',
-  'primaryColor': '#3a5a40', 'primaryTextColor': '#ffffff'
+  'cScale5': '#3a5a40', 'cScaleLabel5': '#ffffff'
 }}}%%
 mindmap
   root((Real-world problems))
