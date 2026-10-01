@@ -1,6 +1,6 @@
 # Stage 2 – Project Charter Document
 
-**Project:** Qimma (قمة) – Certified Saudi Hiking Trails Directory
+**Project:** Qimmah (قمة) – Certified Saudi Hiking Trails Directory
 **Team:** Sara Alkhubaizi –Dhay Aldhwayan – Rahaf Alabdullah – Zahraa Ali Alhussain
 
 ---
@@ -8,7 +8,7 @@
 ## 1. Project Objectives
 
 ### 1.1 Purpose
-The purpose of **Qimma (قمة)** is to establish a unified, trustworthy digital directory for certified hiking trails across Saudi Arabia. While outdoor tourism and hiking are rapidly expanding under Saudi Vision 2030, enthusiasts currently face fragmented, unverified, and potentially unsafe route details online. Qimma addresses this gap by aggregating 33 officially certified hiking trails accredited by the Saudi Climbing and Hiking Federation (SCHF) into a single, intuitive mobile platform, ensuring safer outdoor exploration and promoting domestic eco-tourism.
+The purpose of **Qimmah (قمة)** is to establish a unified, trustworthy digital directory for certified hiking trails across Saudi Arabia. While outdoor tourism and hiking are rapidly expanding under Saudi Vision 2030, enthusiasts currently face fragmented, unverified, and potentially unsafe route details online. Qimma addresses this gap by aggregating 33 officially certified hiking trails accredited by the Saudi Climbing and Hiking Federation (SCHF) into a single, intuitive mobile platform, ensuring safer outdoor exploration and promoting domestic eco-tourism.
 
 ### 1.2 SMART Objectives
 
@@ -85,7 +85,7 @@ The purpose of **Qimma (قمة)** is to establish a unified, trustworthy digital
 
 ```text
 +-----------------------------------------------------------------------------------+
-|                            QIMMA PROJECT TIMELINE                                 |
+|                            QIMMAh PROJECT TIMELINE                                 |
 +-------------------+--------------------+--------------------+---------------------+
 | Stage 1 & 2       | Stage 3            | Stage 4            | Stage 5             |
 | Weeks 1 - 4       | Weeks 5 - 6        | Weeks 7 - 10       | Weeks 11 - 12       |
@@ -102,7 +102,7 @@ The purpose of **Qimma (قمة)** is to establish a unified, trustworthy digital
 
 | Milestone # | Milestone Name | Key Deliverables | Stage | Timeline | Prerequisites / Dependencies |
 | --- | --- | --- | --- | --- | --- |
-| **M1** | **Project Initiation & Concept Approval** | Finalized project idea (*Qimma Platform*), team role assignments, and Stage 1 Report. | Stage 1 | Weeks 1–2 | None |
+| **M1** | **Project Initiation & Concept Approval** | Finalized project idea (*Qimmah Platform*), team role assignments, and Stage 1 Report. | Stage 1 | Weeks 1–2 | None |
 | **M2** | **Project Charter Approval** | Approved Project Charter document including SMART goals, scope, risk register, and timeline. | Stage 2 | Weeks 3–4 | Completion of Milestone M1 |
 | **M3** | **Architecture & Design Specification** | System architecture diagrams, Supabase database schema, high-fidelity Figma UI prototypes, and structured SCHF GPX dataset. | Stage 3 | Weeks 5–6 | Completion of Milestone M2 |
 | **M4** | **Core MVP Development** | Cross-platform mobile app with authentication, interactive Map SDK integration, multi-criteria filtering, and live weather API. | Stage 4 | Weeks 7–9 | Completion of Milestone M3 |
