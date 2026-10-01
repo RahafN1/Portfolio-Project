@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1150" viewBox="0 0 1800 1150" font-family="Liberation Sans, Helvetica, Arial, sans-serif">
+<rect width="1800" height="1150" fill="#F7F8FA"/>
+<text x="70" y="96" font-size="58" font-weight="700" fill="#1F2433">Qimma</text>
+<text x="70" y="138" font-size="24" fill="#5A5F6E">Project Timeline for the Hiking Trails App</text>
+<line x1="40" y1="580" x2="1760" y2="580" stroke="#3F434D" stroke-width="6" stroke-linecap="round"/>
+<line x1="40" y1="580" x2="565" y2="580" stroke="#22C55E" stroke-opacity="0.16" stroke-width="22" stroke-linecap="round"/>
+<line x1="40" y1="580" x2="565" y2="580" stroke="#22C55E" stroke-opacity="0.30" stroke-width="14" stroke-linecap="round"/>
+<line x1="40" y1="580" x2="565" y2="580" stroke="#22C55E" stroke-width="6" stroke-linecap="round"/>
+<circle cx="40" cy="580" r="11" fill="#22C55E"/>
+<line x1="220" y1="540" x2="220" y2="580" stroke="#22C55E" stroke-opacity="0.3" stroke-width="12"/>
+<circle cx="220" cy="580" r="30" fill="#22C55E" fill-opacity="0.1"/>
+<circle cx="220" cy="580" r="22" fill="#22C55E" fill-opacity="0.16"/>
+<line x1="220" y1="540" x2="220" y2="580" stroke="#22C55E" stroke-width="4"/>
+<circle cx="220" cy="580" r="15" fill="#22C55E"/>
+<path d="M214 580 l4.5 5 l8 -10" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="220" cy="540" r="11" fill="#22C55E"/>
+<rect x="48.0" y="174" width="344" height="394" rx="52" fill="#22C55E" fill-opacity="0.05"/>
+<rect x="53.0" y="179" width="334" height="384" rx="47" fill="#22C55E" fill-opacity="0.07"/>
+<rect x="58.0" y="184" width="324" height="374" rx="42" fill="#22C55E" fill-opacity="0.09"/>
+<rect x="62.0" y="188" width="316" height="366" rx="38" fill="#22C55E" fill-opacity="0.12"/>
+<rect x="66.0" y="192" width="308" height="358" rx="34" fill="#22C55E" fill-opacity="0.16"/>
+<rect x="70.0" y="190" width="300" height="350" rx="30" fill="#BBCFF0" stroke="#22C55E" stroke-width="4"/>
+<circle cx="220" cy="540" r="11" fill="#22C55E"/>
+<rect x="174.0" y="175.0" width="92" height="30" rx="15" fill="#FFFFFF"/>
+<text x="220" y="196.0" font-size="16" font-weight="700" text-anchor="middle" fill="#15803D">Stage 1</text>
+<text x="96.0" y="258" font-size="18" font-weight="700" fill="#4A6FB5">Weeks 1–2</text>
+<rect x="247.6875" y="238" width="96.3125" height="28" rx="14" fill="#E6F7EC"/>
+<text x="295.84375" y="258" font-size="14" font-weight="700" text-anchor="middle" fill="#1B7A43">Completed</text>
+<text x="96.0" y="296.0" font-size="23" font-weight="700" fill="#1F2433">Project Initiation and</text>
+<text x="96.0" y="324.8" font-size="23" font-weight="700" fill="#1F2433">Concept Approval</text>
+<text x="96.0" y="359.5" font-size="15" font-weight="400" fill="#39404F">Team formed, roles assigned, and</text>
+<text x="96.0" y="380.5" font-size="15" font-weight="400" fill="#39404F">the Qimma trail-directory idea</text>
+<text x="96.0" y="401.5" font-size="15" font-weight="400" fill="#39404F">approved.</text>
+<line x1="96.0" y1="436" x2="344.0" y2="436" stroke="#4A6FB5" stroke-opacity="0.35" stroke-width="1.5"/>
+<text x="96.0" y="460" font-size="13" font-weight="700" fill="#4A6FB5">Deliverable</text>
+<text x="96.0" y="482.0" font-size="15" font-weight="700" fill="#1F2433">Finalized project idea and Stage 1</text>
+<text x="96.0" y="501.5" font-size="15" font-weight="700" fill="#1F2433">report</text>
+<line x1="565" y1="580" x2="565" y2="650" stroke="#C4622A" stroke-width="4"/>
+<circle cx="565" cy="580" r="13" fill="#C4622A"/>
+<circle cx="565" cy="650" r="11" fill="#C4622A"/>
+<rect x="417.0" y="656" width="300" height="350" rx="30" fill="#000000" fill-opacity="0.05"/>
+<rect x="415.0" y="650" width="300" height="350" rx="30" fill="#F5C3A5"/>
+<circle cx="565" cy="650" r="11" fill="#C4622A"/>
+<rect x="519.0" y="985.0" width="92" height="30" rx="15" fill="#FFFFFF"/>
+<text x="565" y="1006.0" font-size="16" font-weight="700" text-anchor="middle" fill="#C4622A">Stage 2</text>
+<text x="441.0" y="708" font-size="18" font-weight="700" fill="#C4622A">Weeks 3–4</text>
+<rect x="588.78125" y="688" width="100.21875" height="28" rx="14" fill="#E3EDFF"/>
+<text x="638.890625" y="708" font-size="14" font-weight="700" text-anchor="middle" fill="#2456C7">In progress</text>
+<text x="441.0" y="746.0" font-size="23" font-weight="700" fill="#1F2433">Project Charter</text>
+<text x="441.0" y="774.8" font-size="23" font-weight="700" fill="#1F2433">Development</text>
+<text x="441.0" y="809.5" font-size="15" font-weight="400" fill="#39404F">SMART objectives, stakeholders and</text>
+<text x="441.0" y="830.5" font-size="15" font-weight="400" fill="#39404F">roles, scope, risk register, and</text>
+<text x="441.0" y="851.5" font-size="15" font-weight="400" fill="#39404F">timeline.</text>
+<line x1="441.0" y1="904" x2="689.0" y2="904" stroke="#C4622A" stroke-opacity="0.35" stroke-width="1.5"/>
+<text x="441.0" y="928" font-size="13" font-weight="700" fill="#C4622A">Deliverable</text>
+<text x="441.0" y="950.0" font-size="15" font-weight="700" fill="#1F2433">Approved Project Charter</text>
+<line x1="910" y1="540" x2="910" y2="580" stroke="#6B6E76" stroke-width="4"/>
+<circle cx="910" cy="580" r="13" fill="#6B6E76"/>
+<circle cx="910" cy="540" r="11" fill="#6B6E76"/>
+<rect x="762.0" y="196" width="300" height="350" rx="30" fill="#000000" fill-opacity="0.05"/>
+<rect x="760.0" y="190" width="300" height="350" rx="30" fill="#D3D4D7"/>
+<circle cx="910" cy="540" r="11" fill="#6B6E76"/>
+<rect x="864.0" y="175.0" width="92" height="30" rx="15" fill="#FFFFFF"/>
+<text x="910" y="196.0" font-size="16" font-weight="700" text-anchor="middle" fill="#6B6E76">Stage 3</text>
+<text x="786.0" y="258" font-size="18" font-weight="700" fill="#6B6E76">Weeks 5–6</text>
+<rect x="941.578125" y="238" width="92.421875" height="28" rx="14" fill="#FFFFFF"/>
+<text x="987.7890625" y="258" font-size="14" font-weight="700" text-anchor="middle" fill="#5F636E">Upcoming</text>
+<text x="786.0" y="296.0" font-size="23" font-weight="700" fill="#1F2433">Architecture and</text>
+<text x="786.0" y="324.8" font-size="23" font-weight="700" fill="#1F2433">Design Specification</text>
+<text x="786.0" y="359.5" font-size="15" font-weight="400" fill="#39404F">System architecture, database</text>
+<text x="786.0" y="380.5" font-size="15" font-weight="400" fill="#39404F">schema, Figma UI/UX, and the</text>
+<text x="786.0" y="401.5" font-size="15" font-weight="400" fill="#39404F">SCHF trail dataset.</text>
+<line x1="786.0" y1="436" x2="1034.0" y2="436" stroke="#6B6E76" stroke-opacity="0.35" stroke-width="1.5"/>
+<text x="786.0" y="460" font-size="13" font-weight="700" fill="#6B6E76">Deliverable</text>
+<text x="786.0" y="482.0" font-size="15" font-weight="700" fill="#1F2433">Architecture diagrams, database</text>
+<text x="786.0" y="501.5" font-size="15" font-weight="700" fill="#1F2433">schema, and UI prototypes</text>
+<line x1="1255" y1="580" x2="1255" y2="650" stroke="#9A7409" stroke-width="4"/>
+<circle cx="1255" cy="580" r="13" fill="#9A7409"/>
+<circle cx="1255" cy="650" r="11" fill="#9A7409"/>
+<rect x="1107.0" y="656" width="300" height="350" rx="30" fill="#000000" fill-opacity="0.05"/>
+<rect x="1105.0" y="650" width="300" height="350" rx="30" fill="#ECD79A"/>
+<circle cx="1255" cy="650" r="11" fill="#9A7409"/>
+<rect x="1209.0" y="985.0" width="92" height="30" rx="15" fill="#FFFFFF"/>
+<text x="1255" y="1006.0" font-size="16" font-weight="700" text-anchor="middle" fill="#9A7409">Stage 4</text>
+<text x="1131.0" y="708" font-size="18" font-weight="700" fill="#9A7409">Weeks 7–10</text>
+<rect x="1286.578125" y="688" width="92.421875" height="28" rx="14" fill="#FFFFFF"/>
+<text x="1332.7890625" y="708" font-size="14" font-weight="700" text-anchor="middle" fill="#5F636E">Upcoming</text>
+<text x="1131.0" y="746.0" font-size="23" font-weight="700" fill="#1F2433">Core MVP</text>
+<text x="1131.0" y="774.8" font-size="23" font-weight="700" fill="#1F2433">Development and QA</text>
+<text x="1131.0" y="809.5" font-size="15" font-weight="400" fill="#39404F">Mobile app, map and GPX</text>
+<text x="1131.0" y="830.5" font-size="15" font-weight="400" fill="#39404F">integration, backend APIs, weather</text>
+<text x="1131.0" y="851.5" font-size="15" font-weight="400" fill="#39404F">API, and full testing.</text>
+<line x1="1131.0" y1="904" x2="1379.0" y2="904" stroke="#9A7409" stroke-opacity="0.35" stroke-width="1.5"/>
+<text x="1131.0" y="928" font-size="13" font-weight="700" fill="#9A7409">Deliverable</text>
+<text x="1131.0" y="950.0" font-size="15" font-weight="700" fill="#1F2433">Fully tested, working MVP</text>
+<line x1="1600" y1="540" x2="1600" y2="580" stroke="#3B4068" stroke-width="4"/>
+<circle cx="1600" cy="580" r="13" fill="#3B4068"/>
+<circle cx="1600" cy="540" r="11" fill="#3B4068"/>
+<rect x="1452.0" y="196" width="300" height="350" rx="30" fill="#000000" fill-opacity="0.05"/>
+<rect x="1450.0" y="190" width="300" height="350" rx="30" fill="#A9ABBF"/>
+<circle cx="1600" cy="540" r="11" fill="#3B4068"/>
+<rect x="1554.0" y="175.0" width="92" height="30" rx="15" fill="#FFFFFF"/>
+<text x="1600" y="196.0" font-size="16" font-weight="700" text-anchor="middle" fill="#3B4068">Stage 5</text>
+<text x="1476.0" y="258" font-size="18" font-weight="700" fill="#3B4068">Weeks 11–12</text>
+<rect x="1631.578125" y="238" width="92.421875" height="28" rx="14" fill="#FFFFFF"/>
+<text x="1677.7890625" y="258" font-size="14" font-weight="700" text-anchor="middle" fill="#5F636E">Upcoming</text>
+<text x="1476.0" y="296.0" font-size="23" font-weight="700" fill="#1F2433">Project Closure and</text>
+<text x="1476.0" y="324.8" font-size="23" font-weight="700" fill="#1F2433">Final Handover</text>
+<text x="1476.0" y="359.5" font-size="15" font-weight="400" fill="#39404F">Live MVP demo, GitHub release,</text>
+<text x="1476.0" y="380.5" font-size="15" font-weight="400" fill="#39404F">project poster, and final closure</text>
+<text x="1476.0" y="401.5" font-size="15" font-weight="400" fill="#39404F">report.</text>
+<line x1="1476.0" y1="436" x2="1724.0" y2="436" stroke="#3B4068" stroke-opacity="0.35" stroke-width="1.5"/>
+<text x="1476.0" y="460" font-size="13" font-weight="700" fill="#3B4068">Deliverable</text>
+<text x="1476.0" y="482.0" font-size="15" font-weight="700" fill="#1F2433">Final submission</text>
+<circle cx="1760" cy="580" r="11" fill="#1A1A1A"/>
+<text x="70" y="1110" font-size="16" fill="#8A8F9C">Team: Sara Alkhubaizi, Rahaf Alabdullah, Dhay Aldhwayan, Zahraa Ali Alhussain</text>
+</svg>
