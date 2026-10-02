@@ -83,20 +83,8 @@ The purpose of **Qimmah (قمة)** is to establish a unified, trustworthy digita
 
 ### 5.1 Project Timeline Overview
 
-```text
-+-----------------------------------------------------------------------------------+
-|                            QIMMAh PROJECT TIMELINE                                 |
-+-------------------+--------------------+--------------------+---------------------+
-| Stage 1 & 2       | Stage 3            | Stage 4            | Stage 5             |
-| Weeks 1 - 4       | Weeks 5 - 6        | Weeks 7 - 10       | Weeks 11 - 12       |
-+-------------------+--------------------+--------------------+---------------------+
-| • Idea Approval   | • System Arch.     | • Mobile Frontend  | • QA & Testing      |
-| • Team Roles      | • Database Schema  | • Map & GPX SDK    | • Bug Fixing        |
-| • Project Charter | • Figma UI/UX      | • Backend APIs     | • Presentation      |
-|                   | • SCHF Trail Data  | • Weather API      | • Final Submission  |
-+-------------------+--------------------+--------------------+---------------------+
+<img width="1600" height="376" alt="qimma-timeline-simple" src="https://github.com/user-attachments/assets/b833d97c-5ffb-4671-917c-149fc410ee0c" />
 
-```
 
 ### 5.2 Key Milestones and Dependencies
 
