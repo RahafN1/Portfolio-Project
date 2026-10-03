@@ -1,108 +1,141 @@
-# Stage 2 – Project Charter Document
+# Stage 2 Report – Project Charter
 
-**Project:** Qimmah (قمة) – Certified Saudi Hiking Trails Directory
-**Team:** Sara Alkhubaizi –Dhay Aldhwayan – Rahaf Alabdullah – Zahraa Ali Alhussain
+**Project:** Qimmah (قمة) – Saudi Hiking Trails Platform
+**Team:** Sarah Alkhubaizy, Rahaf Alabdalh, Dhay Aldhuwyan, Zahraa Alhussain
+**Stage:** 2 – Project Charter Development
 
 ---
 
 ## 1. Project Objectives
 
-### 1.1 Purpose
-The purpose of **Qimmah (قمة)** is to establish a unified, trustworthy digital directory for certified hiking trails across Saudi Arabia. While outdoor tourism and hiking are rapidly expanding under Saudi Vision 2030, enthusiasts currently face fragmented, unverified, and potentially unsafe route details online. Qimma addresses this gap by aggregating 33 officially certified hiking trails accredited by the Saudi Climbing and Hiking Federation (SCHF) into a single, intuitive mobile platform, ensuring safer outdoor exploration and promoting domestic eco-tourism.
+### 1.1 Project Purpose
+
+Qimmah is a mobile application that brings together the hiking trails approved by the Saudi Climbing and Hiking Federation in one trusted place.
+
+Hiking is growing quickly in Saudi Arabia, but trail information today is spread across social media, is often unverified, and rarely shows how hard a trail is. This makes it difficult for hikers, especially beginners, to choose a trail that is safe and suits their level. Qimmah solves this by showing only officially approved trails, with clear details for each one, so hikers can plan safer trips and the federation has a digital place to point hikers to.
 
 ### 1.2 SMART Objectives
 
-1. **Deliver an Accredited 33-Trail Directory:** Develop and launch a cross-platform mobile application (iOS & Android) within **12 weeks** that renders all **33 SCHF-certified** hiking trails on an interactive map of Saudi Arabia, providing 100% verified route coordinates, technical specs, and elevation profiles.
-2. **Optimize User Discovery & Offline Access:** Enable users to discover and filter trails by region (e.g., Asir, Makkah, Tabuk) and difficulty level (Easy, Moderate, Hard) in **under 3 screen interactions**, maintaining an average app load time under **2.0 seconds** with instant local caching for offline accessibility.
-3. **Establish Community Engagement Loop:** Achieve an active community feedback system where users rate (1 to 5 stars) and review trail conditions on at least **80% of listed trails within 30 days post-launch**, while maintaining an administrative moderation response time of **under 24 hours** for flagged content.
+1. **One trusted trail directory:** By the end of Week 10, deliver a working MVP that shows every approved trail received from the federation on a map of Saudi Arabia. Each trail will have its own page with difficulty, distance, elevation gain, estimated duration, and the approval badge.
+2. **Fast and easy trail search:** By the end of Week 10, users can find a suitable trail by region and difficulty in 3 taps or fewer. We will confirm this by testing with at least 5 users in Week 10.
+3. **Community feedback:** By the end of Week 10, signed-in users can rate trails (1–5 stars), write comments, and save trails to "My Trails", and the admin can add and edit trails and remove inappropriate comments. All of these features will pass the team's test checklist before the final presentation.
 
 ---
 
-## 2. Stakeholders and Roles
+## 2. Stakeholders and Team Roles
 
-### 2.1 Project Stakeholders
+### 2.1 Stakeholders
 
-| Stakeholder Category | Stakeholder Group | Role / Stake in Project |
-| --- | --- | --- |
-| **Internal Stakeholders** | Project Team | Responsible for designing, building, testing, and documenting the Qimma MVP within the 12-week schedule. |
-| **Internal Stakeholders** | Instructors & Supervisors | Provide academic oversight, evaluate stage deliverables, monitor milestones, and assess code quality. |
-| **External Stakeholders** | End-Users (Saudi Hikers & Tourists) | Primary beneficiaries who explore, filter, navigate, rate, and review accredited trails across Saudi Arabia. |
-| **External Stakeholders** | Saudi Climbing & Hiking Federation (SCHF) | External governing body whose official trail accreditations, route safety ratings, and GPX datasets validate app content. |
-| **External Stakeholders** | Third-Party API Service Providers | Map SDKs (Mapbox/Google Maps) and Weather APIs (OpenWeather) providing map rendering and live meteorological forecasts. |
-| **External Stakeholders** | Administrative Content Managers | Platform administrators responsible for updating trail data schemas, managing GPX updates, and moderating reviews. |
+| Type | Stakeholder | Role / Interest |
+|---|---|---|
+| Internal | Project Team | Plans, designs, builds, tests, and documents Qimmah. |
+| Internal | Mentors and Instructors (Holberton School) | Guide the team, review each stage, and evaluate the deliverables. |
+| Internal | Admin (the team during the MVP) | Adds and edits trails and moderates comments. |
+| External | Saudi Climbing and Hiking Federation | Provides the approved trail data and approves the use of its name and badge. |
+| External | Beginner Hikers | Need to know which trails are easy and safe before they go. |
+| External | Experienced Hikers | Look for new, challenging trails with accurate details. |
+| External | Visitors and Tourists | Look for outdoor activities in different Saudi regions. |
+| External | Map Provider (OpenStreetMap) | Provides the free map used to display the trails. |
 
-### 2.2 Team Roles & Responsibilities
+### 2.2 Team Roles
 
-| Role | Name | Core Responsibilities |
-| --- | --- | --- |
-| **Project Manager (PM)** | Sara Alkhubaizi | Tracks timeline milestones, manages task allocation in Notion, leads bi-weekly syncs, mitigates risks, and compiles project documentation. |
-| **UI/UX Designer** | Dhay Aldhwayan | Maps user journeys, designs high-fidelity wireframes/prototypes in Figma, designs custom map markers, elevation charts, and ensures Arabic/English UI accessibility. |
-| **Frontend Lead Developer** | Rahaf Alabdullah | Leads cross-platform mobile application development (Flutter/React Native), integrates Map SDKs to render GPX route polylines, implements multi-criteria search filters, and manages client-side offline storage. |
-| **Backend & Database Developer** | Zahraa Ali Alhussain | Architectures database schema (Supabase/Firebase), configures Role-Based Access Control (RBAC), constructs RESTful APIs, implements server-side caching, and integrates external weather APIs. |
-| **QA & Content Coordinator** | Shared Team Effort | Validates coordinate integrity for all 33 SCHF trails, creates test suites, executes end-to-end device testing (iOS & Android), and manages review moderation workflows. |
+As agreed in Stage 1, all team members work on both the Frontend and the Backend. Each member also leads one main area.
 
----
+| Team Member | Role | Responsibilities |
+|---|---|---|
+| Rahaf Alabdalh | Project Manager | Plans tasks and deadlines, runs team meetings, tracks progress and risks, and manages communication with the federation. Also works on connecting the app parts together and testing. |
+| Sarah Alkhubaizy | Backend Developer | Leads the database and the trail data, checks every trail before it is added, and helps with documentation. |
+| Dhay Aldhuwyan | UI/UX Designer & Frontend Developer | Designs the screens and user flows in Figma, creates the visual identity, and leads the app screens, the map, and the trail pages. |
+| Zahraa Alhussain | Backend Developer | Leads sign-up and login, ratings, comments, and the admin dashboard, and helps with documentation. |
 
-## 3. Scope Definition
-
-### 3.1 In-Scope Items (Included in MVP)
-
-* **33 Certified Trails Directory:** Cataloging all 33 official hiking trails accredited by the Saudi Climbing and Hiking Federation (SCHF).
-* **Interactive Map & GPS Route Visualization:** Dynamic interactive map rendering trail markers, start/end coordinates, and GPX route lines.
-* **Multi-Criteria Search & Filtering:** Dynamic filtering by Region (Asir, Al-Madinah, Makkah, Tabuk, Riyadh, etc.) and Difficulty Level (Easy, Moderate, Hard).
-* **Comprehensive Trail Detail Pages:** Displaying total distance (km), elevation gain (m), estimated completion time, elevation profile graph, route description, safety warnings, and the official SCHF accreditation badge.
-* **Community Rating & Review System:** 1-to-5-star rating scale and written review submissions with administrative content moderation capabilities.
-* **Offline Bookmarks ("My Trails"):** Local data caching mechanism allowing hikers to save favorite routes and view trail maps without an active internet connection.
-* **Live Weather Integration:** REST API integration displaying current temperature, wind speed, and short-term forecasts for specific trailhead coordinates.
-* **Basic Admin Management Portal:** Backend dashboard for administrators to edit trail metadata, update GPX route files, and moderate flagged reviews.
-
-### 3.2 Out-of-Scope Items (Excluded from MVP)
-
-* **Guided Tour Bookings & Payment Processing:** No commercial transactions, ticketing, or integration with tour operators or payment gateways.
-* **Social Networking Features:** Excludes direct messaging, friend lists, user followings, or live social feeds.
-* **Turn-by-Turn GPS Voice Navigation:** No real-time voice guidance or live turn prompts during active hikes.
-* **E-Commerce & Gear Rentals:** Excludes gear sales, equipment rental services, or marketplace integrations.
-* **Custom User Route Uploads:** Users cannot upload or publish unverified personal GPX routes to preserve data accuracy and hiker safety standards.
+**Testing:** each member tests the features she builds, and Rahaf keeps a shared test checklist that the whole team reviews before each delivery.
 
 ---
 
-## 4. Risk Identification and Mitigation
+## 3. Scope
 
-| # | Risk Description | Category | Phase | Impact / Likelihood | Risk Trigger | Mitigation Strategy | Owner |
-| :-: | --- | --- | --- | :-: | --- | --- | --- |
-| **1** | **Lack of Cellular Coverage on Trails:** Users cannot load online maps or trail details while hiking in remote areas. | Technical | Stage 4 (W7–W10) | High / High | Device loses cellular connection at trailhead. | Implement local offline caching (SQLite/AsyncStorage) so saved trail coordinates, descriptions, and elevation maps remain accessible offline. | Frontend Lead |
-| **2** | **Inaccurate or Outdated GPX Data:** Coordinate errors or outdated route polylines could compromise hiker safety. | Data | Stage 3 (W5–W6) | High / Low | Discrepancy between published route map and physical trail path. | Source GPX datasets exclusively from official SCHF records and conduct manual coordinate verification before database seeding. | QA & Content Coordinator |
-| **3** | **Complexity in Map SDK & Elevation Profiling:** Team faces a learning curve rendering interactive GPX polylines and elevation graphs. | Technical | Stage 4 (W7–W10) | Medium / Medium | Rendering lag or chart rendering errors during map testing. | Build early proof-of-concept map prototypes using lightweight open-source charting libraries (e.g., `fl_chart`). | Frontend Lead |
-| **4** | **Scope Creep:** Unplanned feature additions (e.g., social feeds or booking systems) cause delivery delays. | Scope | Stage 3 & 4 (W5–W10) | High / Medium | Feature requests outside defined MVP boundaries during development. | Enforce strict Scope boundaries; log any new feature ideas into a "Future Release Backlog" for post-MVP iterations. | Project Manager |
-| **5** | **Third-Party Weather API Rate Limit Exceeded:** Free tier rate limits lead to request failures on trail detail pages. | API | Stage 4 (W7–W10) | Medium / Low | Weather API returns HTTP 429 (Too Many Requests). | Implement aggressive client-side caching (fetching weather data once every 3–6 hours per trailhead coordinate). | Backend Lead |
-| **6** | **Unbalanced Team Workload & Schedule Slippage:** Academic commitments cause delayed deliverable submissions. | Operational | All Stages (W1–W12) | Medium / Medium | Missed task completion deadlines in Notion. | Hold bi-weekly status syncs, track async updates via Slack, and reallocate tasks promptly if delays occur. | Project Manager |
+### 3.1 Scope Overview
+
+The MVP focuses only on approved hiking trails: helping users find a trail, understand it, and share feedback about it. It does not include trip booking or social features.
+
+### 3.2 In-Scope (Included in MVP)
+
+- Main map showing all approved trails in Saudi Arabia
+- Filter trails by region (Asir, Madinah, Makkah, Tabuk, Riyadh, …)
+- Filter trails by difficulty (Easy / Medium / Hard)
+- Trail page with a map showing the start point, end point, and route
+- Trail details: difficulty, distance (km), elevation gain, and estimated duration
+- Trail description and tips
+- "Approved by the Saudi Federation" badge on every trail
+- Star ratings (1–5) with the average rating
+- Comments
+- "My Trails" page for saved trails
+- Sign up and log in (required to save, rate, and comment)
+- Admin dashboard to add and edit trails and moderate comments
+
+### 3.3 Out-of-Scope (Excluded from MVP)
+
+- Trip booking and online payments
+- Social features (messages, followers, social feed)
+- Users uploading their own trails
+- Turn-by-turn voice navigation
+- Selling or renting hiking gear
+
+**Planned for later versions:** offline maps, GPX download, user-uploaded photos, live weather, and closed-trail alerts.
 
 ---
 
-## 5. High-Level Plan and Timeline
+## 4. Risks
 
-### 5.1 Project Timeline Overview
+### 4.1 Risk Register
 
-<img width="1600" height="376" alt="qimma-timeline-simple" src="https://github.com/user-attachments/assets/b833d97c-5ffb-4671-917c-149fc410ee0c" />
+| # | Risk | Category | Stage | Likelihood | Impact | Trigger | Mitigation | Owner |
+|---|---|---|---|---|---|---|---|---|
+| 1 | The federation does not send the official trail data on time. | External / Data | Stages 2–4 (Weeks 2–10) | High | High | No reply from the federation by the end of Week 3. | Contact the federation early in Stage 2. Start building with a small set of sample trails so development is not blocked, and replace them with the official data once it arrives. | Rahaf |
+| 2 | The federation does not allow us to use its name and logo. | External | Stages 2–3 (Weeks 2–4) | Medium | Medium | No approval for the logo by the end of Week 4. | Ask for permission early. If it is not given, use a neutral "Verified Trail" label without the logo. | Rahaf |
+| 3 | Trail data contains mistakes (wrong start point or route). | Data | Stages 3–4 (Weeks 3–10) | Medium | High | A trail's route on the map does not match its official description. | Use official sources only, and check every trail on the map before adding it to the app. | Sarah |
+| 4 | Showing routes on the map with an Arabic, right-to-left interface is harder than expected. | Technical | Stages 3–4 (Weeks 3–10) | Medium | Medium | The map test screen is not working by the end of Week 4. | Build a small test screen with the map early in Stage 3 to find problems before full development. | Dhay |
+| 5 | Hikers have no phone signal on many trails. | Users | Stage 4 (Weeks 5–10) | High | Medium | Test users report that trail pages do not load outdoors. | Remind users inside the app to check trail details before leaving. Offline maps are planned for the next version. | Dhay |
+| 6 | New feature ideas are added during development and delay the MVP. | Scope | Stages 3–4 (Weeks 3–10) | Medium | Medium | A task appears that is not in the In-Scope list. | Keep to the scope in this charter. Write any new idea in a "Later Versions" list instead of adding it now. | Rahaf |
+| 7 | Study load and deadlines cause delays or an unbalanced workload. | Team | All stages (Weeks 1–12) | Medium | High | A task misses its deadline by more than 3 days. | Hold weekly Zoom meetings, share updates on WhatsApp, and move tasks between members quickly if someone falls behind. | Rahaf |
+| 8 | Users post inappropriate comments. | Content | Stage 4 (Weeks 5–10) | Low | Medium | A comment is reported or found during testing. | Only signed-in users can comment, and the admin can hide or delete comments. | Zahraa |
 
+### 4.2 Risk Priority
+
+| Priority | Risks |
+|---|---|
+| 🔴 High | 1, 3, 7 |
+| 🟡 Medium | 2, 4, 5, 6 |
+| 🟢 Low | 8 |
+
+---
+
+## 5. High-Level Plan
+
+### 5.1 Timeline (12 Weeks)
+
+<img width="1890" height="861" alt="qimmah-timeline-v2" src="https://github.com/user-attachments/assets/0647b2d0-ac9b-4b16-8fae-8080ec8a34db" />
+
+| Stage | Weeks | Key Deliverable |
+|---|---|---|
+| Stage 1 – Team Formation & Idea Development | Week 1 | Stage 1 Report (Completed) |
+| Stage 2 – Project Charter Development | Week 2 | Project Charter |
+| Stage 3 – Technical Documentation | Weeks 3–4 | Technical documents and Figma screens |
+| Stage 4 – MVP Development & Execution | Weeks 5–10 | Working, tested MVP |
+| Stage 5 – Project Closure | Weeks 11–12 | Final presentation and closure report |
 
 ### 5.2 Key Milestones and Dependencies
 
-| Milestone # | Milestone Name | Key Deliverables | Stage | Timeline | Prerequisites / Dependencies |
-| --- | --- | --- | --- | --- | --- |
-| **M1** | **Project Initiation & Concept Approval** | Finalized project idea (*Qimmah Platform*), team role assignments, and Stage 1 Report. | Stage 1 | Weeks 1–2 | None |
-| **M2** | **Project Charter Approval** | Approved Project Charter document including SMART goals, scope, risk register, and timeline. | Stage 2 | Weeks 3–4 | Completion of Milestone M1 |
-| **M3** | **Architecture & Design Specification** | System architecture diagrams, Supabase database schema, high-fidelity Figma UI prototypes, and structured SCHF GPX dataset. | Stage 3 | Weeks 5–6 | Completion of Milestone M2 |
-| **M4** | **Core MVP Development** | Cross-platform mobile app with authentication, interactive Map SDK integration, multi-criteria filtering, and live weather API. | Stage 4 | Weeks 7–9 | Completion of Milestone M3 |
-| **M5** | **Testing & Quality Assurance** | Fully tested MVP, optimized offline caching, resolution of critical bugs, and cross-device performance validation. | Stage 4 | Week 10 | Completion of Milestone M4 |
-| **M6** | **Project Closure & Final Handover** | Live MVP demonstration, code repository release on GitHub, project poster, and final Stage 5 Closure Report. | Stage 5 | Weeks 11–12 | Completion of Milestone M5 |
+| # | Milestone | Key Deliverables | Stage | Target | Depends On |
+|---|---|---|---|---|---|
+| M1 | Idea approved | Stage 1 Report with the selected idea and team roles | Stage 1 | End of Week 1 | None |
+| M2 | Project Charter approved | This document: objectives, stakeholders, scope, risks, and plan | Stage 2 | End of Week 2 | M1 |
+| M3 | Technical documentation finalized | App structure, database plan, Figma screens, and first trail data | Stage 3 | End of Week 4 | M2, and trail data from the federation (or sample trails) |
+| M4 | Core features working | Map, filters, trail pages, sign up and login, ratings, comments, My Trails, admin dashboard | Stage 4 | End of Week 9 | M3 |
+| M5 | MVP tested | All features tested with the team checklist and at least 5 users, and main bugs fixed | Stage 4 | End of Week 10 | M4 |
+| M6 | Project closed | Final presentation, code on GitHub, and Stage 5 closure report | Stage 5 | End of Week 12 | M5 |
 
 ---
 
-*Report prepared by: Sara Alkhubaizi, Rahaf Alabdullah, Dhay Aldhwayan, Zahraa Ali Alhussain*
-
+*Report prepared by: Sarah Alkhubaizy, Rahaf Alabdalh, Dhay Aldhuwyan, Zahraa Alhussain*
 *Stage 2 – Portfolio Project | Holberton School*
-
-```
-
-```
