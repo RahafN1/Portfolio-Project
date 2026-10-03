@@ -116,6 +116,7 @@ The MVP focuses only on approved hiking trails: helping users find a trail, unde
 
 <img width="1890" height="861" alt="qimmah-timeline-v2" src="https://github.com/user-attachments/assets/0647b2d0-ac9b-4b16-8fae-8080ec8a34db" />
 
+
 | Stage | Weeks | Key Deliverable |
 |---|---|---|
 | Stage 1 – Team Formation & Idea Development | Week 1 | Stage 1 Report (Completed) |
