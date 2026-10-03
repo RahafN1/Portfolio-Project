@@ -43,12 +43,13 @@ As agreed in Stage 1, all team members work on both the Frontend and the Backend
 
 | Team Member | Role | Responsibilities |
 |---|---|---|
-| Rahaf Alabdalh | Project Manager | Plans tasks and deadlines, runs team meetings, tracks progress and risks, and manages communication with the federation. Also works on connecting the app parts together and testing. |
-| Sarah Alkhubaizy | Backend Developer | Leads the database and the trail data, checks every trail before it is added, and helps with documentation. |
+| Rahaf Alabdalh | Project Manager | Plans tasks and deadlines, runs team meetings, tracks progress and risks, and manages communication with the federation. Also connects the app parts together and leads testing. |
+| Sarah Alkhubaizy | Backend Developer – Trails & Data | Designs and builds the database. Owns everything about trails on the server: adding the official trail data, checking every trail before it is published, and making the trail list, region filter, and difficulty filter work. Keeps the README and stage documents up to date. |
 | Dhay Aldhuwyan | UI/UX Designer & Frontend Developer | Designs the screens and user flows in Figma, creates the visual identity, and leads the app screens, the map, and the trail pages. |
-| Zahraa Alhussain | Backend Developer | Leads sign-up and login, ratings, comments, and the admin dashboard, and helps with documentation. |
+| Zahraa Alhussain | Backend Developer – Users & Community | Owns everything about users on the server: sign-up and login, saved trails ("My Trails"), ratings, and comments. Builds the admin dashboard tools for managing trails and removing inappropriate comments. Writes the technical notes for these features. |
 
 **Testing:** each member tests the features she builds, and Rahaf keeps a shared test checklist that the whole team reviews before each delivery.
+
 
 ---
 
@@ -115,6 +116,7 @@ The MVP focuses only on approved hiking trails: helping users find a trail, unde
 ### 5.1 Timeline (12 Weeks)
 
 <img width="1890" height="861" alt="qimmah-timeline-v2" src="https://github.com/user-attachments/assets/0647b2d0-ac9b-4b16-8fae-8080ec8a34db" />
+
 
 
 | Stage | Weeks | Key Deliverable |
