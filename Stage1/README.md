@@ -144,7 +144,7 @@ The team used SCAMPER on an existing global trails app (Wikiloc) to shape Qimmah
 
 #### Idea 1: Qimmah – Saudi Hiking Trails Platform (Selected)
 
-**Overview:** A web platform, similar to Wikiloc, that displays the hiking trails approved by the Saudi Climbing and Hiking Federation on a map. Each trail has its own page with all its details.
+**Overview:** A mobile application, similar to Wikiloc, that displays the hiking trails approved by the Saudi Climbing and Hiking Federation on a map. Each trail has its own page with all its details.
 
 **Problem addressed:** Information about hiking trails in Saudi Arabia is scattered across social media and personal posts, is often unverified, and rarely includes difficulty, distance, or elevation. Hikers, especially beginners, cannot easily tell which trails are safe and suitable for them.
 
@@ -155,7 +155,7 @@ The team used SCAMPER on an existing global trails app (Wikiloc) to shape Qimmah
 | Solves a clear, growing local need as outdoor activity increases in Saudi Arabia. | Depends on receiving official trail data (GPX or coordinates) from the federation. |
 | Official approval gives the content credibility that general apps lack. | Map and route rendering adds technical work. |
 | Clear, limited MVP scope (approved trails only, no booking). | Trail content needs to be kept up to date. |
-| Uses free tools (Leaflet, OpenStreetMap). | Smaller audience than general-purpose apps. |
+| Uses free map tools (OpenStreetMap). | Smaller audience than general-purpose apps. |
 
 **Risks and constraints:** delays in receiving data from the federation; permission to use the federation's name and logo; seasonal closures that must be communicated to users.
 
@@ -187,7 +187,7 @@ The team used SCAMPER on an existing global trails app (Wikiloc) to shape Qimmah
 
 **Risks and constraints:** hardware cost and availability; testing requires physical cars and devices.
 
-**Reason for rejection:** Hardware dependency and Bluetooth integration add complexity outside the team's full-stack web focus.
+**Reason for rejection:** Hardware dependency and Bluetooth integration add complexity outside the team's software focus.
 
 #### Idea 4: Swagger-Like API Documentation Website (Rejected)
 
@@ -260,7 +260,7 @@ The justification uses the same six criteria as the evaluation matrix.
 
 | Criterion | Score | Justification |
 |---|---|---|
-| Feasibility | 4/5 | Buildable as a full-stack web project using free tools (Leaflet with OpenStreetMap). Focusing only on approved trails keeps the scope manageable. The only dependency is receiving trail data from the federation. |
+| Feasibility | 4/5 | Buildable as a full-stack mobile project using free map tools (OpenStreetMap). Focusing only on approved trails keeps the scope manageable. The only dependency is receiving trail data from the federation. |
 | Potential Impact | 4/5 | Helps hikers choose trails that suit their level using accurate difficulty, distance, and elevation data, which supports safer hiking. |
 | User Need | 4/5 | Hiking is growing in Saudi Arabia, and trail information is currently scattered and unverified. |
 | Innovation | 4/5 | No local, Arabic-first platform focused on officially approved trails. The approval badge adds credibility that general apps do not have. |
