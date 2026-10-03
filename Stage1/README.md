@@ -1,6 +1,6 @@
 # Stage 1 Report – Team Formation and Idea Development
 
-**Project:** Qimma (قمة) – Saudi Hiking Trails Platform
+**Project:** Qimmah (قمة) – Saudi Hiking Trails Platform
 **Team:** Sarah Alkhubaizy, Rahaf Alabdalh, Dhay Aldhuwyan, Zahraa Alhussain
 **Stage:** 1 – Team Formation and Idea Development
 
@@ -101,7 +101,7 @@ mindmap
         Sports Field Booking Platform
     Outdoors and hiking
       Trail info is scattered, unverified, and lacks difficulty details
-        Qimma - Saudi Hiking Trails
+        Qimmah - Saudi Hiking Trails
     Cars and mobility
       Diagnostic codes are hard to understand
         CarCare - Vehicle Health App
@@ -117,20 +117,20 @@ mindmap
 
 | # | How Might We… | Idea it led to |
 |---|---|---|
-| 1 | How might we help hikers in Saudi Arabia find safe, officially approved trails in one place? | Qimma |
-| 2 | How might we help hikers judge whether a trail matches their fitness level before they go? | Qimma |
-| 3 | How might we help hikers quickly find trails in a specific region of Saudi Arabia? | Qimma |
-| 4 | How might we let hikers benefit from other hikers' experiences on a trail? | Qimma |
+| 1 | How might we help hikers in Saudi Arabia find safe, officially approved trails in one place? | Qimmah |
+| 2 | How might we help hikers judge whether a trail matches their fitness level before they go? | Qimmah |
+| 3 | How might we help hikers quickly find trails in a specific region of Saudi Arabia? | Qimmah |
+| 4 | How might we let hikers benefit from other hikers' experiences on a trail? | Qimmah |
 | 5 | How might we make it easier to find and book a nearby sports field? | Sports Field Booking |
 | 6 | How might we help car owners understand their car's condition without a mechanic? | CarCare |
 | 7 | How might we make APIs easier for students to explore and test? | Swagger-Like Website |
 | 8 | How might we let organizations control data access by role? | Employee Permissions |
 
-#### 2.1.3 SCAMPER Applied to Qimma
+#### 2.1.3 SCAMPER Applied to Qimmah
 
-The team used SCAMPER on an existing global trails app (Wikiloc) to shape Qimma:
+The team used SCAMPER on an existing global trails app (Wikiloc) to shape Qimmah:
 
-| Operation | Applied to Wikiloc | Result in Qimma |
+| Operation | Applied to Wikiloc | Result in Qimmah |
 |---|---|---|
 | **Substitute** | Replace thousands of unverified user-uploaded trails | Trails approved by the Saudi Climbing and Hiking Federation |
 | **Combine** | Combine the route map with trail stats and community feedback | Route map, trail details, ratings, and comments on one trail page |
@@ -142,7 +142,7 @@ The team used SCAMPER on an existing global trails app (Wikiloc) to shape Qimma:
 
 ### 2.2 Ideas Generated
 
-#### Idea 1: Qimma – Saudi Hiking Trails Platform (Selected)
+#### Idea 1: Qimmah – Saudi Hiking Trails Platform (Selected)
 
 **Overview:** A web platform, similar to Wikiloc, that displays the hiking trails approved by the Saudi Climbing and Hiking Federation on a map. Each trail has its own page with all its details.
 
@@ -173,7 +173,7 @@ The team used SCAMPER on an existing global trails app (Wikiloc) to shape Qimma:
 
 **Risks and constraints:** no reliable data source for fields and availability; owners may not keep information updated.
 
-**Reason for rejection:** It was the team's initial choice, but on re-evaluation its value depends on field owners joining and updating availability, which the team cannot guarantee within the project timeframe, and it offers less differentiation from existing apps. Qimma scored higher on feasibility of data and innovation.
+**Reason for rejection:** It was the team's initial choice, but on re-evaluation its value depends on field owners joining and updating availability, which the team cannot guarantee within the project timeframe, and it offers less differentiation from existing apps. Qimmah scored higher on feasibility of data and innovation.
 
 #### Idea 3: CarCare – Vehicle Health Application (Rejected)
 
@@ -236,13 +236,13 @@ Each idea was scored from 1 to 5 on six criteria. All criteria have equal weight
 
 | Idea | Feasibility | Potential Impact | User Need | Innovation | Technical Alignment | Scalability | Total |
 |---|---|---|---|---|---|---|---|
-| **Qimma** | 4 | 4 | 4 | 4 | 5 | 4 | **25/30** |
+| **Qimmah** | 4 | 4 | 4 | 4 | 5 | 4 | **25/30** |
 | Sports Field Booking | 3 | 4 | 4 | 2 | 5 | 4 | 22/30 |
 | Employee Permissions System | 3 | 3 | 3 | 2 | 4 | 4 | 19/30 |
 | CarCare | 2 | 4 | 3 | 3 | 2 | 4 | 18/30 |
 | Swagger-Like Website | 5 | 2 | 2 | 1 | 4 | 3 | 17/30 |
 
-Qimma ranked first. It did not receive a full score for Feasibility because it depends on data from the federation.
+Qimmah ranked first. It did not receive a full score for Feasibility because it depends on data from the federation.
 
 ---
 
@@ -250,7 +250,7 @@ Qimma ranked first. It did not receive a full score for Feasibility because it d
 
 ### 3.1 MVP Summary
 
-**Qimma (قمة)** is a Saudi hiking trails platform. It shows the trails approved by the Saudi Climbing and Hiking Federation on a map of Saudi Arabia. Users can filter trails by region and difficulty and open a trail page containing a map with the start point, end point, and route line; difficulty, distance, elevation gain, and estimated duration; a description with tips; the federation approval badge; ratings; and comments.
+**Qimmah (قمة)** is a Saudi hiking trails platform. It shows the trails approved by the Saudi Climbing and Hiking Federation on a map of Saudi Arabia. Users can filter trails by region and difficulty and open a trail page containing a map with the start point, end point, and route line; difficulty, distance, elevation gain, and estimated duration; a description with tips; the federation approval badge; ratings; and comments.
 
 The platform focuses on trails only; it does not include trip organization or booking.
 
