@@ -738,11 +738,17 @@ The main front-end components are:
 
 
 
-<img width="1105" height="1530" alt="admin" src="https://github.com/user-attachments/assets/c0ae6b3e-d874-450a-94d6-46b29d43f4c6" />
+<img width="1105" height="1127" alt="admin" src="https://github.com/user-attachments/assets/b424d20e-b470-484e-9dce-84e874b88699" />
 
 
 
-<img width="1105" height="1530" alt="admin 2" src="https://github.com/user-attachments/assets/9ae4016a-6160-4955-98ae-d57217b11823" />
+
+<img width="1105" height="1136" alt="admin 2" src="https://github.com/user-attachments/assets/143e2e47-c712-4533-983c-9d9b8a247d48" />
+
+
+
+
+
 
 
 
