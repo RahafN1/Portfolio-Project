@@ -115,7 +115,8 @@ The MVP focuses only on approved hiking trails: helping users find a trail, unde
 
 ### 5.1 Timeline (12 Weeks)
 
-<img width="1890" height="861" alt="qimmah-timeline-v2" src="https://github.com/user-attachments/assets/0647b2d0-ac9b-4b16-8fae-8080ec8a34db" />
+<img width="1600" height="1074" alt="qimmah-timeline" src="https://github.com/user-attachments/assets/d5248a47-6fa9-4cca-b8ac-372aeb491ca6" />
+
 
 
 
