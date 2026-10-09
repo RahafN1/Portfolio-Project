@@ -726,6 +726,23 @@ The main front-end components are:
 
 
 
+
+<img width="1600" height="1600" alt="WhatsApp Image 2026-10-07 at 8 18 06 PM (2)" src="https://github.com/user-attachments/assets/5e21d473-2122-449e-a6da-a39a041752cb" />
+
+
+<img width="1600" height="1600" alt="WhatsApp Image 2026-10-07 at 8 18 06 PM (1)" src="https://github.com/user-attachments/assets/4a0dae35-59a5-4f85-ae82-5647a245bde8" />
+
+
+
+<img width="1600" height="1600" alt="WhatsApp Image 2026-10-07 at 8 18 06 PM" src="https://github.com/user-attachments/assets/5facacb1-793d-48aa-82c3-8b4253848784" />
+
+
+
+
+
+
+
+
  
 
 
