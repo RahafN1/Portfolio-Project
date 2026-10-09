@@ -712,6 +712,20 @@ The main front-end components are:
 
 
 
+
+
+
+
+
+
+# 3. Create High-Level Sequence Diagrams
+
+
+
+
+
+
+
  
 
 
