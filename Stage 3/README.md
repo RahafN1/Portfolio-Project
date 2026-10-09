@@ -737,7 +737,7 @@ The main front-end components are:
 
 
 
-<img width="1105" height="1530" alt="unnamed" src="https://github.com/user-attachments/assets/efb75aa4-7ecb-4bbc-bd33-a61e7f0cefcf" />
+<img width="1105" height="1127" alt="unnamed" src="https://github.com/user-attachments/assets/b7ea9689-8e31-487d-931b-03d94e69d98e" />
 
 
 
