@@ -1461,10 +1461,10 @@ The justifications for each technology (Layered Architecture, Flutter, Flask, SQ
 
 | Task | Contributor | Profile |
 |---|---|---|
-| 0. User Stories and Mockups | Rahaf Alabdalh | @RahafN1|
-| 1. System Architecture | Sarah Alkhubaizy |@SarahAlkhubaizy |
-| 2. Components, Classes, and Database Design | Zahraa Alhussain |@alzahra3ali-bit |
-| 3. Sequence Diagrams | Dhay Aldhuwyan |@d404cjebq |
-| 4. API Specifications | Sarah Alkhubaizy |@SarahAlkhubaizy |
-| 5. SCM and QA Plans | Dhay Aldhuwyan |@d404cjebq|
-| 6. Technical Justifications | Rahaf Alabdalh |@RahafN1 |
+| 0. User Stories and Mockups | Rahaf Alabdalh | [@RahafN1](https://github.com/RahafN1) |
+| 1. System Architecture | Sarah Alkhubaizy | [@SarahAlkhubaizy](https://github.com/SarahAlkhubaizy) |
+| 2. Components, Classes, and Database Design | Zahraa Alhussain | [@alzahra3ali-bit](https://github.com/alzahra3ali-bit) |
+| 3. Sequence Diagrams | Dhay Aldhuwyan | [@d404cjebq](https://github.com/d404cjebq) |
+| 4. API Specifications | Sarah Alkhubaizy | [@SarahAlkhubaizy](https://github.com/SarahAlkhubaizy) |
+| 5. SCM and QA Plans | Dhay Aldhuwyan | [@d404cjebq](https://github.com/d404cjebq) |
+| 6. Technical Justifications | Rahaf Alabdalh | [@RahafN1](https://github.com/RahafN1) |
