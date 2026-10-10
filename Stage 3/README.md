@@ -1301,21 +1301,11 @@ The main front-end components are:
 
 
 
+## 5. SCM and QA Plans
 
+### Source Control Management (SCM) Strategy
 
-
-
-
-
-
-
-# 5. SCM and QA Strategies
-
-## 5.1 SCM Strategy
-
-### Version Control and Repository Structure
-
-We will use **Git** for version control and **GitHub** to host the code. The project uses a single repository (monorepo) that contains both the frontend and the backend, along with the technical documentation:
+The team uses Git for version control and GitHub to host the code and manage collaboration across the 4-person team. The project uses a single repository that contains the frontend, the backend, and the technical documentation:
 
 ```
 qimmah/
@@ -1325,87 +1315,91 @@ qimmah/
 └── README.md
 ```
 
-A single repository keeps the project simple for a team of four and makes it easier to review all changes, documentation, and issues in one place. Features that affect both the frontend and the backend, such as OTP verification or reviews, can be handled in a single pull request. Responsibilities between frontend and backend remain clearly separated through folders and feature branches. Tasks and user stories are tracked using GitHub Issues and GitHub Projects.
+A single repository keeps the project simple for a team of four and makes it easier to review all changes, documentation, and issues in one place. Features that affect both the frontend and the backend, such as OTP verification or reviews, can be handled in a single pull request. Tasks and user stories are tracked using GitHub Issues and GitHub Projects.
 
 ### Branching Strategy
 
-We will follow a simple branching model:
-
 | Branch | Purpose |
 |---|---|
-| `main` | Contains stable, tested, production-ready code only. It is protected, and no one pushes to it directly. Code reaches `main` only by merging from `develop` after testing. |
-| `develop` | The integration branch where all completed features are merged and tested together. The staging environment is deployed from this branch. |
-| `feature/*` | A separate branch for each task or user story, created from `develop` and merged back into it through a pull request. Branch names describe the feature, for example `feature/trail-filter`, `feature/otp-verification`, and `feature/reviews`. |
-| `fix/*` | A short branch for fixing a bug found during testing, created from `develop` and merged back into it. |
+| `main` | Stable, production-ready code only. Protected: no direct pushes. Updated only by the Project Manager after `develop` is tested and confirmed. |
+| `develop` | Integration branch where completed features are merged and tested together. Deployed to the staging environment. |
+| `feature/*` | One branch per task or user story, created from `develop` (e.g., `feature/trail-filter`, `feature/otp-verification`, `feature/reviews`). |
+| `fix/*` | Short-lived branch for fixing a bug found during testing, created from `develop`. |
 
-**Workflow:** a team member creates a feature branch from `develop`, works on the task, opens a pull request into `develop`, and merges it after review. At the end of each milestone, `develop` is tested on staging and then merged into `main`.
+### Workflow
 
-### Commits
-
-Team members commit small, focused changes regularly and push their work at least once a day while working on a task.
-
-Commit messages follow a consistent format with a prefix that describes the type of change:
-
-| Prefix | Type of Change |
+| # | Step |
 |---|---|
-| `feat:` | New features |
-| `fix:` | Bug fixes |
+| 1 | Tasks are divided among the team, and each member creates a feature branch from `develop` for their task. |
+| 2 | Members commit small, focused changes regularly and push their work at least once a day while working on a task. |
+| 3 | When the task is complete, the member opens a pull request into `develop` with a short description and a link to the related issue. |
+| 4 | Automated checks (code style and tests) run on the pull request, and at least one other team member reviews and approves it. |
+| 5 | After approval, the pull request is merged into `develop` and tested on staging. |
+| 6 | At the end of each milestone, after testing and confirmation, the Project Manager merges `develop` into `main` for production release. |
+
+### Commit Messages
+
+Commit messages use a prefix that describes the type of change:
+
+| Prefix | Use |
+|---|---|
+| `feat:` | New feature (e.g., `feat: add region filter to trails endpoint`) |
+| `fix:` | Bug fix |
 | `docs:` | Documentation |
 | `test:` | Tests |
 | `refactor:` | Code improvements |
 
-Example: `feat: add region filter to trails endpoint`.
-
-Sensitive data such as database passwords and email credentials are never committed. They are stored in a `.env` file that is listed in `.gitignore`.
-
-### Pull Requests
-
-- Every feature or fix branch is merged into `develop` through a pull request.
-- Each pull request includes a short description of the change and a link to the related user story or issue.
-- All automated checks (code style and tests) must pass before the pull request can be merged.
+Sensitive data such as database passwords and the Resend API key are never committed. They are stored in a `.env` file that is listed in `.gitignore`.
 
 ### Code Reviews
 
-- Our team has four members, divided between frontend and backend.
-- Each pull request requires approval from at least one other team member before merging.
-- Backend changes are reviewed by a backend team member, and frontend changes are reviewed by a frontend team member, since they are most familiar with that part of the code.
-- Pull requests that change both frontend and backend require one approval from each side.
-- The reviewer checks that the code works as expected, follows the agreed style, includes tests where needed, and does not break existing features.
+Every pull request requires approval from at least one other team member before merging. Backend changes are reviewed by the other backend developer, and frontend changes are reviewed by the Project Manager. Pull requests that change both the frontend and the backend require one approval for each side.
 
-## 5.2 QA Strategy
+**Code Review Checklist**
 
-### Testing Strategy
+- [ ] Code works as expected and does not break existing features
+- [ ] Code follows the project's naming and folder conventions
+- [ ] No hardcoded credentials or sensitive data
+- [ ] New endpoints are documented and covered by tests
+- [ ] Database schema changes are made through a Flask-Migrate migration and do not conflict with the existing schema
+
+---
+
+### Quality Assurance (QA) Strategy
 
 Our testing strategy focuses automated tests on the backend, where the core logic, security, and data handling are located, and uses structured manual testing for the frontend, since the user interface changes frequently during MVP development.
 
-### Backend Testing
+### Testing Types
 
-| Test Type | Description |
-|---|---|
-| Unit tests | Using pytest to test individual functions and endpoints, such as password hashing, OTP generation and verification, input validation for reviews, and average rating calculation. |
-| Integration tests | Using pytest with a separate test database, to check that the API and the database work together correctly (for example, creating a review and confirming it is saved and the trail's average rating is updated). |
-| Permission tests | To confirm each role can only do what it is allowed to: a guest cannot post reviews or add trails to favorites, a registered user can only edit or delete their own reviews, and only an admin can manage trails and suspend users. |
-| API testing | Using Postman, with a shared collection of requests for all endpoints, including valid and invalid inputs. |
+| Test Type | Purpose | Scope |
+|---|---|---|
+| Unit Testing | Verify individual functions (e.g., password hashing, OTP generation, verification and expiry, JWT creation and validation, review input validation, average rating calculation) | Backend logic |
+| Integration Testing | Verify API endpoints interact correctly with MySQL using a separate test database (e.g., a new review is saved and the trail's average rating is updated) | Backend + Database |
+| Permission Testing | Verify each role's access: guests cannot post reviews or add trails to favorites, registered users can only edit or delete their own reviews, only admins can manage trails and suspend users, suspended users are rejected on every protected endpoint, and requests with a missing, invalid, or expired token are rejected | Backend |
+| Manual End-to-End Testing | Verify critical user flows on real devices using the test checklist below | Full stack |
 
-### Frontend Testing
+External services such as Resend and Cloudinary are mocked in automated tests, so tests never send real emails or upload real images.
 
-Manual testing on real Android and iOS devices using a test checklist of critical user flows:
+### Manual Test Checklist (Critical User Flows)
 
-- Sign up with email OTP verification, log in, and log out
-- Browse, search, and filter trails as a guest
-- View trail details, the map, and safety tips
-- Guest is prompted to sign up when trying to review or add a trail to favorites
-- Add, edit, and delete a review as a registered user
-- Admin adds, edits, and deletes trails and removes reviews
-- Current location appears on the trail map, and the app works correctly when location permission is denied
-- Switching between Arabic and English, and between dark and light mode
+- [ ] Sign up with email OTP verification (including a wrong or expired code), log in, and log out
+- [ ] Browse, search, and filter trails as a guest
+- [ ] View trail details, the map, and safety tips
+- [ ] Guest is prompted to sign up when trying to review a trail or add it to favorites
+- [ ] Add and remove trails from favorites as a registered user
+- [ ] Mark a trail as completed
+- [ ] Add, edit, and delete a review as a registered user
+- [ ] Admin adds, edits, and deletes trails, removes reviews, and suspends a user
+- [ ] A suspended user cannot access protected features
+- [ ] Current location appears on the trail map, and the app works correctly when location permission is denied
+- [ ] Switching between dark and light mode, and between Arabic and English (if implemented)
 
-### Testing and Quality Tools
+### Testing Tools
 
 | Tool | Purpose |
 |---|---|
-| pytest | Unit and integration tests for the Flask backend |
-| Postman | API testing |
+| pytest | Unit and integration testing for the Flask backend |
+| Postman | Testing all API endpoints with valid and invalid inputs, using a shared collection |
 | flake8 | Code style checks for Python |
 | flutter analyze | Code quality checks for Dart |
 | GitHub Actions | Runs code style checks and tests automatically on every pull request |
@@ -1413,23 +1407,43 @@ Manual testing on real Android and iOS devices using a test checklist of critica
 
 ### Deployment Pipeline
 
-We will use **Docker** to package the backend, so that it runs the same way on every team member's machine and in every environment, and **Railway** to host the backend and the MySQL database. The Flutter mobile app is not containerized or hosted, as it is built and installed directly on devices.
+The backend is packaged with Docker so it runs the same way on every machine and environment, and is hosted on Railway together with the MySQL database. The Flutter app is not hosted; it is built and installed directly on devices.
 
-Our pipeline has three environments:
-
-| Environment | Description |
+| Stage | Description |
 |---|---|
-| Development | Each team member runs the Flask API and MySQL locally using Docker Compose (`docker compose up`), which gives everyone the same versions and settings. |
-| Staging | A Railway environment connected to the `develop` branch, with its own MySQL database containing test data. When a pull request is merged into `develop`, GitHub Actions runs code style checks and all backend tests. If they pass, Railway automatically builds the backend from its Dockerfile and deploys it to staging. A test version of the app (APK) is then built and connected to the staging API, so the team can test it on real devices using the manual test checklist. |
-| Production | A separate Railway environment connected to the `main` branch, with its own production MySQL database. After the staging version passes manual testing, `develop` is merged into `main`, and Railway automatically deploys the same tested code to production. |
+| Local Development | Each developer runs the Flask API and MySQL locally using Docker Compose (`docker compose up`), so everyone has the same versions and settings. |
+| Staging | A Railway environment deployed from the `develop` branch, with its own MySQL database containing test data. Railway waits for the GitHub Actions checks to pass, then builds the backend from its Dockerfile and deploys it. A test build of the app connected to the staging API is installed on real devices for manual testing. |
+| Production | A separate Railway environment deployed from the `main` branch, with its own production MySQL database. After staging passes manual testing, `develop` is merged into `main` and the same tested code is deployed automatically. |
 
-Keeping staging and production as separate Railway environments with separate databases means that testing never affects real user data.
+Database schema changes are managed with Flask-Migrate, and the same migrations are applied to the staging database first and then to production, so both environments always share the same schema.
+
+Keeping staging and production as separate environments with separate databases means testing never affects real user data.
+
+### Example QA Flow
+
+| # | Step |
+|---|---|
+| 1 | Developer completes their task on a feature branch. |
+| 2 | Tests and style checks are run locally (`pytest`, `flake8`, `flutter analyze`). |
+| 3 | API endpoints are manually verified in Postman. |
+| 4 | A pull request is opened; GitHub Actions runs the checks and a teammate reviews it. |
+| 5 | Once approved, the work is merged into `develop` and deployed to staging for manual end-to-end testing. |
+| 6 | After staging verification and fixing critical bugs, the Project Manager merges `develop` into `main` for production release. |
 
 ### Quality Goals
 
 - All Must Have user stories have automated tests for their backend endpoints.
 - No pull request is merged with failing tests.
 - Critical bugs found during testing are fixed before merging `develop` into `main`.
+
+
+
+
+
+
+
+
+
 
 
 # 6. Deliverable: Technical Documentation
