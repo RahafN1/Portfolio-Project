@@ -1432,10 +1432,9 @@ Keeping staging and production as separate Railway environments with separate da
 - Critical bugs found during testing are fixed before merging `develop` into `main`.
 
 
+# 6. Deliverable: Technical Documentation
 
- ## 6. Deliverable: Technical Documentation
-
-# Technical Justifications
+## Technical Justifications
 
 Every technology and design decision in Qimmah was chosen based on the team's functional requirements, non-functional requirements, and project constraints.
 
