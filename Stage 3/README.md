@@ -1433,18 +1433,17 @@ Keeping staging and production as separate Railway environments with separate da
 
 
 
+ ## 6. Deliverable: Technical Documentation
 
-
-
-## 7. Technical Justifications
+# Technical Justifications
 
 Every technology and design decision in Qimmah was chosen based on the team's functional requirements, non-functional requirements, and project constraints.
 
-### 7.1 Technology Choices
+### 6.1 Technology Choices
 
 The justifications for each technology (Layered Architecture, Flutter, Flask, SQLAlchemy, MySQL, GeoJSON, JWT, Email OTP, Google Maps SDK, geolocator, Cloudinary, and Railway) are explained in Task 1: System Architecture.
 
-### 7.2 Design Decisions
+### 6.2 Design Decisions
 
 | Design Decision | Justification |
 |---|---|
