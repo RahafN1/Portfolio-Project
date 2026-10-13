@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'explore_page.dart';
 void main() {
   runApp(const QimmahApp());
 }
@@ -42,9 +42,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('قمّة')),
-      body: Center(
-        child: Text(_titles[_index], style: const TextStyle(fontSize: 24)),
-      ),
+           body: _index == 0 ? const ExplorePage() : Center(child: Text(_titles[_index])),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _index,
         onTap: (i) => setState(() => _index = i),
