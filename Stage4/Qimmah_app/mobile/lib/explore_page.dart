@@ -23,7 +23,7 @@ class Trail {
 
 // يجيب المسارات من الباك إند
 Future<List<Trail>> fetchTrails() async {
-  final response = await http.get(Uri.parse('http://127.0.0.1:5001/api/trails'));
+    final response = await http.get(Uri.parse('https://portfolio-project-stage4-backend.onrender.com/api/trails'));
 
   if (response.statusCode != 200) {
     throw Exception('تعذّر تحميل المسارات');
