@@ -194,8 +194,3 @@ class User(db.Model):
         """UML: viewCompletedTrails()."""
         from app.models import CompletedTrail
         return CompletedTrail.get_completed_trails(self.id)
-
-
-class Admin(User):
-    """UML: Admin inherits from User."""
-    __mapper_args__ = {"polymorphic_identity": "admin"}
