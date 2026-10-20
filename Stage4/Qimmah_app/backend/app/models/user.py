@@ -21,6 +21,11 @@ def _now():
     return datetime.now(timezone.utc).replace(tzinfo=None)
 
 
+def _text(value):
+    """Return the value if it is a string, otherwise an empty string."""
+    return value if isinstance(value, str) else ""
+
+
 class User(db.Model):
     """A registered user (UML: User). Admin inherits from it."""
     __tablename__ = "users"
@@ -58,17 +63,17 @@ class User(db.Model):
         return create_access_token(identity=str(self.id),
                                    additional_claims={"role": self.role})
 
-    def _issue_otp(self):
-        """Create a new 6-digit code, store only its hash, and email it."""
+    def _new_otp(self):
+        """Create a new 6-digit code, store only its hash, return the plain code."""
         code = f"{secrets.randbelow(1_000_000):06d}"
         self.otp_code_hash = generate_password_hash(code)
         self.otp_expires_at = _now() + OTP_LIFETIME
         self.otp_attempts = 0
-        send_otp_email(self.email, code)
+        return code
 
     @staticmethod
     def _clean_email(email):
-        return (email or "").strip().lower()
+        return _text(email).strip().lower()
 
     @classmethod
     def _get_by_email(cls, email):
@@ -81,21 +86,28 @@ class User(db.Model):
     @classmethod
     def register(cls, name, email, password):
         """UML: register() — create an unverified account and send a code."""
-        name = (name or "").strip()
+        name = _text(name).strip()
         email = cls._clean_email(email)
+        password = _text(password)
         if not name:
             raise APIError("Name is required", 400)
         if not EMAIL_PATTERN.match(email):
             raise APIError("Invalid email", 400)
-        if len(password or "") < MIN_PASSWORD_LENGTH:
+        if len(password) < MIN_PASSWORD_LENGTH:
             raise APIError(f"Password must be at least {MIN_PASSWORD_LENGTH} characters", 400)
-        if User.query.filter_by(email=email).first():
-            raise APIError("Email already registered", 409)
 
-        user = User(name=name, email=email, password=generate_password_hash(password))
-        db.session.add(user)
-        user._issue_otp()
+        user = User.query.filter_by(email=email).first()
+        if user and user.is_verified:
+            raise APIError("Email already registered", 409)
+        if user is None:
+            user = User(email=email)
+            db.session.add(user)
+        user.name = name
+        user.password = generate_password_hash(password)
+
+        code = user._new_otp()
         db.session.commit()
+        send_otp_email(user.email, code)
         return user
 
     @classmethod
@@ -108,7 +120,7 @@ class User(db.Model):
             raise APIError("Too many wrong attempts, request a new code", 429)
         if not user.otp_code_hash or _now() > user.otp_expires_at:
             raise APIError("Code expired, request a new code", 400)
-        if not check_password_hash(user.otp_code_hash, str(code or "")):
+        if not check_password_hash(user.otp_code_hash, _text(code).strip()):
             user.otp_attempts += 1
             db.session.commit()
             raise APIError("Wrong verification code", 400)
@@ -130,14 +142,15 @@ class User(db.Model):
             sent_at = user.otp_expires_at - OTP_LIFETIME
             if _now() < sent_at + RESEND_WAIT:
                 raise APIError("Please wait a minute before requesting a new code", 429)
-        user._issue_otp()
+        code = user._new_otp()
         db.session.commit()
+        send_otp_email(user.email, code)
 
     @classmethod
     def login(cls, email, password):
         """UML: login() — on success return (user, token)."""
         user = User.query.filter_by(email=cls._clean_email(email)).first()
-        if user is None or not check_password_hash(user.password, password or ""):
+        if user is None or not check_password_hash(user.password, _text(password)):
             raise APIError("Invalid email or password", 401)
         if not user.is_verified:
             raise APIError("Email not verified", 403)
@@ -149,29 +162,6 @@ class User(db.Model):
         """UML: logout() — done in the app: it deletes the JWT from the device.
         The server keeps no session, so there is nothing to do here."""
         return None
-
-    def update_profile(self, name=None, email=None):
-        """UML: updateProfile() — change name and/or email.
-        A new email must be verified again with a new code."""
-        if name is not None:
-            name = name.strip()
-            if not name:
-                raise APIError("Name cannot be empty", 400)
-            self.name = name
-
-        if email is not None:
-            email = self._clean_email(email)
-            if not EMAIL_PATTERN.match(email):
-                raise APIError("Invalid email", 400)
-            if email != self.email:
-                if User.query.filter_by(email=email).first():
-                    raise APIError("Email already used", 409)
-                self.email = email
-                self.is_verified = False
-                self._issue_otp()
-
-        db.session.commit()
-        return self
 
     # These work once Review, Favorite and CompletedTrail are built.
     def view_favorites(self):
@@ -204,3 +194,8 @@ class User(db.Model):
         """UML: viewCompletedTrails()."""
         from app.models import CompletedTrail
         return CompletedTrail.get_completed_trails(self.id)
+
+
+class Admin(User):
+    """UML: Admin inherits from User."""
+    __mapper_args__ = {"polymorphic_identity": "admin"}
