@@ -14,7 +14,7 @@ class AuthHeader extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           // غيّري الاسم إذا صورتك اسمها غير كذا
           child: Image.asset(
-            'assets/images/hero.png',
+            'assets/images/splash_hero.jpg',
             height: 155,
             width: double.infinity,
             fit: BoxFit.cover,

@@ -14,14 +14,14 @@ class AuthHeader extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           // غيّري الاسم إذا صورتك اسمها غير كذا
           child: Image.asset(
-            'assets/images/hero.png',
+            'assets/images/splash_hero.jpg',
             height: 155,
             width: double.infinity,
             fit: BoxFit.cover,
           ),
         ),
         const SizedBox(height: 16),
-        const Icon(Icons.landscape_outlined, color: AppColors.orange, size: 40),
+        Image.asset('assets/images/logo_mountains.png', height: 40),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

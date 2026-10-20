@@ -6,8 +6,10 @@ import 'core/network/api_client.dart';
 import 'core/routing/app_router.dart';
 import 'core/storage/token_storage.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_viewmodel.dart';
 import 'features/auth/data/auth_repository.dart';
 import 'features/auth/viewmodels/auth_viewmodel.dart';
+import 'features/splash/views/splash_screen.dart';
 import 'features/trails/data/trails_repository.dart';
 import 'features/trails/viewmodels/explore_viewmodel.dart';
 
@@ -16,12 +18,12 @@ class QimmaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // نجهز الأدوات مرة وحدة ونعطيها للـ ViewModels
     final tokenStorage = TokenStorage();
     final apiClient = ApiClient(tokenStorage);
 
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ThemeViewModel()),
         ChangeNotifierProvider(
           create: (_) => AuthViewModel(AuthRepository(apiClient, tokenStorage)),
         ),
@@ -29,22 +31,34 @@ class QimmaApp extends StatelessWidget {
           create: (_) => ExploreViewModel(TrailsRepository(apiClient)),
         ),
       ],
-      child: MaterialApp(
-        title: 'قمّة',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
+      child: Consumer<ThemeViewModel>(
+        builder: (context, themeVm, _) {
+          return MaterialApp(
+            title: 'قمّة',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeVm.mode,
 
-        // التطبيق بالعربي (من اليمين لليسار)
-        locale: const Locale('ar'),
-        supportedLocales: const [Locale('ar')],
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
+            locale: const Locale('ar'),
+            supportedLocales: const [Locale('ar')],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
 
-        initialRoute: AppRouter.splash,
-        routes: AppRouter.routes,
+            routes: AppRouter.routes,
+            onGenerateInitialRoutes: (String initialRoute) {
+              return [
+                MaterialPageRoute(
+                  builder: (context) => const SplashScreen(),
+                  settings: const RouteSettings(name: AppRouter.splash),
+                ),
+              ];
+            },
+          );
+        },
       ),
     );
   }
