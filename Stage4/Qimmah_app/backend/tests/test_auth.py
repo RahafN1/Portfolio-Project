@@ -56,7 +56,7 @@ def test_get_me_protected(client):
         token = login_res.get_json()["token"]
 
         response = client.get(
-            "/api/auth/me",
+            "/api/users/me",
             headers={"Authorization": f"Bearer {token}"},
         )
 

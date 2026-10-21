@@ -7,7 +7,7 @@ from app.extensions import db
 from app.models.user import User
 
 
-def token_required(f):
+def login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         verify_jwt_in_request()

@@ -2,9 +2,8 @@ from flask import Blueprint, jsonify, request
 
 from app.models.user import User
 
-from app.utils.decorators import token_required
-
 auth_bp = Blueprint("auth", __name__)
+
 
 def _body():
     """The JSON body, or {} if it is missing or not valid JSON."""
@@ -33,18 +32,9 @@ def resend_code():
     User.resend_code(data.get("email"))
     return jsonify({"message": "A new verification code was sent"}), 200
 
+
 @auth_bp.post("/login")
 def login():
     data = _body()
     user, token = User.login(data.get("email"), data.get("password"))
-    return jsonify({
-        "token": token,
-        "user": user.to_dict()
-    }), 200
-
-@auth_bp.get("/me")
-@token_required
-def get_current_user(current_user):
-    return jsonify({
-        "user": current_user.to_dict()
-    }), 200
+    return jsonify({"token": token, "user": user.to_dict()}), 200
