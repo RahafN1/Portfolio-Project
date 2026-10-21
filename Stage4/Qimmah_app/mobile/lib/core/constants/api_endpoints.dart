@@ -1,6 +1,6 @@
 class ApiEndpoints {
  // رابط الباك إند المحلي
-  static const String baseUrl = 'http://localhost:5000/api/trails';
+  static const String baseUrl = 'https://portfolio-project-fq53.onrender.com';
 
   static const String register = '/api/auth/register';
   static const String verifyEmail = '/api/auth/verify-email';
