@@ -12,9 +12,10 @@ import 'features/auth/viewmodels/auth_viewmodel.dart';
 import 'features/splash/views/splash_screen.dart';
 import 'features/trails/data/trails_repository.dart';
 import 'features/trails/viewmodels/explore_viewmodel.dart';
+import 'core/constants/app_strings.dart';
 
-class QimmaApp extends StatelessWidget {
-  const QimmaApp({super.key});
+class QimmahApp extends StatelessWidget {
+  const QimmahApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class QimmaApp extends StatelessWidget {
       child: Consumer<ThemeViewModel>(
         builder: (context, themeVm, _) {
           return MaterialApp(
-            title: 'قمّة',
+           title: AppStrings.appNameAr,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
