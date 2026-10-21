@@ -1,18 +1,20 @@
-"""Shared pytest fixtures: the app on a temporary in-memory database."""
+"""Shared pytest fixtures: the app on a temporary test database."""
 import json
+import os
+import sys
 
 import pytest
 
-from app import create_app
-from app.config import Config
-from app.extensions import db
-from app.models import Trail
+TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+BACKEND_DIR = os.path.abspath(os.path.join(TESTS_DIR, ".."))
 
+if BACKEND_DIR not in sys.path:
+    sys.path.insert(0, BACKEND_DIR)
 
-class TestingConfig(Config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
-    SQLALCHEMY_ENGINE_OPTIONS = {}
+from app import create_app  # noqa: E402
+from app.config import TestConfig  # noqa: E402
+from app.extensions import db as _db  # noqa: E402
+from app.models import Trail  # noqa: E402
 
 
 def make_trail(name, difficulty):
@@ -26,19 +28,24 @@ def make_trail(name, difficulty):
     )
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def app():
-    app = create_app(TestingConfig)
+    app = create_app(TestConfig)
+    yield app
+
+
+@pytest.fixture(scope="function")
+def db(app):
     with app.app_context():
-        db.create_all()
-        db.session.add_all([make_trail("مسار سهل", "easy"),
-                            make_trail("مسار صعب", "hard")])
-        db.session.commit()
-        yield app
-        db.session.remove()
-        db.drop_all()
+        _db.create_all()
+        _db.session.add_all([make_trail("مسار سهل", "easy"),
+                             make_trail("مسار صعب", "hard")])
+        _db.session.commit()
+        yield _db
+        _db.session.rollback()
+        _db.drop_all()
 
 
-@pytest.fixture
-def client(app):
+@pytest.fixture(scope="function")
+def client(app, db):
     return app.test_client()

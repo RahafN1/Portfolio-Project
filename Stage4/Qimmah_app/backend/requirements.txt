@@ -8,3 +8,5 @@ gunicorn==22.0.0
 pytest==8.3.3
 flake8==7.1.1
 Flask-Cors==4.0.1
+resend==2.50.0
+python-dotenv==1.2.4

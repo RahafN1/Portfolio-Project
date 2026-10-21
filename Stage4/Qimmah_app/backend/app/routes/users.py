@@ -1,6 +1,6 @@
 """Users module — Stage 3 endpoints 5-13 (to be built).
 
-5.  GET    /api/users/me                               🔒
+5.  GET    /api/users/me                               🔒  (done)
 6.  PUT    /api/users/me                               🔒
 7.  GET    /api/users/me/reviews                       🔒
 8.  GET    /api/users/me/favorites                     🔒
@@ -12,6 +12,14 @@
 
 Protect each route with @login_required from app.utils.decorators.
 """
-from flask import Blueprint
+from flask import Blueprint, jsonify
+
+from app.utils.decorators import login_required
 
 users_bp = Blueprint("users", __name__)
+
+
+@users_bp.get("/me")
+@login_required
+def get_current_user(current_user):
+    return jsonify({"user": current_user.to_dict()}), 200
