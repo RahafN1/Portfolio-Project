@@ -47,7 +47,8 @@ class AppTheme {
       ),
     ),
   );
-    static ThemeData darkTheme = ThemeData(
+
+  static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.primary,

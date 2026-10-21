@@ -4,7 +4,7 @@ import '../../features/auth/views/login_screen.dart';
 import '../../features/auth/views/otp_screen.dart';
 import '../../features/auth/views/signup_screen.dart';
 import '../../features/splash/views/splash_screen.dart';
-import '../../features/trails/views/explore_screen.dart';
+import 'main_shell.dart';
 
 class AppRouter {
   static const String splash = '/';
@@ -20,6 +20,7 @@ class AppRouter {
     signup: (context) => const SignupScreen(),
     otp: (context) => const OtpScreen(),
     signupSuccess: (context) => const SignupSuccessScreen(),
-    explore: (context) => const ExploreScreen(),
+    // الرئيسية تفتح داخل الهيكل اللي فيه شريط التنقل السفلي
+    explore: (context) => const MainShell(),
   };
 }

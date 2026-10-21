@@ -23,4 +23,39 @@ class AppColors {
   static const Color border = Color(0xFFDDDDDA);
   static const Color grey = Color(0xFF555555);
 
+  // ألوان مستويات الصعوبة (خلفية فاتحة + لون النص والنقطة)
+  static const Color easyBg = primaryLight;
+  static const Color easyFg = primary;
+  static const Color moderateBg = Color(0xFFDDE7F3);
+  static const Color moderateFg = Color(0xFF3F6BA8);
+  static const Color hardBg = Color(0xFFF8E4D7);
+  static const Color hardFg = Color(0xFFC4622D);
+
+  // يرجّع لون النص حسب الصعوبة (easy / moderate / hard)
+  static Color difficultyFg(String difficulty) {
+    switch (difficulty) {
+      case 'easy':
+        return easyFg;
+      case 'moderate':
+        return moderateFg;
+      case 'hard':
+        return hardFg;
+      default:
+        return grey;
+    }
+  }
+
+  // يرجّع لون الخلفية حسب الصعوبة
+  static Color difficultyBg(String difficulty) {
+    switch (difficulty) {
+      case 'easy':
+        return easyBg;
+      case 'moderate':
+        return moderateBg;
+      case 'hard':
+        return hardBg;
+      default:
+        return border;
+    }
+  }
 }
