@@ -1,10 +1,12 @@
+"""Shared API error type and JSON error handlers."""
 from flask import jsonify
+from werkzeug.exceptions import HTTPException
 
 from app.extensions import jwt
 
 
 class APIError(Exception):
-    """Raise this anywhere to return {"error": "..."} with a status code."""
+    """Raise anywhere to return {"error": message} with a status code."""
 
     def __init__(self, message, status_code=400):
         super().__init__(message)
@@ -13,6 +15,8 @@ class APIError(Exception):
 
 
 def register_error_handlers(app):
+    """Return every error as {"error": "..."} (Stage 3 error format)."""
+
     @app.errorhandler(APIError)
     def handle_api_error(error):
         return jsonify({"error": error.message}), error.status_code
@@ -24,6 +28,15 @@ def register_error_handlers(app):
     @app.errorhandler(405)
     def handle_method_not_allowed(error):
         return jsonify({"error": "Method not allowed"}), 405
+
+    @app.errorhandler(HTTPException)
+    def handle_http_error(error):
+        return jsonify({"error": error.description}), error.code
+
+    @app.errorhandler(Exception)
+    def handle_unexpected_error(error):
+        app.logger.exception(error)
+        return jsonify({"error": "Internal server error"}), 500
 
     @jwt.unauthorized_loader
     def missing_token(reason):
