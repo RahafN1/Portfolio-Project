@@ -25,12 +25,13 @@ class Trail(db.Model):
     created_at = db.Column("createdAt", db.DateTime, server_default=db.func.now())
 
     # ---------- Relationships ----------
-    reviews = db.relationship("Review", backref="trail",
-                              cascade="all, delete-orphan", passive_deletes=True)
-    favorites = db.relationship("Favorite", backref="trail",
-                                cascade="all, delete-orphan", passive_deletes=True)
-    completed_by = db.relationship("CompletedTrail", backref="trail",
-                                   cascade="all, delete-orphan", passive_deletes=True)
+    # TODO: uncomment when Review, Favorite and CompletedTrail models are written
+    # reviews = db.relationship("Review", backref="trail",
+    #                           cascade="all, delete-orphan", passive_deletes=True)
+    # favorites = db.relationship("Favorite", backref="trail",
+    #                             cascade="all, delete-orphan", passive_deletes=True)
+    # completed_by = db.relationship("CompletedTrail", backref="trail",
+    #                                cascade="all, delete-orphan", passive_deletes=True)
 
     # ---------- Helpers ----------
     @property
@@ -63,8 +64,6 @@ class Trail(db.Model):
 
     def get_summary(self):
         """Short version for trail lists (endpoint 14) — no full route."""
-        from app.services.review_service import ReviewService
-
         images = self.image_list
         return {
             "id": self.id,
@@ -73,15 +72,13 @@ class Trail(db.Model):
             "difficulty": self.difficulty,
             "distance": float(self.distance),
             "estimated_duration": self.estimated_duration,
-            "average_rating": ReviewService.calculate_average_rating(self.id),
+            "average_rating": None,  # TODO: ReviewService.calculate_average_rating(self.id)
             "cover_image": images[0] if images else None,
             "start_point": self.get_location()["start_point"],
         }
 
     def get_details(self):
         """UML: getDetails() — full details for the trail page (endpoint 15)."""
-        from app.services.review_service import ReviewService
-
         return {
             "id": self.id,
             "name": self.name,
@@ -94,6 +91,6 @@ class Trail(db.Model):
             **self.get_location(),
             "route_coordinates": self.get_route(),
             "safety_tips": self.get_safety_tips(),
-            "average_rating": ReviewService.calculate_average_rating(self.id),
+            "average_rating": None,  # TODO: ReviewService.calculate_average_rating(self.id),
             "created_at": self.created_at.isoformat() + "Z" if self.created_at else None,
         }
