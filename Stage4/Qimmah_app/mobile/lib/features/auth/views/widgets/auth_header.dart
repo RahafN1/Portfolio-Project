@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors.dart'; 
+import '../../../../core/constants/app_strings.dart';
 
 // الجزء اللي فوق في كل شاشات الدخول: صورة الجبل + الشعار
 class AuthHeader extends StatelessWidget {
@@ -12,7 +13,7 @@ class AuthHeader extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(20),
-          // غيّري الاسم إذا صورتك اسمها غير كذا
+          // صورة الرجال
           child: Image.asset(
             'assets/images/splash_hero.jpg',
             height: 155,
@@ -26,7 +27,7 @@ class AuthHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'قمّة',
+               AppStrings.appNameAr,
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
@@ -40,7 +41,7 @@ class AuthHeader extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 10),
             ),
             const Text(
-              'Qimmah',
+              AppStrings.appNameEn,
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,

@@ -9,6 +9,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/primary_button.dart';
 import '../viewmodels/auth_viewmodel.dart';
 import 'widgets/auth_header.dart';
+import '../../../core/constants/app_strings.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -188,6 +189,77 @@ class _OtpScreenState extends State<OtpScreen> {
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
                   ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// صفحة "تم إنشاء حسابك": تطلع بعد ما الرمز يتأكد
+class SignupSuccessScreen extends StatelessWidget {
+  const SignupSuccessScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch, // العناصر بعرض كامل
+            children: [
+              const AuthHeader(), // الصورة والشعار
+
+              // دائرة علامة الصح
+              const CircleAvatar(
+                radius: 40,
+                backgroundColor: AppColors.primaryLight,
+                child: Icon(Icons.check, color: AppColors.primary, size: 36),
+              ),
+              const SizedBox(height: 16),
+
+              // تم إنشاء حسابك
+              const Text(
+                AppStrings.accountCreatedTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primary,
+                ),
+              ),
+              const SizedBox(height: 4),
+
+              // كل شي جاهز، يلا نطلع للقمّة.
+              const Text(
+                AppStrings.accountCreatedSubtitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppColors.grey),
+              ),
+              const SizedBox(height: 32),
+
+              // زر متابعة: يروح للاستكشاف ويمسح الصفحات اللي قبل
+              PrimaryButton(
+                text: AppStrings.continueText,
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRouter.explore,
+                  (route) => false,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              // رجوع للنموذج: يرجع لصفحة التسجيل
+              TextButton(
+                onPressed: () => Navigator.pushNamed(context, AppRouter.signup),
+                child: const Text(
+                  AppStrings.backToForm,
+                  style: TextStyle(color: AppColors.grey),
                 ),
               ),
             ],

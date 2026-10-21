@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../features/auth/views/login_screen.dart';
 import '../../features/auth/views/otp_screen.dart';
 import '../../features/auth/views/signup_screen.dart';
-import '../../features/auth/views/signup_success_screen.dart';
 import '../../features/splash/views/splash_screen.dart';
 import '../../features/trails/views/explore_screen.dart';
 
