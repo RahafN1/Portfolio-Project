@@ -92,13 +92,15 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _showError(Object e) {
-    if (e is ApiException) {
-      errorMessage = e.message; // رسالة السيرفر
-    } else {
-      errorMessage = 'تأكد من اتصالك بالإنترنت';
-    }
-    isLoading = false;
-    notifyListeners();
+void _showError(Object e) {
+  print("الخطأ الحقيقي الذي حدث هو: $e"); // تجربه  هذا السطر
+  
+  if (e is ApiException) {
+    errorMessage = e.message; 
+  } else {
+    errorMessage = 'تأكد من اتصالك بالإنترنت';
   }
+  isLoading = false;
+  notifyListeners();
+}
 }
