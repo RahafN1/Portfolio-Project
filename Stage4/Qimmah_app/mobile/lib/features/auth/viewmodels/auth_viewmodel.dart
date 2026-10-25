@@ -14,6 +14,9 @@ class AuthViewModel extends ChangeNotifier {
   String? errorMessage;
   String? emailToVerify; // نحتاجه في شاشة الرمز
 
+  // نرجع true إذا اليوزر ضيف أو ما سجّل دخول أصلاً
+  bool get isGuest => user == null || user!.role == 'guest';
+
   Future<bool> checkSavedLogin() async {
     user = await repository.getSavedUser();
     notifyListeners();
