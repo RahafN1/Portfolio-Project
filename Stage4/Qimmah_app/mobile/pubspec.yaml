@@ -27,12 +27,12 @@ flutter:
   assets:
     - assets/images/
 
- flutter_launcher_icons:
-  android: true
-  ios: true
-  image_path: "assets/images/app_icon.png"
-  remove_alpha_ios: true
-  web:
+flutter_launcher_icons:
+   android: true
+   ios: true
+   image_path: "assets/images/app_icon.png"
+   remove_alpha_ios: true
+   web:
     generate: true
     image_path: "assets/images/app_icon.png"
     background_color: "#FFFFFF"
