@@ -12,24 +12,47 @@ class ApiClient {
 
   ApiClient(this.tokenStorage);
 
+  // الهيدرز: نرسل التوكن لو موجود (الضيف ما عنده توكن)
+  Future<Map<String, String>> _headers() async {
+    final token = await tokenStorage.getToken();
+    return {
+      'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
+  }
+
   Future<Map<String, dynamic>> post(String path, Map<String, dynamic> body) async {
     final response = await http.post(
       Uri.parse(ApiEndpoints.baseUrl + path),
-      headers: {'Content-Type': 'application/json'},
+      headers: await _headers(),
       body: jsonEncode(body),
     );
     return _handleResponse(response);
   }
 
   Future<Map<String, dynamic>> get(String path) async {
-    final token = await tokenStorage.getToken();
     final response = await http.get(
       Uri.parse(ApiEndpoints.baseUrl + path),
-      headers: {
-        'Content-Type': 'application/json',
-        // إذا مسجل دخول نرسل التوكن، الضيف ما عنده توكن
-        if (token != null) 'Authorization': 'Bearer $token',
-      },
+      headers: await _headers(),
+    );
+    return _handleResponse(response);
+  }
+
+  // لتعديل البيانات (مثل تعديل الحساب)
+  Future<Map<String, dynamic>> put(String path, Map<String, dynamic> body) async {
+    final response = await http.put(
+      Uri.parse(ApiEndpoints.baseUrl + path),
+      headers: await _headers(),
+      body: jsonEncode(body),
+    );
+    return _handleResponse(response);
+  }
+
+  // للحذف (مثل حذف تقييم)
+  Future<Map<String, dynamic>> delete(String path) async {
+    final response = await http.delete(
+      Uri.parse(ApiEndpoints.baseUrl + path),
+      headers: await _headers(),
     );
     return _handleResponse(response);
   }
