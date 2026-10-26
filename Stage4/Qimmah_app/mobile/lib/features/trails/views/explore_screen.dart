@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/routing/app_router.dart';
+import '../../../core/widgets/guest_login_sheet.dart';
 import '../../auth/viewmodels/auth_viewmodel.dart';
+import '../models/trail.dart';
 import '../viewmodels/explore_viewmodel.dart';
+import 'trail_details_screen.dart';
 import 'widgets/difficulty_chips.dart';
 import 'widgets/explore_header.dart';
 import 'widgets/filter_sheet.dart';
@@ -33,6 +36,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
     if (!mounted) return;
     Navigator.pushNamedAndRemoveUntil(
         context, AppRouter.login, (route) => false);
+  }
+
+  // لما اليوزر يضغط زر الحفظ
+  void _onSaveTap(int trailId) {
+    // إذا ضيف، نطلع له تنبيه تسجيل الدخول
+    if (context.read<AuthViewModel>().isGuest) {
+      showGuestLoginSheet(context);
+      return; // نوقف هنا وما نحفظ
+    }
+    // إذا مسجّل دخول، نحفظ عادي
+    context.read<ExploreViewModel>().toggleSaved(trailId);
+  }
+
+  // يفتح صفحة تفاصيل المسار
+  void _openDetails(Trail trail) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TrailDetailsScreen(trail: trail),
+      ),
+    );
   }
 
   @override
@@ -127,41 +151,23 @@ class _ExploreScreenState extends State<ExploreScreen> {
       ];
     }
 
-    final featured = explore.featured;
-    final others = explore.others;
+    final trails = explore.filtered;
 
     return [
-      // مسارات مختارة (أفقي)
-      const _SectionTitle(title: 'مسارات مختارة', subtitle: 'موصى بها لك'),
-      SizedBox(
-        height: 330,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          itemCount: featured.length,
-          separatorBuilder: (_, __) => const SizedBox(width: 12),
-          itemBuilder: (context, i) => TrailCard(
-            trail: featured[i],
-            width: 290,
-            isSaved: explore.isSaved(featured[i].id),
-            onSaveTap: () => explore.toggleSaved(featured[i].id),
-          ),
-        ),
-      ),
-
-      // مسارات أخرى (عمودي)
-      if (others.isNotEmpty) ...[
-        const _SectionTitle(title: 'مسارات أخرى'),
-        for (final trail in others)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+      // كل المسارات (عمودي)
+      const _SectionTitle(title: 'المسارات'),
+      for (final trail in trails)
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+          child: GestureDetector(
+            onTap: () => _openDetails(trail),
             child: TrailCard(
               trail: trail,
               isSaved: explore.isSaved(trail.id),
-              onSaveTap: () => explore.toggleSaved(trail.id),
+              onSaveTap: () => _onSaveTap(trail.id),
             ),
           ),
-      ],
+        ),
     ];
   }
 }
