@@ -39,7 +39,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget build(BuildContext context) {
     final user = context.watch<AuthViewModel>().user;
     final explore = context.watch<ExploreViewModel>();
-    final name = (user?.name ?? '').isEmpty ? 'مستكشف' : user!.name;
+    final isGuest = user?.isGuest == true;
+    final name = (isGuest || (user?.name ?? '').isEmpty)
+    ? 'مستكشف'
+    : user!.name.trim().split(' ').first;
 
     return SafeArea(
       child: RefreshIndicator(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../features/profile/views/profile_screen.dart';
 import '../../features/trails/views/explore_screen.dart';
 import '../theme/app_colors.dart';
 
@@ -32,7 +32,7 @@ class _MainShellState extends State<MainShell> {
           ExploreScreen(),
           _ComingSoon(title: 'الخريطة'),
           _ComingSoon(title: 'مساراتي'),
-          _ComingSoon(title: 'حسابي'),
+           ProfileScreen(),
         ],
       ),
       bottomNavigationBar: _BottomBar(
