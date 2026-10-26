@@ -3,6 +3,7 @@ from flask_cors import CORS
 
 from app.config import Config
 from app.extensions import db, migrate, jwt
+from flasgger import Swagger
 
 
 def create_app(config_class=Config):
@@ -10,6 +11,18 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.json.ensure_ascii = False
+
+    swagger_template = {
+        "securityDefinitions": {
+            "Bearer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header",
+                "description": "Enter: Bearer <your token>"
+            }
+        }
+    }
+    Swagger(app, template=swagger_template)
 
     db.init_app(app)
     migrate.init_app(app, db)
