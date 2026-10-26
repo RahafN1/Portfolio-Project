@@ -13,6 +13,8 @@ import 'features/splash/views/splash_screen.dart';
 import 'features/trails/data/trails_repository.dart';
 import 'features/trails/viewmodels/explore_viewmodel.dart';
 import 'core/constants/app_strings.dart';
+import 'features/favorites/data/favorites_repository.dart';
+import 'features/favorites/viewmodels/favorites_viewmodel.dart';
 
 class QimmahApp extends StatelessWidget {
   const QimmahApp({super.key});
@@ -30,6 +32,9 @@ class QimmahApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ExploreViewModel(TrailsRepository(apiClient)),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FavoritesViewModel(FavoritesRepository(apiClient)),
         ),
       ],
       child: Consumer<ThemeViewModel>(
