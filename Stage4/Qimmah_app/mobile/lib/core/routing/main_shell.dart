@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../features/profile/views/profile_screen.dart';
 import '../../features/trails/views/explore_screen.dart';
 import '../theme/app_colors.dart';
+import '../../features/favorites/views/favorites_screen.dart';
 
 // الهيكل الرئيسي: الصفحة الحالية + شريط التنقل السفلي
 class MainShell extends StatefulWidget {
@@ -31,7 +32,7 @@ class _MainShellState extends State<MainShell> {
         children: const [
           ExploreScreen(),
           _ComingSoon(title: 'الخريطة'),
-          _ComingSoon(title: 'مساراتي'),
+          FavoritesScreen(),
            ProfileScreen(),
         ],
       ),
