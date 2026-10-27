@@ -1,7 +1,7 @@
 """Trails module — Stage 3 endpoints.
 
 14. GET /api/trails          🌐  search · filter by region / difficulty · pagination
-15. GET /api/trails/{id}     🌐  details + route + start/end points (to be built)
+15. GET /api/trails/{id}     🌐  details + route + start/end points 
 """
 from flask import Blueprint, jsonify, request
 
@@ -26,3 +26,11 @@ def get_trails():
         "page": page,
         "total": total,
     }), 200
+
+
+
+@trails_bp.route("/<int:trail_id>", methods=["GET"])
+def get_trail(trail_id):
+    """Endpoint 15 — full trail details (route + start/end points), open to guests."""
+    trail = TrailService.get_trail_by_id(trail_id)
+    return jsonify(trail.get_details()), 200
