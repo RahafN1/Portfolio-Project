@@ -2,7 +2,7 @@
 
 5.  GET    /api/users/me                               🔒  (done)
 6.  PUT    /api/users/me                               🔒
-7.  GET    /api/users/me/reviews                       🔒
+7.  GET    /api/users/me/reviews                       🔒  (done)
 8.  GET    /api/users/me/favorites                     🔒  (done)
 9.  POST   /api/users/me/favorites                     🔒  (done)
 10. DELETE /api/users/me/favorites/{trail_id}          🔒  (done)
@@ -18,6 +18,7 @@ from app.errors import APIError
 from app.extensions import db
 from app.models.completed_trail import CompletedTrail
 from app.models.favorite import Favorite
+from app.models.review import Review
 from app.models.trail import Trail
 from app.utils.decorators import login_required
 
@@ -28,6 +29,38 @@ users_bp = Blueprint("users", __name__)
 @login_required
 def get_current_user(current_user):
     return jsonify({"user": current_user.to_dict()}), 200
+
+
+# ---------- Reviews (endpoint 7) ----------
+
+@users_bp.get("/me/reviews")
+@login_required
+def list_my_reviews(current_user):
+    """Endpoint 7 — my reviews, newest first.
+    ---
+    tags:
+      - Reviews
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: The user's reviews, each with its trail
+      401:
+        description: Missing or expired token
+    """
+    rows = (db.session.query(Review, Trail)
+            .join(Trail, Review.trail_id == Trail.id)
+            .filter(Review.user_id == current_user.id)
+            .order_by(Review.created_at.desc(), Review.id.desc())
+            .all())
+
+    reviews = []
+    for review, trail in rows:
+        data = review.to_dict()
+        data["trail"] = {"id": trail.id, "name": trail.name}
+        reviews.append(data)
+
+    return jsonify({"reviews": reviews, "total": len(reviews)}), 200
 
 
 # ---------- Favorites (endpoints 8-10) ----------
