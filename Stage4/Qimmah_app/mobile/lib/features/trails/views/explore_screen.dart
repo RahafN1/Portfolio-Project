@@ -81,7 +81,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           children: [
             ExploreHeader(
               userName: name,
-              isGuest: user?.isGuest == true,
+              isGuest: context.watch<AuthViewModel>().isGuest,
               onProfileTap: _logout,
             ),
             ExploreSearchBar(
