@@ -33,8 +33,10 @@ def create_app(config_class=Config):
     from app.routes.users import users_bp
     app.register_blueprint(users_bp, url_prefix="/api/users")
 
+    from app.routes.admin import admin_bp
+    app.register_blueprint(admin_bp, url_prefix="/api/admin")
+
     # TODO: register the other blueprints when they are built:
     # reviews_bp -> /api
-    # admin_bp   -> /api/admin
 
     return app

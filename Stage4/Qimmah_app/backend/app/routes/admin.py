@@ -27,4 +27,4 @@ def _body():
 @admin_required
 def add_trail(current_user):
     trail = current_user.add_trail(_body())
-    return jsonify({"trail": trail.to_dict()}), 201
+    return jsonify({"trail": trail.get_details()}), 201
