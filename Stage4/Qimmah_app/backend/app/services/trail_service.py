@@ -27,6 +27,15 @@ class TrailService:
         query = query if query is not None else Trail.query
         return query.filter(Trail.difficulty == difficulty)
 
+    
+    @staticmethod
+    def get_trail_by_id(trail_id):
+        """Endpoint 15 — one trail by its id, or 404 if it doesn't exist."""
+        trail = Trail.query.filter_by(id=trail_id).first()
+        if trail is None:
+            raise APIError("Trail not found", 404)
+        return trail 
+        
     @classmethod
     def find_trails(cls, search=None, region=None, difficulty=None, page=1, limit=20):
         """Combine search + filters + pagination (endpoint 14).
