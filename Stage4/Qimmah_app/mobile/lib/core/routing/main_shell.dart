@@ -3,6 +3,7 @@ import '../../features/profile/views/profile_screen.dart';
 import '../../features/trails/views/explore_screen.dart';
 import '../theme/app_colors.dart';
 import '../../features/favorites/views/favorites_screen.dart';
+import '../../features/trails/views/trail_map_screen.dart';
 
 // الهيكل الرئيسي: الصفحة الحالية + شريط التنقل السفلي
 class MainShell extends StatefulWidget {
@@ -31,7 +32,7 @@ class _MainShellState extends State<MainShell> {
         index: _index,
         children: const [
           ExploreScreen(),
-          _ComingSoon(title: 'الخريطة'),
+          TrailMapScreen(),
           FavoritesScreen(),
            ProfileScreen(),
         ],
