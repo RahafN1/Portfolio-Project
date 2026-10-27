@@ -23,4 +23,25 @@ class AppStrings {
   static const String accountCreatedSubtitle = 'كل شي جاهز، يلا نطلع للقمّة.';
   static const String continueText = 'متابعة';
   static const String backToForm = 'رجوع للنموذج';
+
+  
+  // صفحة الخريطة
+  static const String mapSearchHint = 'ابحث عن مسار...';
+  static const String mapTapHint = 'اضغط على علامة لعرض المسار';
+  static const String mapStartPoint = 'نقطة البداية:';
+  static const String mapDirections = 'الاتجاهات';
+  static const String mapStartTrail = 'ابدأ المسار';
+  static const String mapViewDetails = 'عرض التفاصيل';
+
+  // نافذة إذن الموقع
+  static const String locationTitle = 'نحتاج نعرف موقعك';
+  static const String locationBody =
+      'عشان نوريك مكانك على الخريطة، ونتأكد إنك وأنت تمشي على المسار الصحيح. ما نشارك موقعك مع أحد.';
+  static const String locationAllow = 'السماح بالوصول للموقع';
+  static const String locationNotNow = 'ليس الآن';
+
+  // شريط "على المسار"
+  static const String onTrailTitle = 'أنت على المسار';
+  static const String onTrailUpdated = 'آخر تحديث:';
+  static const String onTrailEnd = 'إنهاء';
 }
