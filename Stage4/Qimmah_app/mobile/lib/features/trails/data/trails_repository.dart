@@ -14,4 +14,10 @@ class TrailsRepository {
     final List list = data['trails'] ?? [];
     return list.map((item) => Trail.fromJson(item)).toList();
   }
+
+  // تفاصيل مسار واحد، الرد شكله: { "trail": {...} }
+  Future<Trail> getTrail(int id) async {
+    final data = await api.get('${ApiEndpoints.trails}/$id');
+    return Trail.fromJson(data['trail'] ?? data);
+  }
 }

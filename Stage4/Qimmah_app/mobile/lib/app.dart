@@ -23,15 +23,18 @@ class QimmahApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokenStorage = TokenStorage();
     final apiClient = ApiClient(tokenStorage);
+    final trailsRepository = TrailsRepository(apiClient);
 
     return MultiProvider(
       providers: [
+                // صفحة التفاصيل تحتاجه
+        Provider<TrailsRepository>.value(value: trailsRepository),
         ChangeNotifierProvider(create: (_) => ThemeViewModel()),
         ChangeNotifierProvider(
           create: (_) => AuthViewModel(AuthRepository(apiClient, tokenStorage)),
         ),
         ChangeNotifierProvider(
-          create: (_) => ExploreViewModel(TrailsRepository(apiClient)),
+          create: (_) => ExploreViewModel(trailsRepository),
         ),
         ChangeNotifierProvider(
           create: (_) => FavoritesViewModel(FavoritesRepository(apiClient)),
