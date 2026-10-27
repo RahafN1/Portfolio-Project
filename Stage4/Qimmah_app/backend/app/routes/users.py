@@ -15,6 +15,8 @@ Protect each route with @login_required from app.utils.decorators.
 from flask import Blueprint, jsonify, request
 
 from app.errors import APIError
+from app.extensions import db
+from app.models.completed_trail import CompletedTrail
 from app.models.favorite import Favorite
 from app.models.trail import Trail
 from app.utils.decorators import login_required
@@ -122,4 +124,107 @@ def remove_favorite(current_user, trail_id):
         description: Trail not in favorites
     """
     current_user.remove_favorite(trail_id)
+    return "", 204
+
+
+# ---------- Completed trails (endpoints 11-13) ----------
+
+@users_bp.get("/me/completed-trails")
+@login_required
+def list_completed_trails(current_user):
+    """Endpoint 11 — completed trails, newest first.
+    ---
+    tags:
+      - Completed Trails
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: The user's completed trails
+      401:
+        description: Missing or expired token
+    """
+    rows = (db.session.query(Trail, CompletedTrail)
+            .join(CompletedTrail, CompletedTrail.trail_id == Trail.id)
+            .filter(CompletedTrail.user_id == current_user.id)
+            .order_by(CompletedTrail.completed_at.desc())
+            .all())
+
+    trails = []
+    for trail, completed in rows:
+        data = trail.get_summary()
+        data["completed_at"] = completed.completed_at.isoformat() + "Z"
+        trails.append(data)
+
+    return jsonify({"trails": trails, "total": len(trails)}), 200
+
+
+@users_bp.post("/me/completed-trails")
+@login_required
+def mark_trail_completed(current_user):
+    """Endpoint 12 — mark a trail as completed.
+    ---
+    tags:
+      - Completed Trails
+    security:
+      - Bearer: []
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            trail_id:
+              type: integer
+              example: 1
+    responses:
+      201:
+        description: Trail marked as completed
+      400:
+        description: trail_id missing or not an integer
+      401:
+        description: Missing or expired token
+      404:
+        description: Trail not found
+      409:
+        description: Already marked as completed
+    """
+    data = request.get_json(silent=True) or {}
+    trail_id = data.get("trail_id")
+    if not isinstance(trail_id, int) or isinstance(trail_id, bool):
+        raise APIError("trail_id is required and must be an integer", 400)
+
+    completed = CompletedTrail.mark_as_completed(current_user.id, trail_id)
+    return jsonify({
+        "message": "Trail marked as completed",
+        "trail_id": completed.trail_id,
+        "completed_at": completed.completed_at.isoformat() + "Z",
+    }), 201
+
+
+@users_bp.delete("/me/completed-trails/<int:trail_id>")
+@login_required
+def remove_completed_trail(current_user, trail_id):
+    """Endpoint 13 — remove a trail from the completed list.
+    ---
+    tags:
+      - Completed Trails
+    security:
+      - Bearer: []
+    parameters:
+      - in: path
+        name: trail_id
+        type: integer
+        required: true
+        description: The trail's ID
+    responses:
+      204:
+        description: Removed from completed trails
+      401:
+        description: Missing or expired token
+      404:
+        description: Trail not in completed list
+    """
+    CompletedTrail.remove_completed_trail(current_user.id, trail_id)
     return "", 204
