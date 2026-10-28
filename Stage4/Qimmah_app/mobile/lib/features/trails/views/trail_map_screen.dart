@@ -16,7 +16,7 @@ import 'widgets/location_permission_sheet.dart';
 import 'widgets/map_trail_card.dart';
 import 'widgets/on_trail_banner.dart';
 
-// صفحة الخريطة: علامات المسارات + البحث + موقعي + كرت المسار + على المسار
+// صفحة الخريطة: علامات المسارات + الطريق + البحث + موقعي + كرت المسار + على المسار
 class TrailMapScreen extends StatefulWidget {
   const TrailMapScreen({super.key});
 
@@ -41,6 +41,9 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
   // المسار اللي ضغطنا على علامته (null = ما اخترنا شي)
   Trail? _selected;
 
+  // نقاط طريق المسار المختار ([] = ما فيه طريق نرسمه)
+  List<LatLng> _route = [];
+
   // النص اللي في البحث ('' = ما كتبنا شي)
   String _query = '';
 
@@ -61,6 +64,49 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
   void dispose() {
     _trackTimer?.cancel();
     super.dispose();
+  }
+
+  // لما نضغط علامة: نختار المسار، ونجيب طريقه، ونرسمه
+  Future<void> _selectTrail(Trail trail) async {
+    // نختاره على طول، ونمسح أي طريق قديم
+    setState(() {
+      _selected = trail;
+      _route = [];
+    });
+
+    try {
+      // نطلب الطريق من السيرفر (عن طريق نفس Repository حق الاستكشاف)
+      final points = await context
+          .read<ExploreViewModel>()
+          .repository
+          .getTrailRoute(trail.id);
+
+      // لو الصفحة انقفلت، أو المستخدم اختار مسار ثاني وإحنا ننتظر، نوقف
+      if (!mounted || _selected?.id != trail.id) return;
+
+      setState(() => _route = points);
+
+      // نقرّب الخريطة لين الطريق كامل يبان
+      // (padding: مسافة من الأطراف، وتحت أكبر عشان الكرت ما يغطي الطريق)
+      if (points.isNotEmpty) {
+        _mapController.fitCamera(
+          CameraFit.coordinates(
+            coordinates: points,
+            padding: const EdgeInsets.fromLTRB(40, 140, 40, 280),
+          ),
+        );
+      }
+    } catch (e) {
+      // لو ما قدرنا نجيب الطريق: نخلي العلامة والكرت بدون خط
+    }
+  }
+
+  // لما نسكّر الكرت: نلغي الاختيار ونمسح الخط
+  void _closeCard() {
+    setState(() {
+      _selected = null;
+      _route = [];
+    });
   }
 
   // يفتح Google Maps على الطريق لين بداية المسار
@@ -84,10 +130,11 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
 
   // كل ما تتغيّر الكتابة في البحث
   void _onSearch(String value, List<Trail> allTrails) {
-    // نحفظ النص ونسكّر الكرت
+    // نحفظ النص، ونسكّر الكرت، ونمسح الخط
     setState(() {
       _query = value;
       _selected = null;
+      _route = [];
     });
 
     // لو البحث فاضي: نرجع للمملكة كلها
@@ -205,6 +252,20 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
                 userAgentPackageName: 'com.qimmah.app',
               ),
 
+              // طريق المسار المختار: خط برتقالي متقطع
+              // (قبل العلامات، عشان العلامات تطلع فوقه)
+              if (_route.isNotEmpty)
+                PolylineLayer(
+                  polylines: [
+                    Polyline(
+                      points: _route,
+                      color: AppColors.accent, // برتقالي
+                      strokeWidth: 4, // سماكة الخط
+                      pattern: StrokePattern.dashed(segments: const [10, 6]),
+                    ),
+                  ],
+                ),
+
               // العلامات: المسارات + موقعي
               MarkerLayer(
                 markers: [
@@ -216,8 +277,8 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
                       height: 44,
                       alignment: Alignment.topCenter, // رأس الدبوس على النقطة
                       child: GestureDetector(
-                        // لما نضغط العلامة: نحفظ المسار المختار
-                        onTap: () => setState(() => _selected = trail),
+                        // لما نضغط العلامة: نختاره ونجيب طريقه
+                        onTap: () => _selectTrail(trail),
                         child: _TrailPin(
                           isSelected: _selected?.id == trail.id,
                         ),
@@ -254,13 +315,15 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
                   ),
                   // الشريط: يطلع بس وإحنا على المسار
                   if (_onTrail) ...[
-                    const SizedBox(height: 10),
-                    OnTrailBanner(
-                      secondsAgo: _secondsAgo,
-                      onEnd: _endTrail,
-                    ),
-                  ],
-                ],
+                     const SizedBox(height: 10),
+                     ConstrainedBox(
+                       constraints: const BoxConstraints(maxHeight: 64),
+                       child: OnTrailBanner(
+                          secondsAgo: _secondsAgo,
+                          onEnd: _endTrail,
+                       ),
+                   ),
+    ],
               ),
             ),
           ),
@@ -289,8 +352,8 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
                 trail: _selected!,
                 // وإحنا على المسار: يختفي زر "ابدأ المسار"
                 isOnTrail: _onTrail,
-                // X: نسكّر الكرت ونرجّع العلامة خضراء
-                onClose: () => setState(() => _selected = null),
+                // X: نسكّر الكرت ونمسح الخط
+                onClose: _closeCard,
                 // الاتجاهات: يفتح Google Maps
                 onDirections: () => _openDirections(_selected!),
                 // ابدأ المسار: نافذة الإذن ثم الموقع الحقيقي ثم الشريط
