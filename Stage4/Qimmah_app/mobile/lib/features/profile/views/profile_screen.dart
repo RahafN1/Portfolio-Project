@@ -5,6 +5,7 @@ import '../../../core/routing/app_router.dart'; // أسماء الصفحات
 import '../../../core/theme/app_colors.dart'; // الألوان
 import '../../../core/theme/theme_viewmodel.dart'; // الوضع الداكن
 import '../../auth/viewmodels/auth_viewmodel.dart'; // حالة تسجيل الدخول
+import '../../favorites/viewmodels/favorites_viewmodel.dart'; // أرقام مساراتي
 
 // صفحة حسابي: زائر أو مسجّلة
 class ProfileScreen extends StatelessWidget {
@@ -75,7 +76,7 @@ class ProfileScreen extends StatelessWidget {
           if (loggedIn) ...[
             _userCard(context, user.name, user.email), // الاسم والإيميل
             const SizedBox(height: 12),
-            _stats(), // الإحصائيات
+             _stats(context), // الإحصائيات
             const SizedBox(height: 20),
             const Text('الحساب',
                 style: TextStyle(fontSize: 13, color: AppColors.grey)),
@@ -172,8 +173,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // الإحصائيات (أرقام مؤقتة لين نربطها بالباك اند)
-  Widget _stats() {
+  // الإحصائيات من بيانات مساراتي (محفوظة، مكتملة، مجموع الكيلومترات)
+  Widget _stats(BuildContext context) {
+    final fav = context.watch<FavoritesViewModel>();
+
     Widget item(String value, String label) => Expanded(
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 12),
@@ -198,11 +201,11 @@ class ProfileScreen extends StatelessWidget {
         );
     return Row(
       children: [
-        item('0', 'محفوظة'),
+        item('${fav.saved.length}', 'محفوظة'),
         const SizedBox(width: 8),
-        item('0', 'مكتملة'),
+        item('${fav.completed.length}', 'مكتملة'),
         const SizedBox(width: 8),
-        item('0', 'كم مشي'),
+        item(fav.completedDistance.toStringAsFixed(1), 'كم مشي'),
       ],
     );
   }

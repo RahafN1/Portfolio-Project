@@ -12,6 +12,7 @@ import 'widgets/explore_header.dart';
 import 'widgets/filter_sheet.dart';
 import 'widgets/region_tabs.dart';
 import 'widgets/trail_card.dart';
+import '../../favorites/viewmodels/favorites_viewmodel.dart';
 
 // الرئيسية: ترحيب + بحث + فلاتر + المسارات
 class ExploreScreen extends StatefulWidget {
@@ -39,14 +40,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // لما اليوزر يضغط زر الحفظ
-  void _onSaveTap(int trailId) {
+  Future<void> _onSaveTap(Trail trail) async {
     // إذا ضيف، نطلع له تنبيه تسجيل الدخول
     if (context.read<AuthViewModel>().isGuest) {
       showGuestLoginSheet(context);
       return; // نوقف هنا وما نحفظ
     }
-    // إذا مسجّل دخول، نحفظ عادي
-    context.read<ExploreViewModel>().toggleSaved(trailId);
+    final ok = await context.read<FavoritesViewModel>().toggleSaved(trail);
+    if (!ok && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('ما قدرنا نحفظ المسار، حاول مرة ثانية')),
+      );
+    }
   }
 
   // يفتح صفحة تفاصيل المسار
@@ -76,7 +81,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           children: [
             ExploreHeader(
               userName: name,
-              isGuest: user?.isGuest == true,
+              isGuest: context.watch<AuthViewModel>().isGuest,
               onProfileTap: _logout,
             ),
             ExploreSearchBar(
@@ -163,8 +168,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
             onTap: () => _openDetails(trail),
             child: TrailCard(
               trail: trail,
-              isSaved: explore.isSaved(trail.id),
-              onSaveTap: () => _onSaveTap(trail.id),
+              isSaved: context.watch<FavoritesViewModel>().isSaved(trail.id),
+              onSaveTap: () => _onSaveTap(trail),
             ),
           ),
         ),

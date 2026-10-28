@@ -13,6 +13,8 @@ import 'features/splash/views/splash_screen.dart';
 import 'features/trails/data/trails_repository.dart';
 import 'features/trails/viewmodels/explore_viewmodel.dart';
 import 'core/constants/app_strings.dart';
+import 'features/favorites/data/favorites_repository.dart';
+import 'features/favorites/viewmodels/favorites_viewmodel.dart';
 
 class QimmahApp extends StatelessWidget {
   const QimmahApp({super.key});
@@ -21,15 +23,21 @@ class QimmahApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokenStorage = TokenStorage();
     final apiClient = ApiClient(tokenStorage);
+    final trailsRepository = TrailsRepository(apiClient);
 
     return MultiProvider(
       providers: [
+                // صفحة التفاصيل تحتاجه
+        Provider<TrailsRepository>.value(value: trailsRepository),
         ChangeNotifierProvider(create: (_) => ThemeViewModel()),
         ChangeNotifierProvider(
           create: (_) => AuthViewModel(AuthRepository(apiClient, tokenStorage)),
         ),
         ChangeNotifierProvider(
-          create: (_) => ExploreViewModel(TrailsRepository(apiClient)),
+          create: (_) => ExploreViewModel(trailsRepository),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FavoritesViewModel(FavoritesRepository(apiClient)),
         ),
       ],
       child: Consumer<ThemeViewModel>(

@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/guest_login_sheet.dart';
+import '../../auth/viewmodels/auth_viewmodel.dart';
+import '../../favorites/viewmodels/favorites_viewmodel.dart';
+import '../data/trails_repository.dart';
 import '../models/trail.dart';
+import '../viewmodels/trail_details_viewmodel.dart';
+import 'widgets/details_bottom_bar.dart';
+import 'widgets/details_hero.dart';
+import 'widgets/safety_tips_card.dart';
+import 'widgets/start_point_card.dart';
+import 'widgets/trail_stats_row.dart';
 
 // صفحة تفاصيل المسار
+// نعرض بيانات القائمة فوراً، والتفاصيل الكاملة (نبذة، صور، نصائح) تنجاب بعدين
 class TrailDetailsScreen extends StatelessWidget {
   final Trail trail; // المسار اللي ضغط عليه اليوزر
 
@@ -10,190 +25,301 @@ class TrailDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildTopImage(context),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildTitle(),
-                  const SizedBox(height: 20),
-                  _buildStats(),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    return ChangeNotifierProvider(
+      create: (ctx) =>
+          TrailDetailsViewModel(ctx.read<TrailsRepository>(), trail)..load(),
+      child: const _DetailsView(),
+    );
+  }
+}
+
+class _DetailsView extends StatelessWidget {
+  const _DetailsView();
+
+  // رسالة صغيرة تطلع تحت (فوق الشريط السفلي)
+  void _toast(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
+      );
+  }
+
+  Future<void> _onSave(BuildContext context, Trail trail) async {
+    // الضيف يطلع له تنبيه تسجيل الدخول
+    if (context.read<AuthViewModel>().isGuest) {
+      showGuestLoginSheet(context);
+      return;
+    }
+    final favorites = context.read<FavoritesViewModel>();
+    final wasSaved = favorites.isSaved(trail.id);
+    final ok = await favorites.toggleSaved(trail);
+    if (!context.mounted) return;
+    _toast(
+      context,
+      !ok
+          ? 'صار خطأ، حاول مرة ثانية'
+          : wasSaved
+              ? 'انشال المسار من مساراتي'
+              : 'انحفظ المسار في مساراتي',
     );
   }
 
-  // ===== الصورة العلوية =====
-  Widget _buildTopImage(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      width: double.infinity,
-      child: Stack(
+  Future<void> _onComplete(BuildContext context, Trail trail) async {
+    if (context.read<AuthViewModel>().isGuest) {
+      showGuestLoginSheet(context, title: 'سجّل دخولك عشان تسجّل المسار');
+      return;
+    }
+    final favorites = context.read<FavoritesViewModel>();
+    final wasCompleted = favorites.isCompleted(trail.id);
+    final ok = await favorites.toggleCompleted(trail);
+    if (!context.mounted) return;
+    _toast(
+      context,
+      !ok
+          ? 'صار خطأ، حاول مرة ثانية'
+          : wasCompleted
+              ? 'انشال المسار من المكتملة'
+              : 'مبروك! انسجّل المسار كمكتمل',
+    );
+  }
+
+  // المشاركة: ننسخ اسم المسار + رابط الموقع (لو موجود)
+  Future<void> _onShare(BuildContext context, Trail trail) async {
+    final lines = [
+      trail.name,
+      '${trail.region} · ${trail.distanceText} كم',
+      if (trail.locationUrl != null) trail.locationUrl!,
+    ];
+    await Clipboard.setData(ClipboardData(text: lines.join('\n')));
+    if (!context.mounted) return;
+    _toast(
+      context,
+      trail.locationUrl != null ? 'تم نسخ رابط المسار' : 'تم نسخ معلومات المسار',
+    );
+  }
+
+  Future<void> _onDirections(BuildContext context, Trail trail) async {
+    final url = trail.directionsUrl;
+    if (url == null) return;
+    var opened = false;
+    try {
+      opened = await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (_) {}
+    if (!opened && context.mounted) {
+      _toast(context, 'ما قدرنا نفتح تطبيق الخرائط');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final vm = context.watch<TrailDetailsViewModel>();
+    final favorites = context.watch<FavoritesViewModel>();
+    final trail = vm.trail;
+
+    return Scaffold(
+      bottomNavigationBar: DetailsBottomBar(
+        isSaved: favorites.isSaved(trail.id),
+        isCompleted: favorites.isCompleted(trail.id),
+        onSave: () => _onSave(context, trail),
+        onComplete: () => _onComplete(context, trail),
+      ),
+      body: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          // الصورة نفسها
-          Positioned.fill(
-            child: trail.coverImage != null
-                ? Image.network(
-                    trail.coverImage!,
-                    fit: BoxFit.cover,
-                    // لو الصورة ما تحمّلت نعرض خلفية بدالها
-                    errorBuilder: (context, error, stack) => _imagePlaceholder(),
-                  )
-                : _imagePlaceholder(),
+          DetailsHero(
+            trail: trail,
+            onBack: () => Navigator.pop(context),
+            onShare: () => _onShare(context, trail),
           ),
-
-          // زر الرجوع
-          Positioned(
-            top: 40,
-            right: 16,
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => Navigator.pop(context),
-              ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 28),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _TitleRow(trail: trail),
+                const SizedBox(height: 18),
+                TrailStatsRow(trail: trail),
+                const SizedBox(height: 24),
+                const _SectionTitle('نبذة عن المسار'),
+                _About(vm: vm),
+                if (trail.images.length > 1) ...[
+                  const SizedBox(height: 16),
+                  _PhotoStrip(images: trail.images),
+                ],
+                if (trail.hasStartPoint) ...[
+                  const SizedBox(height: 24),
+                  const _SectionTitle('نقطة البداية'),
+                  StartPointCard(
+                    onDirections: () => _onDirections(context, trail),
+                  ),
+                ],
+                if (trail.safetyTips.isNotEmpty) ...[
+                  const SizedBox(height: 24),
+                  const _SectionTitle('نصائح السلامة'),
+                  SafetyTipsCard(tips: trail.safetyTips),
+                ],
+              ],
             ),
           ),
-
-          // شارة "معتمد" (تطلع بس إذا المسار معتمد)
-          if (trail.isCertified)
-            Positioned(
-              bottom: 16,
-              right: 16,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Row(
-                  children: [
-                    Icon(Icons.check_circle, size: 18, color: Color(0xFF1F5233)),
-                    SizedBox(width: 4),
-                    Text(
-                      'معتمد',
-                      style: TextStyle(
-                        color: Color(0xFF1F5233),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
         ],
       ),
     );
   }
+}
 
-  // خلفية بديلة لو ما فيه صورة
-  Widget _imagePlaceholder() {
-    return Container(
-      color: const Color(0xFFE3EEE6),
-      child: const Icon(Icons.landscape, size: 64, color: Color(0xFF1F5233)),
-    );
-  }
+// الاسم + التقييم (لو موجود) + المنطقة
+class _TitleRow extends StatelessWidget {
+  final Trail trail;
 
-  // ===== الاسم والتقييم والمنطقة =====
-  Widget _buildTitle() {
+  const _TitleRow({required this.trail});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // الاسم ياخذ المساحة الباقية
             Expanded(
               child: Text(
                 trail.name,
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
             ),
-            const Icon(Icons.star, color: Color(0xFFC97B47), size: 20),
-            const SizedBox(width: 4),
-            Text(
-              // لو ما فيه تقييم نكتب "جديد"
-              trail.averageRating?.toStringAsFixed(1) ?? 'جديد',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+            if (trail.averageRating != null) ...[
+              const SizedBox(width: 12),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Row(
+                  children: [
+                    Text(
+                      trail.averageRating!.toStringAsFixed(1),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.star, size: 18, color: AppColors.accent),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 4),
         Row(
           children: [
-            const Icon(Icons.location_on_outlined, size: 18, color: Colors.grey),
+            const Icon(Icons.location_on_outlined,
+                size: 18, color: AppColors.grey),
             const SizedBox(width: 4),
-            Text(trail.region, style: const TextStyle(color: Colors.grey)),
+            Text(
+              trail.region,
+              style: const TextStyle(color: AppColors.grey, fontSize: 14),
+            ),
           ],
         ),
       ],
     );
   }
+}
 
-  // ===== الكروت الثلاثة =====
-  Widget _buildStats() {
-    return Row(
-      children: [
-        Expanded(
-          child: _statCard(Icons.route, '${trail.distanceText} كم', 'المسافة'),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _statCard(
-            Icons.access_time,
-            trail.estimatedDuration.isEmpty ? '-' : trail.estimatedDuration,
-            'المدة المتوقعة',
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _statCard(
-            Icons.terrain,
-            trail.difficultyArabic,
-            'الصعوبة',
-            highlight: true, // كرت الصعوبة لونه مختلف
-          ),
-        ),
-      ],
+class _SectionTitle extends StatelessWidget {
+  final String title;
+
+  const _SectionTitle(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
     );
   }
+}
 
-  // كرت واحد (نستخدمه ثلاث مرات)
-  Widget _statCard(IconData icon, String value, String label,
-      {bool highlight = false}) {
-    final color = highlight ? const Color(0xFFC97B47) : const Color(0xFF1F5233);
+// النبذة: النص، أو تحميل، أو خطأ مع إعادة المحاولة
+class _About extends StatelessWidget {
+  final TrailDetailsViewModel vm;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      decoration: BoxDecoration(
-        color: highlight ? const Color(0xFFF7E6DA) : null,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Column(
+  const _About({required this.vm});
+
+  @override
+  Widget build(BuildContext context) {
+    final trail = vm.trail;
+
+    if (trail.description.isNotEmpty) {
+      return Text(
+        trail.description,
+        style: TextStyle(
+          fontSize: 15,
+          height: 1.8,
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.85),
+        ),
+      );
+    }
+
+    if (vm.isLoading) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (vm.errorMessage != null) {
+      return Row(
         children: [
-          Icon(icon, color: color),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: highlight ? color : null,
+          Text(vm.errorMessage!,
+              style: const TextStyle(color: AppColors.grey, fontSize: 14)),
+          TextButton(onPressed: vm.retry, child: const Text('حاول مرة ثانية')),
+        ],
+      );
+    }
+
+    return const Text(
+      'ما فيه نبذة لهذا المسار للحين.',
+      style: TextStyle(color: AppColors.grey, fontSize: 14),
+    );
+  }
+}
+
+// شريط الصور الأفقي
+class _PhotoStrip extends StatelessWidget {
+  final List<String> images;
+
+  const _PhotoStrip({required this.images});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 96,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: images.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        itemBuilder: (_, i) => ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: SizedBox(
+            width: 128,
+            child: Image.network(
+              images[i],
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Container(
+                color: AppColors.primaryLight,
+                child: const Icon(Icons.terrain, color: AppColors.disabled),
+              ),
             ),
           ),
-          const SizedBox(height: 4),
-          Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
-        ],
+        ),
       ),
     );
   }

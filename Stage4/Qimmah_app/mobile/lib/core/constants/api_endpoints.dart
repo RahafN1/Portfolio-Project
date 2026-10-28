@@ -8,4 +8,7 @@ class ApiEndpoints {
   static const String login = '/api/auth/login';
 
   static const String trails = '/api/trails';
+    // مساراتي (تحتاج تسجيل دخول)
+  static const String favorites = '/api/users/me/favorites';
+  static const String completedTrails = '/api/users/me/completed-trails';
 }

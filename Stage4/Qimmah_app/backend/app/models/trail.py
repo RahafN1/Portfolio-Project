@@ -46,6 +46,16 @@ class Trail(db.Model):
             return None
         return {"lat": float(lat), "lng": float(lng)}
 
+    def get_average_rating(self):
+        """Average of this trail's reviews (1 decimal), or None if no reviews."""
+        # import هنا (مو فوق) عشان ما يصير استيراد دائري مع review.py
+        from app.models.review import Review
+
+        avg = (db.session.query(db.func.avg(Review.rating))
+               .filter(Review.trail_id == self.id)
+               .scalar())
+        return round(float(avg), 1) if avg is not None else None
+
     # ---------- Methods (UML) ----------
     def get_location(self):
         """UML: getLocation() — the trail's start and end points."""
@@ -72,7 +82,7 @@ class Trail(db.Model):
             "difficulty": self.difficulty,
             "distance": float(self.distance),
             "estimated_duration": self.estimated_duration,
-            "average_rating": None,  # TODO: ReviewService.calculate_average_rating(self.id)
+            "average_rating": self.get_average_rating(),
             "cover_image": images[0] if images else None,
             "start_point": self.get_location()["start_point"],
         }
@@ -91,6 +101,6 @@ class Trail(db.Model):
             **self.get_location(),
             "route_coordinates": self.get_route(),
             "safety_tips": self.get_safety_tips(),
-            "average_rating": None,  # TODO: ReviewService.calculate_average_rating(self.id),
+            "average_rating": self.get_average_rating(),
             "created_at": self.created_at.isoformat() + "Z" if self.created_at else None,
         }

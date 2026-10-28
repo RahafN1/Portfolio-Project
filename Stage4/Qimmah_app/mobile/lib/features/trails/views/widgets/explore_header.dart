@@ -63,12 +63,14 @@ class ExploreHeader extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              // زر الحساب (يسار): الضيف يدخل، المسجّل يطلع
+               // زر تسجيل الدخول (يسار): يظهر للضيف فقط
+              // المسجّل يطلع من صفحة "حسابي"
+              if (isGuest)
               InkWell(
                 onTap: onProfileTap,
                 customBorder: const CircleBorder(),
                 child: Tooltip(
-                  message: isGuest ? 'تسجيل الدخول' : 'تسجيل الخروج',
+                  message: 'تسجيل الدخول',
                   child: Container(
                     width: 44,
                     height: 44,
