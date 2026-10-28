@@ -72,8 +72,11 @@ class OnTrailBanner extends StatelessWidget {
             onPressed: onEnd,
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white, // النص أبيض
+              backgroundColor: Colors.transparent, // يلغي الخلفية البيضاء من الثيم
               side: const BorderSide(color: Colors.white70), // إطار أبيض
               padding: const EdgeInsets.symmetric(horizontal: 14),
+              minimumSize: const Size(0, 40), // يلغي double.infinity من الثيم
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: const Text(
               AppStrings.onTrailEnd,
