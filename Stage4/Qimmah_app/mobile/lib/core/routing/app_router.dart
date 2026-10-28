@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../features/admin/views/admin_dashboard_screen.dart';
 import '../../features/auth/views/login_screen.dart';
 import '../../features/auth/views/otp_screen.dart';
 import '../../features/auth/views/signup_screen.dart';
@@ -13,6 +14,7 @@ class AppRouter {
   static const String otp = '/otp';
   static const String signupSuccess = '/signup-success';
   static const String explore = '/explore';
+  static const String admin = '/admin';
 
   static Map<String, WidgetBuilder> routes = {
     splash: (context) => const SplashScreen(),
@@ -22,5 +24,7 @@ class AppRouter {
     signupSuccess: (context) => const SignupSuccessScreen(),
     // الرئيسية تفتح داخل الهيكل اللي فيه شريط التنقل السفلي
     explore: (context) => const MainShell(),
+    // لوحة تحكم الأدمن (بدون شريط التنقل السفلي)
+    admin: (context) => const AdminDashboardScreen(),
   };
 }
