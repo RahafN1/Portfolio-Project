@@ -22,3 +22,13 @@ def login_required(f):
 
         return f(current_user=user, *args, **kwargs)
     return decorated
+
+def admin_required(f):
+    """Like login_required, but the user must also be an admin."""
+    @wraps(f)
+    @login_required
+    def decorated(current_user, *args, **kwargs):
+        if current_user.role != "admin":
+            raise APIError("Admin access required", 403)
+        return f(current_user=current_user, *args, **kwargs)
+    return decorated

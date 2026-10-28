@@ -42,14 +42,14 @@ def create_app(config_class=Config):
 
     from app.routes.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
-    
+
     from app.routes.users import users_bp
     app.register_blueprint(users_bp, url_prefix="/api/users")
 
     from app.routes.reviews import reviews_bp
     app.register_blueprint(reviews_bp, url_prefix="/api")
 
-    # TODO: register the other blueprints when they are built:
-    # admin_bp   -> /api/admin
+    from app.routes.admin import admin_bp
+    app.register_blueprint(admin_bp, url_prefix="/api/admin")
 
     return app
