@@ -162,7 +162,17 @@ class User(db.Model):
         """UML: logout() — done in the app: it deletes the JWT from the device.
         The server keeps no session, so there is nothing to do here."""
         return None
+    
+    def update_name(self, name):
+        """Edit profile — change the user's name (email can't be changed)."""
+        name = _text(name).strip()
+        if not name:
+            raise APIError("Name is required", 400)
 
+        self.name = name
+        db.session.commit()
+        return self
+    
     # These work once Review, Favorite and CompletedTrail are built.
     def view_favorites(self):
         """UML: viewFavorites()."""

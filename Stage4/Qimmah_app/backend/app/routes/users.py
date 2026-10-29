@@ -30,7 +30,36 @@ users_bp = Blueprint("users", __name__)
 def get_current_user(current_user):
     return jsonify({"user": current_user.to_dict()}), 200
 
-
+@users_bp.put("/me")
+@login_required
+def update_current_user(current_user):
+    """Endpoint 6 — edit my name (the email can't be changed).
+    ---
+    tags:
+      - Users
+    security:
+      - Bearer: []
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Sarah Hamad
+    responses:
+      200:
+        description: Name updated
+      400:
+        description: Name is missing or empty
+      401:
+        description: Missing or expired token
+    """
+    data = request.get_json(silent=True) or {}
+    user = current_user.update_name(data.get("name"))
+    return jsonify({"user": user.to_dict()}), 200
 # ---------- Reviews (endpoint 7) ----------
 
 @users_bp.get("/me/reviews")
