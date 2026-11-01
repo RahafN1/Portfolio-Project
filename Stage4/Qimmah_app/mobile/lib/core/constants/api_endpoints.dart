@@ -6,6 +6,7 @@ class ApiEndpoints {
   static const String verifyEmail = '/api/auth/verify-email';
   static const String resendCode = '/api/auth/resend-code';
   static const String login = '/api/auth/login';
+  static const String updateMe = '/api/users/me';
 
   static const String trails = '/api/trails';
     // مساراتي (تحتاج تسجيل دخول)

@@ -73,6 +73,19 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
+  // تعديل الاسم: نرسله للباك ونحدّث المستخدم الحالي
+  Future<bool> updateName(String name) async {
+    _startLoading();
+    try {
+      user = await repository.updateName(name);
+      _stopLoading();
+      return true;
+    } catch (e) {
+      _showError(e);
+      return false;
+    }
+  }
+
   // الضيف ما يكلم السيرفر، بس نعطيه اسم "ضيف"
   void loginAsGuest() {
     user = User(id: 0, name: 'ضيف', email: '', role: 'guest');

@@ -44,6 +44,14 @@ class AuthRepository {
     return _saveLogin(data);
   }
 
+  // 5) تعديل الاسم ← السيرفر يرجع المستخدم المحدّث داخل مفتاح user
+  Future<User> updateName(String name) async {
+    final data = await api.put(ApiEndpoints.updateMe, {'name': name});
+    final user = User.fromJson(data['user']);
+    await storage.saveUser(jsonEncode(user.toJson())); // نحفظ الاسم الجديد محلياً
+    return user;
+  }
+
   // نجيب المستخدم المحفوظ (لو سجل دخول قبل)
   Future<User?> getSavedUser() async {
     final token = await storage.getToken();

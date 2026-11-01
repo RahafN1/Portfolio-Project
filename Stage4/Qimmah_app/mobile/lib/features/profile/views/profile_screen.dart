@@ -76,7 +76,7 @@ class ProfileScreen extends StatelessWidget {
           if (loggedIn) ...[
             _userCard(context, user.name, user.email), // الاسم والإيميل
             const SizedBox(height: 12),
-             _stats(context), // الإحصائيات
+            _stats(context), // الإحصائيات
             const SizedBox(height: 20),
             const Text('الحساب',
                 style: TextStyle(fontSize: 13, color: AppColors.grey)),
@@ -267,11 +267,21 @@ class ProfileScreen extends StatelessWidget {
                 backgroundColor: AppColors.primary,
                 minimumSize: const Size.fromHeight(48),
               ),
-              onPressed: () {
-                // TODO: نربطه بالباك اند لما نعرف مسار التعديل
+              onPressed: () async {
+                // ندمج الاسم الأول واسم العائلة في حقل name واحد
+                final newName =
+                    '${first.text.trim()} ${last.text.trim()}'.trim();
+                if (newName.isEmpty) return;
+                final auth = context.read<AuthViewModel>();
+                final ok = await auth.updateName(newName);
+                if (!context.mounted) return;
                 Navigator.pop(sheetCtx);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('الحفظ يحتاج ربط بالباك اند')),
+                  SnackBar(
+                    content: Text(ok
+                        ? 'تم حفظ التعديلات'
+                        : (auth.errorMessage ?? 'تعذر الحفظ')),
+                  ),
                 );
               },
               child: const Text('حفظ التعديلات'),
