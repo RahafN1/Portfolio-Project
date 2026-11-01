@@ -32,8 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
     final success = await viewModel.login(email, password);
     if (!mounted) return;
 
-    if (success) {
-      Navigator.pushReplacementNamed(context, AppRouter.explore);
+      if (success) {
+      final isAdmin = email.toLowerCase() == 'admin@qimmah.sa';
+
+      Navigator.pushReplacementNamed(
+        context,
+        isAdmin ? AppRouter.admin : AppRouter.explore,
+      );
     } else {
       _showMessage(viewModel.errorMessage!);
     }

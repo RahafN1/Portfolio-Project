@@ -145,3 +145,12 @@ class Admin(User):
         user.is_suspended = True
         db.session.commit()
         return user
+    
+    def delete_review(self, review_id):
+        """UML: deleteReview(reviewId) (endpoint 25)."""
+        from app.models.review import Review
+        review = db.session.get(Review, review_id)
+        if review is None:
+            raise APIError("Review not found", 404)
+        db.session.delete(review)
+        db.session.commit()
