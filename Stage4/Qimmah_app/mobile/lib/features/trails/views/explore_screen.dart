@@ -23,13 +23,30 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     // أول ما تفتح الشاشة نجيب المسارات
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ExploreViewModel>().loadTrails();
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  // لما نقرب من آخر القائمة (٣٠٠ بكسل) نجيب الصفحة اللي بعدها
+  void _onScroll() {
+    final position = _scrollController.position;
+    if (position.pixels >= position.maxScrollExtent - 300) {
+      context.read<ExploreViewModel>().loadMore();
+    }
   }
 
   Future<void> _logout() async {
@@ -77,6 +94,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
       child: RefreshIndicator(
         onRefresh: explore.loadTrails,
         child: ListView(
+          controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.only(bottom: 24),
           children: [
             ExploreHeader(
@@ -135,7 +154,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       ];
     }
 
-    if (explore.filtered.isEmpty) {
+    if (explore.trails.isEmpty) {   // ← صارت: explore.trails.isEmpty 
       return [
         SizedBox(
           height: 260,
@@ -156,7 +175,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       ];
     }
 
-    final trails = explore.filtered;
+    final trails = explore.trails;   // ← صارت: explore.trails
 
     return [
       // كل المسارات (عمودي)
@@ -171,6 +190,19 @@ class _ExploreScreenState extends State<ExploreScreen> {
               isSaved: context.watch<FavoritesViewModel>().isSaved(trail.id),
               onSaveTap: () => _onSaveTap(trail),
             ),
+          ),
+        ),
+              // أسفل القائمة: دائرة تحميل، أو زر إعادة المحاولة لو فشل التحميل
+      if (explore.isLoadingMore)
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          child: Center(child: CircularProgressIndicator()),
+        )
+      else if (explore.loadMoreError != null)
+        Center(
+          child: TextButton(
+            onPressed: explore.loadMore,
+            child: Text('${explore.loadMoreError!}، حاول مرة ثانية'),
           ),
         ),
     ];

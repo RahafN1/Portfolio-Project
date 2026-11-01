@@ -32,18 +32,21 @@ class _LoginScreenState extends State<LoginScreen> {
     final success = await viewModel.login(email, password);
     if (!mounted) return;
 
-      if (success) {
-      final isAdmin = email.toLowerCase() == 'admin@qimmah.sa';
-
-      Navigator.pushReplacementNamed(
-        context,
-        isAdmin ? AppRouter.admin : AppRouter.explore,
-      );
+    if (success) {
+      if (viewModel.isAdmin) {
+        // نمسح كل الصفحات اللي قبلها، فما فيه رجوع لواجهة اليوزر
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRouter.admin,
+          (route) => false,
+        );
+      } else {
+        Navigator.pushReplacementNamed(context, AppRouter.explore);
+      }
     } else {
       _showMessage(viewModel.errorMessage!);
     }
   }
-
   void _browseAsGuest() {
     context.read<AuthViewModel>().loginAsGuest();
     Navigator.pushReplacementNamed(context, AppRouter.explore);

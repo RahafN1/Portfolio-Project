@@ -56,6 +56,14 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
   // كم ثانية مرّت من آخر تحديث للموقع
   int _secondsAgo = 0;
 
+@override
+void initState() {
+  super.initState();
+  // الخريطة تحتاج كل العلامات، فنجيبها لوحدها (بدون صفحات)
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    context.read<ExploreViewModel>().loadMapTrails();
+  });
+}
   // لما الصفحة تنقفل: نوقف الساعة عشان ما تضل شغّالة
   @override
   void dispose() {
@@ -182,7 +190,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     final vm = context.watch<ExploreViewModel>();
 
     // نخلي بس المسارات اللي عندها نقطة بداية، واسمها فيه نص البحث
-    final trails = vm.filtered
+    final trails = vm.mapTrails
         .where((t) => t.startLat != null && t.startLng != null)
         .where((t) => t.name.contains(_query.trim()))
         .toList();
@@ -250,7 +258,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
                 mainAxisSize: MainAxisSize.min, // بطول محتواه بس
                 children: [
                   _SearchBar(
-                    onChanged: (value) => _onSearch(value, vm.filtered),
+                    onChanged: (value) => _onSearch(value, vm.mapTrails),
                   ),
                   // الشريط: يطلع بس وإحنا على المسار
                   if (_onTrail) ...[

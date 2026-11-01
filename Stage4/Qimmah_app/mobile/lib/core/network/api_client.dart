@@ -30,13 +30,15 @@ class ApiClient {
     return _handleResponse(response);
   }
 
-  Future<Map<String, dynamic>> get(String path) async {
-    final response = await http.get(
-      Uri.parse(ApiEndpoints.baseUrl + path),
-      headers: await _headers(),
-    );
-    return _handleResponse(response);
-  }
+Future<Map<String, dynamic>> get(String path) async {
+  final response = await http
+      .get(
+        Uri.parse(ApiEndpoints.baseUrl + path),
+        headers: await _headers(),
+      )
+      .timeout(const Duration(seconds: 60));
+  return _handleResponse(response);
+}//حددنا له وقت 
 
   // لتعديل البيانات (مثل تعديل الحساب)
   Future<Map<String, dynamic>> put(String path, Map<String, dynamic> body) async {
@@ -47,7 +49,18 @@ class ApiClient {
     );
     return _handleResponse(response);
   }
-
+  // لتغيير حالة شي (مثل إيقاف مستخدم)
+  Future<Map<String, dynamic>> patch(String path,
+      [Map<String, dynamic>? body]) async {
+    final response = await http
+        .patch(
+          Uri.parse(ApiEndpoints.baseUrl + path),
+          headers: await _headers(),
+          body: jsonEncode(body ?? {}),
+        )
+        .timeout(const Duration(seconds: 60));
+    return _handleResponse(response);
+  }
   // للحذف (مثل حذف تقييم)
   Future<Map<String, dynamic>> delete(String path) async {
     final response = await http.delete(

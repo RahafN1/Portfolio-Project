@@ -15,6 +15,8 @@ import 'features/trails/viewmodels/explore_viewmodel.dart';
 import 'core/constants/app_strings.dart';
 import 'features/favorites/data/favorites_repository.dart';
 import 'features/favorites/viewmodels/favorites_viewmodel.dart';
+import 'features/reviews/data/reviews_repository.dart';
+import 'features/admin/data/admin_repository.dart';
 
 class QimmahApp extends StatelessWidget {
   const QimmahApp({super.key});
@@ -29,6 +31,8 @@ class QimmahApp extends StatelessWidget {
       providers: [
                 // صفحة التفاصيل تحتاجه
         Provider<TrailsRepository>.value(value: trailsRepository),
+        Provider<ReviewsRepository>.value(value: ReviewsRepository(apiClient)),
+        Provider<AdminRepository>.value(value: AdminRepository(apiClient)),
         ChangeNotifierProvider(create: (_) => ThemeViewModel()),
         ChangeNotifierProvider(
           create: (_) => AuthViewModel(AuthRepository(apiClient, tokenStorage)),

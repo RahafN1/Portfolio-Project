@@ -1,98 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ManageReviewsScreen extends StatefulWidget {
+import '../../../core/theme/app_colors.dart';
+import '../../reviews/views/widgets/star_rating.dart';
+import '../models/admin_models.dart';
+import '../viewmodels/admin_viewmodel.dart';
+import 'widgets/admin_helpers.dart';
+
+// تبويب التقييمات: الأدمن يحذف التقييم المسيء
+class ManageReviewsScreen extends StatelessWidget {
   const ManageReviewsScreen({super.key});
 
-  @override
-  State<ManageReviewsScreen> createState() => _ManageReviewsScreenState();
-}
-
-class _ManageReviewsScreenState extends State<ManageReviewsScreen> {
-  // بيانات مؤقتة لين نربط الـ API
-  final List<Map<String, dynamic>> _reviews = [
-    {
-      'user': 'نورة',
-      'trail': 'مسار جبل السودة',
-      'rating': 5,
-      'comment': 'المسار ممتع والإطلالة من فوق تستاهل التعب.',
-    },
-    {
-      'user': 'مستخدم123',
-      'trail': 'مسار حافة العالم',
-      'rating': 1,
-      'comment': 'تعليق فيه ألفاظ مسيئة',
-    },
-  ];
-
-  Future<void> _confirmDelete(int index) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('حذف هذا التقييم؟'),
-        content: const Text(
-          'ينحذف التقييم لأنه مخالف لسياسة المحتوى، وما يقدر صاحبه يرجعه.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('إلغاء'),
-          ),
-          FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('حذف'),
-          ),
-        ],
-      ),
+  Future<void> _onDelete(BuildContext context, AdminReview review) async {
+    final confirmed = await showConfirmDialog(
+      context,
+      title: 'حذف هذا التقييم؟',
+      message: 'بينحذف التقييم لأنه مخالف لسياسة المحتوى، وما يقدر صاحبه يرجعه.',
+      confirmText: 'حذف',
     );
+    if (!confirmed || !context.mounted) return;
 
-    if (confirmed == true) {
-      setState(() => _reviews.removeAt(index));
-    }
+    final ok = await context.read<AdminViewModel>().deleteReview(review);
+    if (!context.mounted) return;
+    showAdminToast(
+      context,
+      ok ? 'تم حذف التقييم' : 'ما قدرنا نحذف التقييم، حاول مرة ثانية',
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: _reviews.length,
-      itemBuilder: (context, index) {
-        final review = _reviews[index];
-        return Card(
-          margin: const EdgeInsets.only(bottom: 12),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
+    final vm = context.watch<AdminViewModel>();
+
+    if (vm.reviews.isEmpty) {
+      return const Center(child: Text('ما فيه تقييمات'));
+    }
+
+    return RefreshIndicator(
+      onRefresh: () => vm.load(silent: true),
+      child: ListView.builder(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+        itemCount: vm.reviews.length,
+        itemBuilder: (context, index) {
+          final review = vm.reviews[index];
+          return Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColors.border),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(review['user'],
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text(review['trail'],
-                    style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                Row(
-                  children: List.generate(
-                    5,
-                    (i) => Icon(
-                      i < review['rating'] ? Icons.star : Icons.star_border,
-                      size: 16,
-                      color: Colors.amber,
+                Text(
+                  review.userName,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '${review.trailName} · ${review.timeAgo}',
+                  style:
+                      const TextStyle(fontSize: 12, color: AppColors.grey),
+                ),
+                const SizedBox(height: 6),
+                StarRating(rating: review.rating, size: 16),
+                const SizedBox(height: 8),
+                Text(review.comment, style: const TextStyle(height: 1.6)),
+                const SizedBox(height: 10),
+                TextButton.icon(
+                  style: TextButton.styleFrom(
+                    backgroundColor: AppColors.hardBg,
+                    foregroundColor: adminDanger,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(review['comment']),
-                const SizedBox(height: 8),
-                TextButton.icon(
-                  onPressed: () => _confirmDelete(index),
-                  icon: const Icon(Icons.delete_outline, color: Colors.red),
-                  label: const Text('حذف التقييم',
-                      style: TextStyle(color: Colors.red)),
+                  onPressed: () => _onDelete(context, review),
+                  icon: const Icon(Icons.delete_outline, size: 18),
+                  label: const Text('حذف التقييم'),
                 ),
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
