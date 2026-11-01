@@ -1,0 +1,23 @@
+class ApiEndpoints {
+ // رابط الباك إند المحلي
+  static const String baseUrl = 'https://portfolio-project-fq53.onrender.com';
+
+  static const String register = '/api/auth/register';
+  static const String verifyEmail = '/api/auth/verify-email';
+  static const String resendCode = '/api/auth/resend-code';
+  static const String login = '/api/auth/login';
+  static const String updateMe = '/api/users/me';
+
+  static const String trails = '/api/trails';
+    // مساراتي (تحتاج تسجيل دخول)
+  static const String favorites = '/api/users/me/favorites';
+  static const String completedTrails = '/api/users/me/completed-trails';
+    // التقييمات
+  static String trailReviews(int trailId) => '/api/trails/$trailId/reviews';
+  static String review(int reviewId) => '/api/reviews/$reviewId';
+    // الأدمن
+  static const String adminStats = '/api/admin/stats';
+  static const String adminUsers = '/api/admin/users';
+  static const String adminReviews = '/api/admin/reviews';
+  static const String adminTrails = '/api/admin/trails';
+}
