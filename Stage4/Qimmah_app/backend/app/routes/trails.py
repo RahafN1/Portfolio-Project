@@ -14,6 +14,7 @@ trails_bp = Blueprint("trails", __name__)
 def get_trails():
     """Endpoint 14 — trail list (summary only), open to guests."""
     page = request.args.get("page", 1, type=int)
+    lang = request.args.get("lang", "ar")
     trails, total = TrailService.find_trails(
         search=request.args.get("search"),
         region=request.args.get("region"),
@@ -22,7 +23,7 @@ def get_trails():
         limit=request.args.get("limit", 20, type=int),
     )
     return jsonify({
-        "trails": [trail.get_summary() for trail in trails],
+        "trails": [trail.get_summary(lang) for trail in trails],
         "page": page,
         "total": total,
     }), 200
@@ -33,4 +34,5 @@ def get_trails():
 def get_trail(trail_id):
     """Endpoint 15 — full trail details (route + start/end points), open to guests."""
     trail = TrailService.get_trail_by_id(trail_id)
-    return jsonify(trail.get_details()), 200
+    lang = request.args.get("lang", "ar")
+    return jsonify(trail.get_details(lang)), 200

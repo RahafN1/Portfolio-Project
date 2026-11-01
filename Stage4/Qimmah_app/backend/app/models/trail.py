@@ -24,14 +24,12 @@ class Trail(db.Model):
     safety_tips = db.Column("safetyTips", db.Text)
     created_at = db.Column("createdAt", db.DateTime, server_default=db.func.now())
 
-    # ---------- Relationships ----------
-    # TODO: uncomment when Review, Favorite and CompletedTrail models are written
-    # reviews = db.relationship("Review", backref="trail",
-    #                           cascade="all, delete-orphan", passive_deletes=True)
-    # favorites = db.relationship("Favorite", backref="trail",
-    #                             cascade="all, delete-orphan", passive_deletes=True)
-    # completed_by = db.relationship("CompletedTrail", backref="trail",
-    #                                cascade="all, delete-orphan", passive_deletes=True)
+    # ---------- English versions of the text fields ----------
+    name_en = db.Column(db.String(150))
+    description_en = db.Column(db.Text)
+    region_en = db.Column(db.String(50))
+    estimated_duration_en = db.Column("estimatedDuration_en", db.String(50))
+    safety_tips_en = db.Column("safetyTips_en", db.Text)
 
     # ---------- Helpers ----------
     @property
@@ -45,6 +43,13 @@ class Trail(db.Model):
         if lat is None or lng is None:
             return None
         return {"lat": float(lat), "lng": float(lng)}
+    
+    @staticmethod
+    def _pick(arabic, english, lang):
+        """Return the English text when lang is 'en' and it exists, otherwise Arabic."""
+        if lang == "en" and english:
+            return english
+        return arabic
 
     def get_average_rating(self):
         """Average of this trail's reviews (1 decimal), or None if no reviews."""
@@ -72,35 +77,35 @@ class Trail(db.Model):
         """UML: getSafetyTips()."""
         return self.safety_tips
 
-    def get_summary(self):
+    def get_summary(self, lang="ar"):
         """Short version for trail lists (endpoint 14) — no full route."""
         images = self.image_list
         return {
             "id": self.id,
-            "name": self.name,
-            "region": self.region,
+            "name": self._pick(self.name, self.name_en, lang),
+            "region": self._pick(self.region, self.region_en, lang),
             "difficulty": self.difficulty,
             "distance": float(self.distance),
-            "estimated_duration": self.estimated_duration,
+            "estimated_duration": self._pick(self.estimated_duration, self.estimated_duration_en, lang),
             "average_rating": self.get_average_rating(),
             "cover_image": images[0] if images else None,
             "start_point": self.get_location()["start_point"],
         }
 
-    def get_details(self):
+    def get_details(self, lang="ar"):
         """UML: getDetails() — full details for the trail page (endpoint 15)."""
         return {
             "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "region": self.region,
+            "name": self._pick(self.name, self.name_en, lang),
+            "description": self._pick(self.description, self.description_en, lang),
+            "region": self._pick(self.region, self.region_en, lang),
             "difficulty": self.difficulty,
             "distance": float(self.distance),
-            "estimated_duration": self.estimated_duration,
+            "estimated_duration": self._pick(self.estimated_duration, self.estimated_duration_en, lang),
             "images": self.image_list,
             **self.get_location(),
             "route_coordinates": self.get_route(),
-            "safety_tips": self.get_safety_tips(),
+            "safety_tips": self._pick(self.get_safety_tips(), self.safety_tips_en, lang),
             "average_rating": self.get_average_rating(),
             "created_at": self.created_at.isoformat() + "Z" if self.created_at else None,
         }
