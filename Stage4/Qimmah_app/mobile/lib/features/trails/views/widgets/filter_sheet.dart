@@ -84,7 +84,7 @@ class _FilterSheet extends StatelessWidget {
             const SizedBox(height: 20),
             FilledButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('عرض ${vm.filtered.length} مسار'),
+              child: Text('عرض ${vm.total} مسار'),
             ),
           ],
         ),

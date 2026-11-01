@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,6 +16,9 @@ import 'widgets/details_hero.dart';
 import 'widgets/safety_tips_card.dart';
 import 'widgets/start_point_card.dart';
 import 'widgets/trail_stats_row.dart';
+import '../../reviews/data/reviews_repository.dart';
+import '../../reviews/viewmodels/reviews_viewmodel.dart';
+import '../../reviews/views/widgets/reviews_section.dart';
 
 // صفحة تفاصيل المسار
 // نعرض بيانات القائمة فوراً، والتفاصيل الكاملة (نبذة، صور، نصائح) تنجاب بعدين
@@ -25,9 +29,21 @@ class TrailDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) =>
-          TrailDetailsViewModel(ctx.read<TrailsRepository>(), trail)..load(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) =>
+              TrailDetailsViewModel(ctx.read<TrailsRepository>(), trail)
+                ..load(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => ReviewsViewModel(
+            ctx.read<ReviewsRepository>(),
+            trail.id,
+            ctx.read<AuthViewModel>().user?.id ?? 0, // الضيف = 0
+          )..load(),
+        ),
+      ],
       child: const _DetailsView(),
     );
   }
@@ -119,6 +135,7 @@ class _DetailsView extends StatelessWidget {
     final vm = context.watch<TrailDetailsViewModel>();
     final favorites = context.watch<FavoritesViewModel>();
     final trail = vm.trail;
+    final reviews = context.watch<ReviewsViewModel>();
 
     return Scaffold(
       bottomNavigationBar: DetailsBottomBar(
@@ -140,7 +157,11 @@ class _DetailsView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _TitleRow(trail: trail),
+                _TitleRow(
+                trail: trail,
+                   // المتوسط من التقييمات (يتحدث بعد النشر والحذف)
+                rating: reviews.hasLoaded ? reviews.averageRating : trail.averageRating,
+                          ),
                 const SizedBox(height: 18),
                 TrailStatsRow(trail: trail),
                 const SizedBox(height: 24),
@@ -162,6 +183,8 @@ class _DetailsView extends StatelessWidget {
                   const _SectionTitle('نصائح السلامة'),
                   SafetyTipsCard(tips: trail.safetyTips),
                 ],
+                  const SizedBox(height: 24),
+                  ReviewsSection(trailName: trail.name),
               ],
             ),
           ),
@@ -174,8 +197,9 @@ class _DetailsView extends StatelessWidget {
 // الاسم + التقييم (لو موجود) + المنطقة
 class _TitleRow extends StatelessWidget {
   final Trail trail;
+  final double? rating;
 
-  const _TitleRow({required this.trail});
+  const _TitleRow({required this.trail, required this.rating});
 
   @override
   Widget build(BuildContext context) {
@@ -192,14 +216,14 @@ class _TitleRow extends StatelessWidget {
                     const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
             ),
-            if (trail.averageRating != null) ...[
+            if (rating != null) ...[
               const SizedBox(width: 12),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Row(
                   children: [
                     Text(
-                      trail.averageRating!.toStringAsFixed(1),
+                      rating!.toStringAsFixed(1),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -298,25 +322,42 @@ class _PhotoStrip extends StatelessWidget {
 
   const _PhotoStrip({required this.images});
 
+  // كل الصور بنفس الحجم، بنسبة ٤:٣
+  static const double _height = 130;
+  static const double _width = _height * 4 / 3;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 96,
+      height: _height,
       child: ListView.separated(
+        // نفس بادنق الصفحة، والصور تكمل تنزلق لحافة الشاشة
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         scrollDirection: Axis.horizontal,
         itemCount: images.length,
         separatorBuilder: (_, __) => const SizedBox(width: 10),
         itemBuilder: (_, i) => ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: SizedBox(
-            width: 128,
-            child: Image.network(
-              images[i],
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
-                color: AppColors.primaryLight,
-                child: const Icon(Icons.terrain, color: AppColors.disabled),
+          child: CachedNetworkImage(
+            imageUrl: images[i],
+            width: _width,
+            height: _height,
+            fit: BoxFit.cover,
+            // نصغّر الصورة بالذاكرة (٣ أضعاف العرض) عشان ما تاكل رام
+            memCacheWidth: (_width * 3).toInt(),
+            placeholder: (_, __) => Container(
+              color: AppColors.primaryLight,
+              child: const Center(
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
               ),
+            ),
+            errorWidget: (_, __, ___) => Container(
+              color: AppColors.primaryLight,
+              child: const Icon(Icons.terrain, color: AppColors.disabled),
             ),
           ),
         ),

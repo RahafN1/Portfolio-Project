@@ -11,4 +11,7 @@ class ApiEndpoints {
     // مساراتي (تحتاج تسجيل دخول)
   static const String favorites = '/api/users/me/favorites';
   static const String completedTrails = '/api/users/me/completed-trails';
+    // التقييمات
+  static String trailReviews(int trailId) => '/api/trails/$trailId/reviews';
+  static String review(int reviewId) => '/api/reviews/$reviewId';
 }
