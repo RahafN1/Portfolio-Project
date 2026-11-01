@@ -82,3 +82,50 @@ def suspend_user(current_user, user_id):
     user = current_user.suspend_user(user_id)
     return jsonify({"message": "User suspended",
                     "user": {**user.to_dict(), "isSuspended": user.is_suspended}}), 200
+def _page_args():
+    """page and limit from the query string (limit between 1 and 100)."""
+    page = request.args.get("page", default=1, type=int)
+    limit = request.args.get("limit", default=20, type=int)
+    if page < 1:
+        page = 1
+    if limit < 1:
+        limit = 20
+    if limit > 100:
+        limit = 100
+    return page, limit
+
+
+# 27
+@admin_bp.get("/stats")
+@admin_required
+def get_stats(current_user):
+    return jsonify(current_user.get_stats()), 200
+
+
+# 28
+@admin_bp.get("/users")
+@admin_required
+def list_users(current_user):
+    page, limit = _page_args()
+    users, total = current_user.list_users(page, limit)
+    return jsonify({"users": users, "page": page, "total": total}), 200
+
+
+# 29
+@admin_bp.get("/reviews")
+@admin_required
+def list_reviews(current_user):
+    page, limit = _page_args()
+    reviews, total = current_user.list_reviews(page, limit)
+    return jsonify({"reviews": reviews, "page": page, "total": total}), 200
+
+
+# 30
+@admin_bp.patch("/users/<int:user_id>/unsuspend")
+@admin_required
+def unsuspend_user(current_user, user_id):
+    user = current_user.unsuspend_user(user_id)
+    return jsonify({
+        "message": "User unsuspended",
+        "user": {**user.to_dict(), "isSuspended": user.is_suspended},
+    }), 200

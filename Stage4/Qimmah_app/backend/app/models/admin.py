@@ -145,6 +145,66 @@ class Admin(User):
         user.is_suspended = True
         db.session.commit()
         return user
+
+    def get_stats(self):
+        """Dashboard counters (endpoint 27)."""
+        from app.models.review import Review
+        return {
+            "trails": Trail.query.count(),
+            "reviews": Review.query.count(),
+            "users": User.query.filter(User.role == "user").count(),
+        }
+
+    def list_users(self, page, limit):
+        """Regular users with their reviews count (endpoint 28)."""
+        from sqlalchemy import func
+        from app.models.review import Review
+
+        query = User.query.filter(User.role == "user")
+        total = query.count()
+        users = (query.order_by(User.id.desc())
+                 .offset((page - 1) * limit).limit(limit).all())
+
+        counts = dict(
+            db.session.query(Review.user_id, func.count(Review.id))
+            .group_by(Review.user_id).all()
+        )
+        data = []
+        for user in users:
+            item = user.to_dict()
+            item["is_suspended"] = user.is_suspended
+            item["reviews_count"] = counts.get(user.id, 0)
+            data.append(item)
+        return data, total
+
+    def list_reviews(self, page, limit):
+        """All reviews with the author and trail names (endpoint 29)."""
+        from app.models.review import Review
+
+        total = Review.query.count()
+        rows = (
+            db.session.query(Review, User, Trail)
+            .join(User, Review.user_id == User.id)
+            .join(Trail, Review.trail_id == Trail.id)
+            .order_by(Review.created_at.desc())
+            .offset((page - 1) * limit).limit(limit).all()
+        )
+        data = []
+        for review, user, trail in rows:
+            item = review.to_dict()
+            item["user"] = {"id": user.id, "name": user.name}
+            item["trail"] = {"id": trail.id, "name": trail.name}
+            data.append(item)
+        return data, total
+
+    def unsuspend_user(self, user_id):
+        """Lift a suspension (endpoint 30)."""
+        user = db.session.get(User, user_id)
+        if user is None:
+            raise APIError("User not found", 404)
+        user.is_suspended = False
+        db.session.commit()
+        return user
     
     def delete_review(self, review_id):
         """UML: deleteReview(reviewId) (endpoint 25)."""

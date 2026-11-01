@@ -49,7 +49,18 @@ Future<Map<String, dynamic>> get(String path) async {
     );
     return _handleResponse(response);
   }
-
+  // لتغيير حالة شي (مثل إيقاف مستخدم)
+  Future<Map<String, dynamic>> patch(String path,
+      [Map<String, dynamic>? body]) async {
+    final response = await http
+        .patch(
+          Uri.parse(ApiEndpoints.baseUrl + path),
+          headers: await _headers(),
+          body: jsonEncode(body ?? {}),
+        )
+        .timeout(const Duration(seconds: 60));
+    return _handleResponse(response);
+  }
   // للحذف (مثل حذف تقييم)
   Future<Map<String, dynamic>> delete(String path) async {
     final response = await http.delete(

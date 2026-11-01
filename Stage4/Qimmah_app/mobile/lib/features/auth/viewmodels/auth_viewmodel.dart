@@ -16,7 +16,8 @@ class AuthViewModel extends ChangeNotifier {
 
   // نرجع true إذا اليوزر ضيف أو ما سجّل دخول أصلاً
   bool get isGuest => user == null || user!.role == 'guest';
-
+  // هل المستخدم أدمن؟ (من الدور اللي يرجعه السيرفر، مو من الإيميل)
+  bool get isAdmin => user != null && user!.role == 'admin';
   Future<bool> checkSavedLogin() async {
     user = await repository.getSavedUser();
     notifyListeners();

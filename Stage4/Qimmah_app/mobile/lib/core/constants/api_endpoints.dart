@@ -14,4 +14,9 @@ class ApiEndpoints {
     // التقييمات
   static String trailReviews(int trailId) => '/api/trails/$trailId/reviews';
   static String review(int reviewId) => '/api/reviews/$reviewId';
+    // الأدمن
+  static const String adminStats = '/api/admin/stats';
+  static const String adminUsers = '/api/admin/users';
+  static const String adminReviews = '/api/admin/reviews';
+  static const String adminTrails = '/api/admin/trails';
 }
