@@ -5,6 +5,7 @@ import '../../../core/constants/app_strings.dart';
 import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/theme_viewmodel.dart';
+import '../../auth/viewmodels/auth_viewmodel.dart'; // جديد
 
 /// صفحة البداية (Splash): صورة متحركة ببطء + الشعار + زر ابدأ الاستكشاف
 class SplashScreen extends StatefulWidget {
@@ -53,6 +54,9 @@ class _SplashScreenState extends State<SplashScreen>
         weight: 20,
       ),
     ]).animate(_controller);
+
+    // جديد: نسترجع الدخول المحفوظ بعد ما ينبني أول إطار
+    WidgetsBinding.instance.addPostFrameCallback((_) => _restoreLogin());
   }
 
   @override
@@ -77,6 +81,15 @@ class _SplashScreenState extends State<SplashScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  // جديد: لو فيه دخول محفوظ نفتح الرئيسية بدون ما يطلب دخول
+  Future<void> _restoreLogin() async {
+    final hasLogin = await context.read<AuthViewModel>().checkSavedLogin();
+    if (!mounted) return;
+    if (hasLogin) {
+      Navigator.of(context).pushReplacementNamed(AppRouter.explore);
+    }
   }
 
   @override
@@ -195,7 +208,6 @@ class _SplashScreenState extends State<SplashScreen>
                       isDark: isDark,
                       tooltip: isDark ? 'الوضع الفاتح' : 'الوضع الداكن',
                       onTap: () {
-                         final isDark = Theme.of(context).brightness == Brightness.dark;
                         context.read<ThemeViewModel>().setDark(!isDark);
                       },
                       padding: const EdgeInsets.all(9),
