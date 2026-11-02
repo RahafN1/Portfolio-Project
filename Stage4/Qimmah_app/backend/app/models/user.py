@@ -45,14 +45,6 @@ class User(db.Model):
     # UML: Admin inherits from User (the role column says which one)
     __mapper_args__ = {"polymorphic_on": role, "polymorphic_identity": "user"}
 
-    # ---------- Relationships (enable when the classes exist) ----------
-    # reviews = db.relationship("Review", backref="user",
-    #                           cascade="all, delete-orphan", passive_deletes=True)
-    # favorites = db.relationship("Favorite", backref="user",
-    #                             cascade="all, delete-orphan", passive_deletes=True)
-    # completed_trails = db.relationship("CompletedTrail", backref="user",
-    #                                    cascade="all, delete-orphan", passive_deletes=True)
-
     # ---------- Helpers ----------
     def to_dict(self):
         """The user object returned by the API (password and OTP never included)."""
