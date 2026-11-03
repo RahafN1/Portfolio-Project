@@ -9,7 +9,7 @@ class ReviewService:
     """Reviews logic (UML: ReviewService)."""
 
     @staticmethod
-    def get_reviews(trail_id, page=1, limit=20):
+    def get_reviews(trail_id, page=1, limit=10):
         """UML: getReviews(trailId) — newest first (endpoint 16).
         Returns (reviews, total)."""
         if db.session.get(Trail, trail_id) is None:
