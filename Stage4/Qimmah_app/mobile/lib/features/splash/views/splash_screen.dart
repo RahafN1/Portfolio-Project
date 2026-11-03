@@ -83,31 +83,26 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-
+ 
   // جديد: لو فيه دخول محفوظ نفتح الرئيسية بدون ما يطلب دخول
-  Future<void> _restoreLogin() async {
-    final hasLogin = await context.read<AuthViewModel>().checkSavedLogin();
-    if (!mounted) return;
-    if (hasLogin) {
-      Navigator.of(context).pushReplacementNamed(AppRouter.explore);
-
-  // لو فيه دخول محفوظ: الأدمن للوحة التحكم، والمستخدم العادي للرئيسية
+   // استعادة الدخول المحفوظ وتوجيه المستخدم حسب نوع الحساب
   Future<void> _restoreLogin() async {
     final authViewModel = context.read<AuthViewModel>();
     final hasLogin = await authViewModel.checkSavedLogin();
+
     if (!mounted) return;
 
     if (hasLogin) {
       if (authViewModel.isAdmin) {
-        // الأدمن يروح للوحة التحكم، وما فيه رجوع لواجهة اليوزر
+        // الأدمن يذهب إلى لوحة التحكم
         Navigator.of(context).pushNamedAndRemoveUntil(
           AppRouter.admin,
           (route) => false,
         );
       } else {
+        // المستخدم العادي يذهب إلى الرئيسية
         Navigator.of(context).pushReplacementNamed(AppRouter.explore);
       }
-
     }
   }
 
