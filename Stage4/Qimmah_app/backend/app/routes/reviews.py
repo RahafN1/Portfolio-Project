@@ -60,8 +60,8 @@ def get_trail_reviews(trail_id):
         page = 1
     if limit < 1:
         limit = 10
-    if limit > 50:
-        limit = 50
+    if limit > 100:
+        limit = 100
 
     # 3) المتوسط والعدد الكلي بنداء واحد للقاعدة
     avg_rating, total = (
