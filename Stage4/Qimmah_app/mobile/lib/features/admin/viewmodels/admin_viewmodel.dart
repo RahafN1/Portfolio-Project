@@ -54,6 +54,30 @@ class AdminViewModel extends ChangeNotifier {
 
   // كل الدوال ترجّع true لو نجحت
 
+
+  // إضافة مسار جديد
+  Future<bool> addTrail(Map<String, dynamic> data) async {
+    try {
+      await repository.addTrail(data);
+    } catch (_) {
+      return false;
+    }
+    // نجيب القوائم والأرقام من جديد عشان تظهر البيانات الجديدة
+    await load(silent: true);
+    return true;
+  }
+
+  // تعديل مسار موجود
+  Future<bool> updateTrail(Trail trail, Map<String, dynamic> data) async {
+    try {
+      await repository.updateTrail(trail.id, data);
+    } catch (_) {
+      return false;
+    }
+    await load(silent: true);
+    return true;
+  }
+
   Future<bool> deleteReview(AdminReview review) async {
     try {
       await repository.deleteReview(review.id);

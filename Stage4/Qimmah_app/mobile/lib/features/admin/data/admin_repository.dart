@@ -51,6 +51,18 @@ class AdminRepository {
     await api.patch('${ApiEndpoints.adminUsers}/$userId/$action');
   }
 
+
+  // إضافة مسار جديد
+  Future<void> addTrail(Map<String, dynamic> data) async {
+    await api.post(ApiEndpoints.adminTrails, data);
+  }
+
+  // تعديل مسار موجود
+  Future<void> updateTrail(int trailId, Map<String, dynamic> data) async {
+    await api.put('${ApiEndpoints.adminTrails}/$trailId', data);
+  }
+
+
   Future<void> deleteTrail(int trailId) async {
     await api.delete('${ApiEndpoints.adminTrails}/$trailId');
   }
