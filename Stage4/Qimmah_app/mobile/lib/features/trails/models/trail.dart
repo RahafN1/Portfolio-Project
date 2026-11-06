@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:latlong2/latlong.dart';
+
 class Trail {
   final int id;
   final String name;
@@ -15,6 +19,7 @@ class Trail {
   final double? startLat;
   final double? startLng;
   final List<String> safetyTips;
+  final List<LatLng> routePoints; // نقاط خط المسار (من GeoJSON)
 
   Trail({
     required this.id,
@@ -31,6 +36,7 @@ class Trail {
     this.startLat,
     this.startLng,
     this.safetyTips = const [],
+    this.routePoints = const [],
   });
 
   factory Trail.fromJson(Map<String, dynamic> json) {
@@ -55,7 +61,29 @@ class Trail {
       startLat: start is Map ? (start['lat'] as num?)?.toDouble() : null,
       startLng: start is Map ? (start['lng'] as num?)?.toDouble() : null,
       safetyTips: _parseTips(json['safety_tips']),
+      routePoints: _parseRoute(json['route_coordinates']),
     );
+  }
+
+  // route_coordinates = GeoJSON FeatureCollection فيه LineString
+  // الإحداثيات بالترتيب [lng, lat]، نقلبها لـ LatLng(lat, lng)
+  static List<LatLng> _parseRoute(dynamic raw) {
+    try {
+      final data = raw is String ? jsonDecode(raw) : raw;
+      if (data is! Map) return const [];
+      for (final feature in (data['features'] as List? ?? const [])) {
+        final geometry = feature is Map ? feature['geometry'] : null;
+        if (geometry is Map && geometry['type'] == 'LineString') {
+          return (geometry['coordinates'] as List)
+              .map((c) => LatLng(
+                    (c[1] as num).toDouble(),
+                    (c[0] as num).toDouble(),
+                  ))
+              .toList();
+        }
+      }
+    } catch (_) {}
+    return const [];
   }
 
   // النصائح تجي نص واحد كل سطر يبدأ بـ "•"، نقسمه لقائمة
@@ -86,6 +114,7 @@ class Trail {
       startLat: startLat,
       startLng: startLng,
       safetyTips: safetyTips,
+      routePoints: routePoints,
     );
   }
 

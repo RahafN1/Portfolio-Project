@@ -13,6 +13,8 @@ import 'widgets/filter_sheet.dart';
 import 'widgets/region_tabs.dart';
 import 'widgets/trail_card.dart';
 import '../../favorites/viewmodels/favorites_viewmodel.dart';
+import '../../../core/widgets/shimmer_box.dart';
+import 'widgets/trail_card_skeleton.dart';
 
 // الرئيسية: ترحيب + بحث + فلاتر + المسارات
 class ExploreScreen extends StatefulWidget {
@@ -125,11 +127,17 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   List<Widget> _buildContent(ExploreViewModel explore) {
-    if (explore.isLoading) {
+      if (explore.isLoading) {
       return const [
-        SizedBox(
-          height: 260,
-          child: Center(child: CircularProgressIndicator()),
+        // Shimmer واحد يلف الكروت كلها عشان اللمعان يمشي عليها مع بعض
+        Shimmer(
+          child: Column(
+            children: [
+              TrailCardSkeleton(),
+              TrailCardSkeleton(),
+              TrailCardSkeleton(),
+            ],
+          ),
         ),
       ];
     }
@@ -192,12 +200,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
             ),
           ),
         ),
-              // أسفل القائمة: دائرة تحميل، أو زر إعادة المحاولة لو فشل التحميل
+        //تحميل الزياده بعد شمر
       if (explore.isLoadingMore)
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Center(child: CircularProgressIndicator()),
-        )
+        const Shimmer(child: TrailCardSkeleton())
       else if (explore.loadMoreError != null)
         Center(
           child: TextButton(

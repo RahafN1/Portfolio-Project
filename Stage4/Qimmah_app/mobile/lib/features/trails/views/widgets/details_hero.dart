@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+
 import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
+
 
 // صورة المسار الكبيرة + أزرار (رجوع / مشاركة / لغة) + شارة "معتمد"
 // الحافة السفلية الدائرية هي شريط بلون الخلفية فوق أسفل الصورة
@@ -85,12 +87,11 @@ class DetailsHero extends StatelessWidget {
             ),
 
           // زر الرجوع (يمين)
-          PositionedDirectional(
-            top: top,
-            start: 16,
-            child: _CircleButton(icon: Icons.chevron_right, onTap: onBack),
-          ),
-
+  PositionedDirectional(
+  top: top,
+  start: 16,
+ child: _CircleButton(icon: Icons.chevron_right, onTap: onBack),
+),
           // مشاركة + لغة (يسار)
           PositionedDirectional(
             top: top,
@@ -99,7 +100,7 @@ class DetailsHero extends StatelessWidget {
               children: [
                 _LanguageButton(onTap: onLanguageTap),
                 const SizedBox(width: 8),
-                _CircleButton(icon: Icons.share_outlined, onTap: onShare),
+                _CircleButton(icon: Icons.ios_share, onTap: onShare),
               ],
             ),
           ),
@@ -126,7 +127,11 @@ class _CircleButton extends StatelessWidget {
         child: SizedBox(
           width: 42,
           height: 42,
-          child: Icon(icon, size: 22, color: Colors.black87),
+          child: Directionality(
+  textDirection: TextDirection.ltr,
+  child: Icon(icon, size: 22, color:AppColors.primary),
+),
+          
         ),
       ),
     );

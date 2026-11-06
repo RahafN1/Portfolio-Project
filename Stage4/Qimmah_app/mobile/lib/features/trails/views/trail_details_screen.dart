@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/guest_login_sheet.dart';
@@ -100,20 +102,17 @@ class _DetailsView extends StatelessWidget {
     );
   }
 
-  // المشاركة: ننسخ اسم المسار + رابط الموقع (لو موجود)
-  Future<void> _onShare(BuildContext context, Trail trail) async {
-    final lines = [
-      trail.name,
-      '${trail.region} · ${trail.distanceText} كم',
-      if (trail.locationUrl != null) trail.locationUrl!,
-    ];
-    await Clipboard.setData(ClipboardData(text: lines.join('\n')));
-    if (!context.mounted) return;
-    _toast(
-      context,
-      trail.locationUrl != null ? 'تم نسخ رابط المسار' : 'تم نسخ معلومات المسار',
-    );
-  }
+// المشاركة: نفتح قائمة المشاركة (واتساب، رسائل...) باسم المسار + رابط الموقع
+Future<void> _onShare(BuildContext context, Trail trail) async {
+  final lines = [
+    trail.name,
+    '${trail.region} · ${trail.distanceText} كم',
+    if (trail.locationUrl != null) trail.locationUrl!,
+  ];
+await SharePlus.instance.share(
+  ShareParams(text: lines.join('\n'), subject: trail.name),
+);
+}
 
   Future<void> _onDirections(BuildContext context, Trail trail) async {
     final url = trail.directionsUrl;
@@ -171,12 +170,14 @@ class _DetailsView extends StatelessWidget {
                   const SizedBox(height: 16),
                   _PhotoStrip(images: trail.images),
                 ],
-                if (trail.hasStartPoint) ...[
+                         if (trail.hasStartPoint) ...[
                   const SizedBox(height: 24),
                   const _SectionTitle('نقطة البداية'),
-                  StartPointCard(
-                    onDirections: () => _onDirections(context, trail),
-                  ),
+               StartPointCard(
+  point: LatLng(trail.startLat!, trail.startLng!),
+  route: trail.routePoints,
+  onDirections: () => _onDirections(context, trail),
+),
                 ],
                 if (trail.safetyTips.isNotEmpty) ...[
                   const SizedBox(height: 24),
