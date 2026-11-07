@@ -130,11 +130,11 @@ List<String> get regions {
   bool get hasActiveFilters =>
       selectedDifficulty != null || selectedRegion != allRegions;
 
- // البحث: ننتظر ٤٠٠ ملي ثانية بعد آخر حرف عشان ما نرسل طلب مع كل حرف
+ // البحث: ننتظر 1000 ملي ثانية بعد آخر حرف عشان ما نرسل طلب مع كل حرف
 void setSearch(String value) {
   searchQuery = value;
   _searchDebounce?.cancel();
-  _searchDebounce = Timer(const Duration(milliseconds: 400), loadTrails);
+  _searchDebounce = Timer(const Duration(milliseconds: 1000), loadTrails);
   notifyListeners();
 }
 

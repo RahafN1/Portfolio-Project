@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -21,6 +22,11 @@ import 'widgets/trail_stats_row.dart';
 import '../../reviews/data/reviews_repository.dart';
 import '../../reviews/viewmodels/reviews_viewmodel.dart';
 import '../../reviews/views/widgets/reviews_section.dart';
+
+// مؤقت للرسالة، عشان تطلع مرة وحدة بعد ما يسكت المستخدم
+
+Timer? _saveToastTimer;
+Timer? _completeToastTimer;
 
 // صفحة تفاصيل المسار
 // نعرض بيانات القائمة فوراً، والتفاصيل الكاملة (نبذة، صور، نصائح) تنجاب بعدين
@@ -63,43 +69,45 @@ class _DetailsView extends StatelessWidget {
       );
   }
 
-  Future<void> _onSave(BuildContext context, Trail trail) async {
+    Future<void> _onSave(BuildContext context, Trail trail) async {
     // الضيف يطلع له تنبيه تسجيل الدخول
     if (context.read<AuthViewModel>().isGuest) {
       showGuestLoginSheet(context);
       return;
     }
     final favorites = context.read<FavoritesViewModel>();
-    final wasSaved = favorites.isSaved(trail.id);
-    final ok = await favorites.toggleSaved(trail);
-    if (!context.mounted) return;
-    _toast(
-      context,
-      !ok
-          ? 'صار خطأ، حاول مرة ثانية'
-          : wasSaved
-              ? 'انشال المسار من مساراتي'
-              : 'انحفظ المسار في مساراتي',
-    );
+    await favorites.toggleSaved(trail);
+
+    _saveToastTimer?.cancel();
+    _saveToastTimer = Timer(const Duration(milliseconds: 500), () {
+      if (!context.mounted) return;
+      _toast(
+        context,
+        favorites.isSaved(trail.id)
+            ? 'انحفظ المسار في مساراتي'
+            : 'انشال المسار من مساراتي',
+      );
+    });
   }
 
-  Future<void> _onComplete(BuildContext context, Trail trail) async {
+    Future<void> _onComplete(BuildContext context, Trail trail) async {
     if (context.read<AuthViewModel>().isGuest) {
       showGuestLoginSheet(context, title: 'سجّل دخولك عشان تسجّل المسار');
       return;
     }
     final favorites = context.read<FavoritesViewModel>();
-    final wasCompleted = favorites.isCompleted(trail.id);
-    final ok = await favorites.toggleCompleted(trail);
-    if (!context.mounted) return;
-    _toast(
-      context,
-      !ok
-          ? 'صار خطأ، حاول مرة ثانية'
-          : wasCompleted
-              ? 'انشال المسار من المكتملة'
-              : 'مبروك! انسجّل المسار كمكتمل',
-    );
+    await favorites.toggleCompleted(trail);
+
+    _completeToastTimer?.cancel();
+    _completeToastTimer = Timer(const Duration(milliseconds: 500), () {
+      if (!context.mounted) return;
+      _toast(
+        context,
+        favorites.isCompleted(trail.id)
+            ? 'مبروك! انسجّل المسار كمكتمل'
+            : 'انشال المسار من المكتملة',
+      );
+    });
   }
 
 // المشاركة: نفتح قائمة المشاركة (واتساب، رسائل...) باسم المسار + رابط الموقع

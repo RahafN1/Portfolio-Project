@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../core/network/api_exception.dart';
@@ -17,6 +18,11 @@ class FavoritesViewModel extends ChangeNotifier {
   MyTrailsTab tab = MyTrailsTab.saved;
   bool isLoading = false;
   String? errorMessage;
+  
+  final Map<int, Timer> _saveTimers = {};
+  final Map<int, bool> _savedOnServer = {};
+  final Map<int, Timer> _completeTimers = {};
+  final Map<int, bool> _completedOnServer = {};
 
   void setTab(MyTrailsTab value) {
     tab = value;
@@ -58,19 +64,45 @@ class FavoritesViewModel extends ChangeNotifier {
 
   // حفظ أو إلغاء حفظ (من الاستكشاف أو التفاصيل). يرجّع true لو نجح
   // نغيّر القائمة فوراً، ونرجّعها لو فشل الطلب
-  Future<bool> toggleSaved(Trail trail) async {
-    if (isSaved(trail.id)) return removeSaved(trail);
+    Future<bool> toggleSaved(Trail trail) async {
+    _savedOnServer.putIfAbsent(trail.id, () => isSaved(trail.id));
 
-    saved.insert(0, trail);
+    if (isSaved(trail.id)) {
+      saved.removeWhere((t) => t.id == trail.id);
+    } else {
+      saved.insert(0, trail);
+    }
     notifyListeners();
 
+    _saveTimers[trail.id]?.cancel();
+    _saveTimers[trail.id] = Timer(
+      const Duration(milliseconds: 500),
+      () => _syncSaved(trail),
+    );
+
+    return true;
+  }
+  
+  Future<void> _syncSaved(Trail trail) async {
+    _saveTimers.remove(trail.id);
+    final before = _savedOnServer.remove(trail.id) ?? false;
+    final now = isSaved(trail.id);
+
+    if (before == now) return;
+
     try {
-      await repository.addFavorite(trail.id);
-      return true;
+      if (now) {
+        await repository.addFavorite(trail.id);
+      } else {
+        await repository.removeFavorite(trail.id);
+      }
     } catch (_) {
-      saved.removeWhere((t) => t.id == trail.id);
+      if (before && !isSaved(trail.id)) {
+        saved.insert(0, trail);
+      } else if (!before) {
+        saved.removeWhere((t) => t.id == trail.id);
+      }
       notifyListeners();
-      return false;
     }
   }
 
@@ -92,37 +124,61 @@ class FavoritesViewModel extends ChangeNotifier {
     }
   }
 
-  // تسجيل المسار كمكتمل أو إلغاؤه. يرجّع true لو نجح
-  Future<bool> toggleCompleted(Trail trail) async {
-    final index = completed.indexWhere((c) => c.trail.id == trail.id);
+    Future<bool> toggleCompleted(Trail trail) async {
+    _completedOnServer.putIfAbsent(trail.id, () => isCompleted(trail.id));
 
-    // إلغاء الإكمال
-    if (index != -1) {
-      final removed = completed.removeAt(index);
-      notifyListeners();
-      try {
-        await repository.removeCompleted(trail.id);
-        return true;
-      } catch (_) {
-        completed.insert(index, removed);
-        notifyListeners();
-        return false;
-      }
-    }
-
-    // تسجيل الإكمال (التاريخ المؤقت لين نعيد تحميل القائمة)
-    completed.insert(
-      0,
-      CompletedTrail(trail: trail, completedAt: DateTime.now()),
-    );
-    notifyListeners();
-    try {
-      await repository.addCompleted(trail.id);
-      return true;
-    } catch (_) {
+    if (isCompleted(trail.id)) {
       completed.removeWhere((c) => c.trail.id == trail.id);
-      notifyListeners();
-      return false;
+    } else {
+      completed.insert(
+        0,
+        CompletedTrail(trail: trail, completedAt: DateTime.now()),
+      );
     }
+    notifyListeners();
+
+    _completeTimers[trail.id]?.cancel();
+    _completeTimers[trail.id] = Timer(
+      const Duration(milliseconds: 500),
+      () => _syncCompleted(trail),
+    );
+
+    return true;
+  }
+  
+  Future<void> _syncCompleted(Trail trail) async {
+    _completeTimers.remove(trail.id);
+    final before = _completedOnServer.remove(trail.id) ?? false;
+    final now = isCompleted(trail.id);
+
+    if (before == now) return;
+
+    try {
+      if (now) {
+        await repository.addCompleted(trail.id);
+      } else {
+        await repository.removeCompleted(trail.id);
+      }
+    } catch (_) {
+      if (before && !isCompleted(trail.id)) {
+        completed.insert(
+          0,
+          CompletedTrail(trail: trail, completedAt: DateTime.now()),
+        );
+      } else if (!before) {
+        completed.removeWhere((c) => c.trail.id == trail.id);
+      }
+      notifyListeners();
+    }
+  }
+  @override
+  void dispose() {
+    for (final timer in _saveTimers.values) {
+      timer.cancel();
+    }
+    for (final timer in _completeTimers.values) {
+      timer.cancel();
+    }
+    super.dispose();
   }
 }
