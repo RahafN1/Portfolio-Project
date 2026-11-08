@@ -1,6 +1,6 @@
 class ApiEndpoints {
  // رابط الباك إند المحلي
-  static const String baseUrl = 'https://portfolio-project-fq53.onrender.com';
+  static const String baseUrl = 'https://portfolio-project-production-d5d7.up.railway.app';
 
   static const String register = '/api/auth/register';
   static const String verifyEmail = '/api/auth/verify-email';
