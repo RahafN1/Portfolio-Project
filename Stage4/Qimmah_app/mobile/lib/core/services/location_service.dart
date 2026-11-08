@@ -28,4 +28,14 @@ class LocationService {
       return null;
     }
   }
+
+  // موقع مستمر: يرسل موقع جديد كل ما تحرّك المستخدم 5 أمتار
+  Stream<Position> positionStream() {
+    return Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 5, // أقل مسافة حركة قبل ما يجي تحديث
+      ),
+    );
+  }
 }

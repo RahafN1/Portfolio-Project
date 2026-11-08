@@ -174,6 +174,8 @@ Future<void> loadMapTrails() async {
     // لو فشل، الخريطة تظهر فاضية وتعيد المحاولة المرة الجاية
   }
 }
+// تفاصيل مسار واحد (فيها خط المسار)، نحتاجها لما نضغط علامة في الخريطة
+Future<Trail> loadTrailDetails(int id) => repository.getTrail(id);
 
 // مسارات الخريطة بعد تطبيق نفس فلاتر الاستكشاف
 List<Trail> get mapTrails {

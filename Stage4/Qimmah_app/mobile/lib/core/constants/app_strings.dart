@@ -45,4 +45,10 @@ class AppStrings {
   static const String onTrailTitle = 'أنت على المسار';
   static const String onTrailUpdated = 'آخر تحديث:';
   static const String onTrailEnd = 'إنهاء';
+
+  static const String mapNoRoute = 'هذا المسار ما له خط على الخريطة بعد';
+  static const String mapRecenter = 'تتبّعني';
+  static const String onTrailOffRoute = 'ابتعدت عن المسار';
+  static const String onTrailRemaining = 'المتبقي:';
+  static const String onTrailFinished = 'وصلت نهاية المسار 🎉';
 }
