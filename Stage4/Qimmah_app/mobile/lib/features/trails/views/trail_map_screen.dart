@@ -21,7 +21,17 @@ import 'widgets/on_trail_banner.dart';
 
 // صفحة الخريطة: علامات المسارات + البحث + موقعي + كرت المسار + على المسار
 class TrailMapScreen extends StatefulWidget {
-  const TrailMapScreen({super.key});
+  // لو جينا من صفحة التفاصيل: نفتح الخريطة على هذا المسار
+  final Trail? initialTrail;
+
+  // نبدأ التتبّع مباشرة أول ما تنفتح الشاشة
+  final bool startTracking;
+
+  const TrailMapScreen({
+    super.key,
+    this.initialTrail,
+    this.startTracking = false,
+  });
 
   @override
   State<TrailMapScreen> createState() => _TrailMapScreenState();
@@ -78,8 +88,33 @@ void initState() {
   // الخريطة تحتاج كل العلامات، فنجيبها لوحدها (بدون صفحات)
   WidgetsBinding.instance.addPostFrameCallback((_) {
     context.read<ExploreViewModel>().loadMapTrails();
+    _openInitialTrail();
   });
 }
+
+  // لو جينا من التفاصيل: نختار المسار، نرسم خطه، ونبدأ التتبّع
+  Future<void> _openInitialTrail() async {
+    final trail = widget.initialTrail;
+    if (trail == null) return;
+
+    if (trail.routePoints.length > 1) {
+      // الخط جاهز من صفحة التفاصيل، ما نحتاج طلب جديد
+      setState(() {
+        _selected = trail;
+        _routePoints = trail.routePoints;
+      });
+      _mapController.fitCamera(
+        CameraFit.coordinates(
+          coordinates: trail.routePoints,
+          padding: const EdgeInsets.fromLTRB(40, 120, 40, 280),
+        ),
+      );
+    } else {
+      await _selectTrail(trail); // نجيب الخط من الباك إند
+    }
+
+    if (widget.startTracking && mounted) await _startTrail();
+  }
   // لما الصفحة تنقفل: نوقف الساعة عشان ما تضل شغّالة
   @override
   void dispose() {
@@ -394,8 +429,19 @@ void initState() {
               child: Column(
                 mainAxisSize: MainAxisSize.min, // بطول محتواه بس
                 children: [
-                  _SearchBar(
-                    onChanged: (value) => _onSearch(value, vm.mapTrails),
+                  Row(
+                    children: [
+                      // زر الرجوع يطلع بس لو جينا من صفحة التفاصيل
+                      if (widget.initialTrail != null) ...[
+                        _BackButton(onTap: () => Navigator.of(context).pop()),
+                        const SizedBox(width: 8),
+                      ],
+                      Expanded(
+                        child: _SearchBar(
+                          onChanged: (value) => _onSearch(value, vm.mapTrails),
+                        ),
+                      ),
+                    ],
                   ),
                   // الشريط: يطلع بس وإحنا على المسار
                   if (_onTrail) ...[
@@ -462,12 +508,19 @@ void initState() {
                 // ابدأ المسار: نافذة الإذن ثم الموقع الحقيقي ثم الشريط
                 onStart: () => _startTrail(),
                 // عرض التفاصيل: يفتح صفحة التفاصيل بنفس طريقة الاستكشاف
-                onDetails: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TrailDetailsScreen(trail: _selected!),
-                  ),
-                ),
+                onDetails: () {
+                  if (widget.initialTrail != null) {
+                    Navigator.of(context).pop(); // نرجع للتفاصيل
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TrailDetailsScreen(trail: _selected!),
+                      ),
+                    );
+                  }
+                },
               ),
             ),
         ],
@@ -595,6 +648,30 @@ class _LocateButton extends StatelessWidget {
         child: const Padding(
           padding: EdgeInsets.all(12),
           child: Icon(Icons.my_location, color: AppColors.primary),
+        ),
+      ),
+    );
+  }
+}
+
+// زر الرجوع المربع الأبيض
+class _BackButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _BackButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      elevation: 3,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: onTap,
+        child: const Padding(
+          padding: EdgeInsets.all(12),
+          child: Icon(Icons.arrow_back, color: AppColors.primary),
         ),
       ),
     );

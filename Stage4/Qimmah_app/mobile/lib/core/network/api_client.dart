@@ -58,7 +58,7 @@ Future<Map<String, dynamic>> get(String path) async {
           headers: await _headers(),
           body: jsonEncode(body ?? {}),
         )
-        .timeout(const Duration(seconds: 60));
+        .timeout(const Duration(seconds: 1));
     return _handleResponse(response);
   }
   // للحذف (مثل حذف تقييم)

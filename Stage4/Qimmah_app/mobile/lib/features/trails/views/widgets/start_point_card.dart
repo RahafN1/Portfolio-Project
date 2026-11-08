@@ -9,12 +9,14 @@ class StartPointCard extends StatelessWidget {
   final LatLng point; // إحداثيات نقطة البداية
   final List<LatLng> route; // نقاط خط المسار (ممكن تكون فاضية)
   final VoidCallback onDirections;
+  final VoidCallback? onMapTap; // الضغط على الخريطة (يفتح التتبّع)
 
   const StartPointCard({
     super.key,
     required this.point,
     this.route = const [],
     required this.onDirections,
+    this.onMapTap,
   });
 
   @override
@@ -37,6 +39,7 @@ class StartPointCard extends StatelessWidget {
               options: MapOptions(
                 initialCenter: point,
                 initialZoom: 14,
+                onTap: onMapTap == null ? null : (_, __) => onMapTap!(),
                 // لو فيه مسار نضبط الكاميرا عشان يبان كله
                 initialCameraFit: route.length >= 2
                     ? CameraFit.coordinates(

@@ -2,6 +2,8 @@ import json
 
 from app.extensions import db
 
+# علامة تعني "ما أعطيناك التقييم، احسبه بنفسك" (None معناها: ما فيه تقييمات)
+_NOT_GIVEN = object()
 
 class Trail(db.Model):
     """A hiking trail (UML: Trail)."""
@@ -77,9 +79,16 @@ class Trail(db.Model):
         """UML: getSafetyTips()."""
         return self.safety_tips
 
-    def get_summary(self, lang="ar"):
-        """Short version for trail lists (endpoint 14) — no full route."""
+    def get_summary(self, lang="ar", average_rating=_NOT_GIVEN):
+        """Short version for trail lists (endpoint 14) — no full route.
+
+        average_rating: lists pass the rating they already computed for all
+        trails in ONE query (TrailService.average_ratings). If it is not given
+        (a single trail), we fall back to one query for this trail.
+        """
         images = self.image_list
+        if average_rating is _NOT_GIVEN:
+            average_rating = self.get_average_rating()
         return {
             "id": self.id,
             "name": self._pick(self.name, self.name_en, lang),
@@ -87,7 +96,7 @@ class Trail(db.Model):
             "difficulty": self.difficulty,
             "distance": float(self.distance),
             "estimated_duration": self._pick(self.estimated_duration, self.estimated_duration_en, lang),
-            "average_rating": self.get_average_rating(),
+            "average_rating": average_rating,
             "cover_image": images[0] if images else None,
             "start_point": self.get_location()["start_point"],
         }

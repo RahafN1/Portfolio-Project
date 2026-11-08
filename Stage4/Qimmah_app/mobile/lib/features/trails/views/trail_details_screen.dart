@@ -22,6 +22,8 @@ import 'widgets/trail_stats_row.dart';
 import '../../reviews/data/reviews_repository.dart';
 import '../../reviews/viewmodels/reviews_viewmodel.dart';
 import '../../reviews/views/widgets/reviews_section.dart';
+import 'widgets/photo_viewer.dart';
+import 'trail_map_screen.dart';
 
 // مؤقت للرسالة، عشان تطلع مرة وحدة بعد ما يسكت المستخدم
 
@@ -181,10 +183,20 @@ await SharePlus.instance.share(
                          if (trail.hasStartPoint) ...[
                   const SizedBox(height: 24),
                   const _SectionTitle('نقطة البداية'),
-               StartPointCard(
+             StartPointCard(
   point: LatLng(trail.startLat!, trail.startLng!),
   route: trail.routePoints,
   onDirections: () => _onDirections(context, trail),
+  // الضغط على الخريطة: نفتح التتبّع على نفس المسار
+  onMapTap: () => Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => TrailMapScreen(
+        initialTrail: trail,
+        startTracking: true,
+      ),
+    ),
+  ),
 ),
                 ],
                 if (trail.safetyTips.isNotEmpty) ...[
@@ -345,28 +357,32 @@ class _PhotoStrip extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: images.length,
         separatorBuilder: (_, __) => const SizedBox(width: 10),
-        itemBuilder: (_, i) => ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: CachedNetworkImage(
-            imageUrl: images[i],
-            width: _width,
-            height: _height,
-            fit: BoxFit.cover,
-            // نصغّر الصورة بالذاكرة (٣ أضعاف العرض) عشان ما تاكل رام
-            memCacheWidth: (_width * 3).toInt(),
-            placeholder: (_, __) => Container(
-              color: AppColors.primaryLight,
-              child: const Center(
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+        itemBuilder: (context, i) => GestureDetector(
+          // الضغط يفتح الصورة بملء الشاشة على نفس الصورة
+          onTap: () => showPhotoViewer(context, images, i),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: CachedNetworkImage(
+              imageUrl: images[i],
+              width: _width,
+              height: _height,
+              fit: BoxFit.cover,
+              // نصغّر الصورة بالذاكرة (٣ أضعاف العرض) عشان ما تاكل رام
+              memCacheWidth: (_width * 3).toInt(),
+              placeholder: (_, __) => Container(
+                color: AppColors.primaryLight,
+                child: const Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
                 ),
               ),
-            ),
-            errorWidget: (_, __, ___) => Container(
-              color: AppColors.primaryLight,
-              child: const Icon(Icons.terrain, color: AppColors.disabled),
+              errorWidget: (_, __, ___) => Container(
+                color: AppColors.primaryLight,
+                child: const Icon(Icons.terrain, color: AppColors.disabled),
+              ),
             ),
           ),
         ),

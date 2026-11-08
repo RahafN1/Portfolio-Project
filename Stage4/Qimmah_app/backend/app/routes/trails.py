@@ -22,6 +22,7 @@ def get_trails():
         page=page,
         limit=request.args.get("limit", 20, type=int),
     )
+    ratings = TrailService.average_ratings(trails)  # استعلام واحد لكل المسارات
     return jsonify({
         "trails": [trail.get_summary(lang) for trail in trails],
         "page": page,
