@@ -86,8 +86,8 @@ class _DetailsView extends StatelessWidget {
       _toast(
         context,
         favorites.isSaved(trail.id)
-            ? 'انحفظ المسار في مساراتي'
-            : 'انشال المسار من مساراتي',
+            ? 'تم الحفظ '
+            : '  تم ازالة الحفظ ',
       );
     });
   }
@@ -106,8 +106,8 @@ class _DetailsView extends StatelessWidget {
       _toast(
         context,
         favorites.isCompleted(trail.id)
-            ? 'مبروك! انسجّل المسار كمكتمل'
-            : 'انشال المسار من المكتملة',
+            ? 'مبروك! اكتمل المسار  '
+            : '  تم ازالة المسار',
       );
     });
   }
