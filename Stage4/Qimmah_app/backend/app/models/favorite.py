@@ -1,3 +1,4 @@
+from sqlalchemy.exc import IntegrityError
 from datetime import datetime, timezone
 
 from app.errors import APIError
@@ -48,7 +49,11 @@ class Favorite(db.Model):
 
         favorite = cls(user_id=user_id, trail_id=trail_id)
         db.session.add(favorite)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            raise APIError("Trail already in favorites", 409)
         return favorite
 
     @classmethod

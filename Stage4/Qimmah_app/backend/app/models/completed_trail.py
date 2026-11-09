@@ -1,3 +1,4 @@
+from sqlalchemy.exc import IntegrityError
 from app.errors import APIError
 from app.extensions import db
 
@@ -32,7 +33,11 @@ class CompletedTrail(db.Model):
             raise APIError("Trail already marked as completed", 409)
         completed = cls(user_id=user_id, trail_id=trail_id)
         db.session.add(completed)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            raise APIError("Trail already marked as completed", 409)
         return completed
 
     @classmethod
