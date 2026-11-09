@@ -26,6 +26,7 @@ dependencies:
 
 
 dev_dependencies:
+  flutter_native_splash: ^2.4.0
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
@@ -46,3 +47,20 @@ flutter_launcher_icons:
     image_path: "assets/images/app_icon.png"
     background_color: "#FFFFFF"
     theme_color: "#1F5233"
+
+flutter_native_splash:
+  color: "#F6F5F1"                 # backgroundLight
+  image: assets/images/logo_mountains.png
+  color_dark: "#111714"            # backgroundDark
+  image_dark: assets/images/logo_mountains.png
+
+  android_12:
+    color: "#F6F5F1"
+    image: assets/images/app_icon.png
+    icon_background_color: "#F6F5F1"
+    color_dark: "#111714"
+    image_dark: assets/images/app_icon.png
+    icon_background_color_dark: "#111714"
+
+  fullscreen: true
+  web: false
