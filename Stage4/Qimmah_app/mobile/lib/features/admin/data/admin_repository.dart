@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import '../../../core/constants/api_endpoints.dart';
 import '../../../core/network/api_client.dart';
 import '../models/admin_models.dart';
@@ -52,11 +53,20 @@ class AdminRepository {
   }
 
 
-  // إضافة مسار جديد
-  Future<void> addTrail(Map<String, dynamic> data) async {
-    await api.post(ApiEndpoints.adminTrails, data);
+    // إضافة مسار جديد (ترجع رقم المسار الجديد)
+  Future<int?> addTrail(Map<String, dynamic> data) async {
+    final res = await api.post(ApiEndpoints.adminTrails, data);
+    return res['trail']?['id'];
   }
 
+  // رفع صور المسار
+  Future<void> uploadTrailImages(int trailId, List<Uint8List> images) async {
+    await api.postFiles(
+      '${ApiEndpoints.adminTrails}/$trailId/images',
+      'images',
+      images,
+    );
+  }
   // تعديل مسار موجود
   Future<void> updateTrail(int trailId, Map<String, dynamic> data) async {
     await api.put('${ApiEndpoints.adminTrails}/$trailId', data);

@@ -157,9 +157,9 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
     setState(() => _isSaving = true);
 
     final vm = context.read<AdminViewModel>();
-    final ok = _isEdit
-        ? await vm.updateTrail(widget.trail!, data)
-        : await vm.addTrail(data);
+        final ok = _isEdit
+        ? await vm.updateTrail(widget.trail!, data, images: _images)
+        : await vm.addTrail(data, images: _images);
 
     if (!mounted) return;
     setState(() => _isSaving = false);

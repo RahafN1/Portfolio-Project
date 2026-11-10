@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 import '../../trails/data/trails_repository.dart';
@@ -55,22 +56,34 @@ class AdminViewModel extends ChangeNotifier {
   // كل الدوال ترجّع true لو نجحت
 
 
-  // إضافة مسار جديد
-  Future<bool> addTrail(Map<String, dynamic> data) async {
+   // إضافة مسار جديد (ومعه الصور لو فيه)
+  Future<bool> addTrail(
+    Map<String, dynamic> data, {
+    List<Uint8List> images = const [],
+  }) async {
     try {
-      await repository.addTrail(data);
+      final trailId = await repository.addTrail(data);
+      if (images.isNotEmpty && trailId != null) {
+        await repository.uploadTrailImages(trailId, images);
+      }
     } catch (_) {
       return false;
     }
-    // نجيب القوائم والأرقام من جديد عشان تظهر البيانات الجديدة
     await load(silent: true);
     return true;
   }
 
-  // تعديل مسار موجود
-  Future<bool> updateTrail(Trail trail, Map<String, dynamic> data) async {
+  // تعديل مسار موجود (ومعه صور جديدة لو فيه)
+  Future<bool> updateTrail(
+    Trail trail,
+    Map<String, dynamic> data, {
+    List<Uint8List> images = const [],
+  }) async {
     try {
       await repository.updateTrail(trail.id, data);
+      if (images.isNotEmpty) {
+        await repository.uploadTrailImages(trail.id, images);
+      }
     } catch (_) {
       return false;
     }
