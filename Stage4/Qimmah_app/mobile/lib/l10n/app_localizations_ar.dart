@@ -96,4 +96,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statKmWalked => 'كم مشي';
+
+  @override
+  String get firstName => 'الاسم الأول';
+
+  @override
+  String get lastName => 'اسم العائلة';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+
+  @override
+  String get emailCannotChange => 'البريد ما يتغير';
+
+  @override
+  String get saveChanges => 'حفظ التعديلات';
+
+  @override
+  String get account => 'الحساب';
 }

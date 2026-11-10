@@ -247,6 +247,42 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'كم مشي'**
   String get statKmWalked;
+
+  /// No description provided for @firstName.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم الأول'**
+  String get firstName;
+
+  /// No description provided for @lastName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم العائلة'**
+  String get lastName;
+
+  /// No description provided for @email.
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الإلكتروني'**
+  String get email;
+
+  /// No description provided for @emailCannotChange.
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد ما يتغير'**
+  String get emailCannotChange;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ التعديلات'**
+  String get saveChanges;
+
+  /// No description provided for @account.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب'**
+  String get account;
 }
 
 class _AppLocalizationsDelegate

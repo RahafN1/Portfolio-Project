@@ -93,4 +93,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statKmWalked => 'km walked';
+
+  @override
+  String get firstName => 'First name';
+
+  @override
+  String get lastName => 'Last name';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get emailCannotChange => 'Email can\'t be changed';
+
+  @override
+  String get saveChanges => 'Save changes';
+
+  @override
+  String get account => 'Account';
 }

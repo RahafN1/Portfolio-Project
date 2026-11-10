@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart'; // عناصر الواجهة
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart'; // نقرأ الـ ViewModels
 
 import '../../../core/routing/app_router.dart'; // أسماء الصفحات
@@ -22,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('تسجيل الخروج؟'),
+        title:  Text(AppLocalizations.of(context)!.logout),
         content:
             const Text('سيرجع حسابك كزائر، ومساراتك تبقى محفوظة في حسابك.'),
         actions: [
@@ -41,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
                   style: FilledButton.styleFrom(
                       backgroundColor: Colors.red.shade700),
                   onPressed: () => Navigator.pop(ctx, true),
-                  child: const Text('تسجيل الخروج'),
+                  child:  Text(AppLocalizations.of(context)!.logout),
                 ),
               ),
             ],
@@ -143,8 +144,8 @@ class ProfileScreen extends StatelessWidget {
           _topButtons(context, isDark),
           const SizedBox(height: 16),
 
-          const Text(
-            'context.l10n.profileTitle',
+          Text(
+            AppLocalizations.of(context)!.tabProfile,
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
@@ -167,7 +168,8 @@ class ProfileScreen extends StatelessWidget {
                 side: const BorderSide(color: AppColors.border),
               ),
               leading: const Icon(Icons.edit_outlined),
-              title: const Text('تعديل البيانات'),
+              title:  Text(AppLocalizations.of(context)!.editProfile
+),
               trailing: const Icon(Icons.chevron_left),
               onTap: () => _editSheet(context, user.name, user.email),
             ),
@@ -182,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               onPressed: () => _confirmLogout(context),
               icon: const Icon(Icons.logout),
-              label: const Text('تسجيل الخروج'),
+              label:  Text(AppLocalizations.of(context)!.logout),
             ),
           ] else
             _guestCard(context),
@@ -260,18 +262,17 @@ class ProfileScreen extends StatelessWidget {
         );
     return Row(
       children: [
-        item('${fav.saved.length}', 'محفوظة'),
+        item('${fav.saved.length}', AppLocalizations.of(context)!.statSaved),
         const SizedBox(width: 8),
-        item('${fav.completed.length}', 'مكتملة'),
+        item('${fav.completed.length}', AppLocalizations.of(context)!.statCompleted),
         const SizedBox(width: 8),
-        item(fav.completedDistance.toStringAsFixed(1), 'كم مشي'),
+        item(fav.completedDistance.toStringAsFixed(1), AppLocalizations.of(context)!.statKmWalked),
       ],
     );
   }
 
   // نافذة تعديل البيانات
-  void _editSheet(BuildContext context, String name, String email) {
-    final parts = name.trim().split(' ');
+  void _editSheet(BuildContext context, String name, String email) {    final parts = name.trim().split(' ');
     final first = TextEditingController(text: parts.first);
     final last = TextEditingController(
         text: parts.length > 1 ? parts.sublist(1).join(' ') : '');
@@ -289,23 +290,28 @@ class ProfileScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('تعديل البيانات',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(
+              AppLocalizations.of(context).editProfile,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: first,
-                    decoration: const InputDecoration(labelText: 'الاسم الأول'),
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).firstName,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: TextField(
                     controller: last,
-                    decoration:
-                        const InputDecoration(labelText: 'اسم العائلة'),
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).lastName,
+                    ),
                   ),
                 ),
               ],
@@ -315,9 +321,9 @@ class ProfileScreen extends StatelessWidget {
               controller: TextEditingController(text: email),
               enabled: false, // الإيميل ما يتغير
               textDirection: TextDirection.ltr,
-              decoration: const InputDecoration(
-                labelText: 'البريد الإلكتروني',
-                helperText: 'البريد ما يتغير',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).email,
+                helperText: AppLocalizations.of(context).emailCannotChange,
               ),
             ),
             const SizedBox(height: 20),
@@ -343,7 +349,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('حفظ التعديلات'),
+              child: Text(AppLocalizations.of(context).saveChanges),
             ),
           ],
         ),

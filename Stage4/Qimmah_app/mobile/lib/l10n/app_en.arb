@@ -25,5 +25,12 @@
   "logout": "Log out",
   "statSaved": "Saved",
   "statCompleted": "Completed",
-  "statKmWalked": "km walked"
+  "statKmWalked": "km walked",
+
+  "firstName": "First name",
+  "lastName": "Last name",
+  "email": "Email",
+  "emailCannotChange": "Email can't be changed",
+  "saveChanges": "Save changes",
+  "account": "Account"
 }
