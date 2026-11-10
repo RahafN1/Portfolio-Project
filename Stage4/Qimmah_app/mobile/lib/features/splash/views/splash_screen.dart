@@ -6,6 +6,7 @@ import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/theme_viewmodel.dart';
 import '../../auth/viewmodels/auth_viewmodel.dart'; // جديد
+import '../../../core/locale/locale_viewmodel.dart';
 
 /// صفحة البداية (Splash): صورة متحركة ببطء + الشعار + زر ابدأ الاستكشاف
 class SplashScreen extends StatefulWidget {
@@ -187,8 +188,7 @@ class _SplashScreenState extends State<SplashScreen>
                     _glassButton(
                       isDark: isDark,
                       tooltip: 'English',
-                      // TODO: الإنجليزي Could Have — نربطه لاحقاً
-                      onTap: null,
+                      onTap: () => context.read<LocaleViewModel>().toggle(),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 9,

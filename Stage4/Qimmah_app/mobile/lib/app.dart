@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'core/locale/locale_viewmodel.dart';
 import 'core/network/api_client.dart';
 import 'core/routing/app_router.dart';
 import 'core/storage/token_storage.dart';
@@ -12,14 +12,17 @@ import 'features/auth/viewmodels/auth_viewmodel.dart';
 import 'features/splash/views/splash_screen.dart';
 import 'features/trails/data/trails_repository.dart';
 import 'features/trails/viewmodels/explore_viewmodel.dart';
-import 'core/constants/app_strings.dart';
 import 'features/favorites/data/favorites_repository.dart';
 import 'features/favorites/viewmodels/favorites_viewmodel.dart';
 import 'features/reviews/data/reviews_repository.dart';
 import 'features/admin/data/admin_repository.dart';
+import 'l10n/app_localizations.dart';
 
 class QimmahApp extends StatelessWidget {
-  const QimmahApp({super.key});
+  // اللغة تنقرأ في main() قبل ما يبدأ التطبيق
+  final LocaleViewModel localeViewModel;
+
+  const QimmahApp({super.key, required this.localeViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +32,11 @@ class QimmahApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-                // صفحة التفاصيل تحتاجه
         Provider<TrailsRepository>.value(value: trailsRepository),
         Provider<ReviewsRepository>.value(value: ReviewsRepository(apiClient)),
         Provider<AdminRepository>.value(value: AdminRepository(apiClient)),
         ChangeNotifierProvider(create: (_) => ThemeViewModel()),
+        ChangeNotifierProvider<LocaleViewModel>.value(value: localeViewModel),
         ChangeNotifierProvider(
           create: (_) => AuthViewModel(AuthRepository(apiClient, tokenStorage)),
         ),
@@ -44,22 +47,19 @@ class QimmahApp extends StatelessWidget {
           create: (_) => FavoritesViewModel(FavoritesRepository(apiClient)),
         ),
       ],
-      child: Consumer<ThemeViewModel>(
-        builder: (context, themeVm, _) {
+      child: Consumer2<ThemeViewModel, LocaleViewModel>(
+        builder: (context, themeVm, localeVm, _) {
           return MaterialApp(
-           title: AppStrings.appNameAr,
+            onGenerateTitle: (context) => AppLocalizations.of(context).appName,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: themeVm.mode,
 
-            locale: const Locale('ar'),
-            supportedLocales: const [Locale('ar')],
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+            // اتجاه الواجهة (RTL/LTR) يتبع اللغة تلقائياً
+            locale: localeVm.locale,
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
 
             routes: AppRouter.routes,
             onGenerateInitialRoutes: (String initialRoute) {
