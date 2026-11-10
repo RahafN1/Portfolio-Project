@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
@@ -33,10 +33,10 @@ class DetailsHero extends StatelessWidget {
         children: [
           Positioned.fill(
             child: image != null
-                ? Image.network(
-                    image,
+                ? CachedNetworkImage(
+                    imageUrl: image,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => const _Placeholder(),
+                    errorWidget: (_, __, ___) => const _Placeholder(),
                   )
                 : const _Placeholder(),
           ),

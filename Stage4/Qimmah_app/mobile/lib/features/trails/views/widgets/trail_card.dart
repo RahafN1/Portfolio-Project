@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
@@ -11,6 +12,7 @@ class TrailCard extends StatelessWidget {
   final bool isSaved;
   final VoidCallback? onSaveTap;
   final VoidCallback? onTap;
+  final double elevation;
 
   const TrailCard({
     super.key,
@@ -19,6 +21,7 @@ class TrailCard extends StatelessWidget {
     this.isSaved = false,
     this.onSaveTap,
     this.onTap,
+    this.elevation = 2,
   });
 
   @override
@@ -29,7 +32,7 @@ class TrailCard extends StatelessWidget {
       width: width,
       child: Material(
         color: cs.surface,
-        elevation: 2,
+        elevation: elevation,
         shadowColor: Colors.black26,
         borderRadius: BorderRadius.circular(22),
         clipBehavior: Clip.antiAlias,
@@ -123,13 +126,13 @@ class TrailCard extends StatelessWidget {
           height: 180,
           width: double.infinity,
           child: trail.coverImage != null
-              ? Image.network(
-                  trail.coverImage!,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => _placeholder(),
-                  loadingBuilder: (context, child, progress) =>
-                      progress == null ? child : _placeholder(),
-                )
+            ? CachedNetworkImage(
+    imageUrl: trail.coverImage!,
+    fit: BoxFit.cover,
+    memCacheWidth: 800,
+    placeholder: (_, __) => _placeholder(),
+    errorWidget: (_, __, ___) => _placeholder(),
+  )
               : _placeholder(),
         ),
         // شارة "معتمد" (يمين)
