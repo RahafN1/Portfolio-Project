@@ -95,6 +95,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statKmWalked => 'km walked';
 
   @override
+  String get all => 'All';
+
+  @override
+  String get filterTrails => 'Filter trails';
+
+  @override
+  String get resetShort => 'Reset';
+
+  @override
+  String get difficulty => 'Difficulty';
+
+  @override
+  String get region => 'Region';
+
+  @override
+  String showTrails(int count) {
+    return 'Show $count trails';
+  }
+
+  @override
   String get firstName => 'First name';
 
   @override
@@ -111,4 +131,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get account => 'Account';
+
+  @override
+  String get changesSaved => 'Changes saved';
+
+  @override
+  String get saveFailed => 'Couldn\'t save';
+
+  @override
+  String get guestTitle => 'You\'re browsing as a guest';
+
+  @override
+  String get guestMessage =>
+      'Log in to save your trails, rate them, and track your achievements.';
+
+  @override
+  String get login => 'Log in';
+
+  @override
+  String get trailsSection => 'Trails';
+
+  @override
+  String get noTrailsMatch => 'No trails match your search';
+
+  @override
+  String get resetFilters => 'Reset filters';
+
+  @override
+  String get appSlogan => 'Your trail... to the summit';
 }

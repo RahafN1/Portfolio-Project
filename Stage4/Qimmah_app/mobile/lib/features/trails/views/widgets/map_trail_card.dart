@@ -5,6 +5,7 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 // ../../ = نطلع لـ trails، وبعدها ندخل models
 import '../../models/trail.dart';
+import 'package:mobile/core/utils/difficulty_label.dart';
 
 // الكرت اللي يطلع تحت لما نضغط على علامة مسار
 class MapTrailCard extends StatelessWidget {
@@ -78,7 +79,7 @@ class MapTrailCard extends StatelessWidget {
                       children: [
                         _DifficultyChip(
                           difficulty: trail.difficulty,
-                          label: trail.difficultyArabic,
+                          label: difficultyLabel(context, trail.difficulty),
                         ),
                         const SizedBox(width: 8),
                         // Flexible: النص ياخذ المكان الباقي بس، ولو طويل يقص

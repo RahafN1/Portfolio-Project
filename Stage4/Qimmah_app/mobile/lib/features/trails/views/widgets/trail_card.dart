@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
+import 'package:mobile/core/utils/difficulty_label.dart';
 
 // كرت المسار: صورة + اسم + تقييم + منطقة + صعوبة
 // width = عرض ثابت للكروت الأفقية (المختارة)، وبدونه ياخذ العرض كامل
@@ -219,7 +220,7 @@ class _DifficultyPill extends StatelessWidget {
           CircleAvatar(radius: 3, backgroundColor: fg),
           const SizedBox(width: 6),
           Text(
-            trail.difficultyArabic,
+           difficultyLabel(context, trail.difficulty),
             style:
                 TextStyle(color: fg, fontWeight: FontWeight.bold, fontSize: 12),
           ),

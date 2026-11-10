@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 // أعلى الصفحة: الشعار + زر الحساب + الترحيب
 class ExploreHeader extends StatelessWidget {
@@ -92,15 +93,15 @@ class ExploreHeader extends StatelessWidget {
             'أهلاً، $userName',
             style: TextStyle(fontSize: 14, color: textColor.withOpacity(0.75)),
           ),
-          const SizedBox(height: 4),
-          Text(
-            'مسارك...للقمة',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          ),
+     const SizedBox(height: 4),
+Text(
+  AppLocalizations.of(context).appSlogan,
+  style: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+    color: textColor,
+  ),
+),
         ],
       ),
     );

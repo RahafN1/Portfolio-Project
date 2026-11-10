@@ -34,11 +34,29 @@
   "statSaved": "محفوظة",
   "statCompleted": "مكتملة",
   "statKmWalked": "كم مشي",
-
+  "all": "الكل",
+  "filterTrails": "تصفية المسارات",
+  "resetShort": "إعادة ضبط",
+  "difficulty": "الصعوبة",
+  "region": "المنطقة",
+  "showTrails": "عرض {count} مسار",
+  "@showTrails": {
+  "placeholders": { "count": { "type": "int" } }
+},
   "firstName": "الاسم الأول",
   "lastName": "اسم العائلة",
   "email": "البريد الإلكتروني",
   "emailCannotChange": "البريد ما يتغير",
   "saveChanges": "حفظ التعديلات",
-  "account": "الحساب"
+  "account": "الحساب",
+  "changesSaved": "تم حفظ التعديلات",
+  "saveFailed": "تعذر الحفظ",
+  "guestTitle": "أنت تتصفح كزائر",
+ "guestMessage": "سجّل دخولك عشان تحفظ مساراتك وتقيّمها وتتابع إنجازاتك.",
+ "login": "تسجيل الدخول",
+  "trailsSection": "المسارات",
+  "noTrailsMatch": "ما فيه مسارات تطابق بحثك",
+ "resetFilters": "إعادة ضبط الفلاتر",
+ "appSlogan": "مسارك...للقمة"
+  
 }

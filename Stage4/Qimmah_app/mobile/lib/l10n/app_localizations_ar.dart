@@ -98,6 +98,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statKmWalked => 'كم مشي';
 
   @override
+  String get all => 'الكل';
+
+  @override
+  String get filterTrails => 'تصفية المسارات';
+
+  @override
+  String get resetShort => 'إعادة ضبط';
+
+  @override
+  String get difficulty => 'الصعوبة';
+
+  @override
+  String get region => 'المنطقة';
+
+  @override
+  String showTrails(int count) {
+    return 'عرض $count مسار';
+  }
+
+  @override
   String get firstName => 'الاسم الأول';
 
   @override
@@ -114,4 +134,32 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get account => 'الحساب';
+
+  @override
+  String get changesSaved => 'تم حفظ التعديلات';
+
+  @override
+  String get saveFailed => 'تعذر الحفظ';
+
+  @override
+  String get guestTitle => 'أنت تتصفح كزائر';
+
+  @override
+  String get guestMessage =>
+      'سجّل دخولك عشان تحفظ مساراتك وتقيّمها وتتابع إنجازاتك.';
+
+  @override
+  String get login => 'تسجيل الدخول';
+
+  @override
+  String get trailsSection => 'المسارات';
+
+  @override
+  String get noTrailsMatch => 'ما فيه مسارات تطابق بحثك';
+
+  @override
+  String get resetFilters => 'إعادة ضبط الفلاتر';
+
+  @override
+  String get appSlogan => 'مسارك...للقمة';
 }

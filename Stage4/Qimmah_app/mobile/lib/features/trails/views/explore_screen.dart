@@ -16,6 +16,7 @@ import '../../favorites/viewmodels/favorites_viewmodel.dart';
 import '../../../core/widgets/shimmer_box.dart';
 import 'widgets/trail_card_skeleton.dart';
 import 'widgets/openable_trail_card.dart';
+import '../../../l10n/l10n.dart';
 
 // الرئيسية: ترحيب + بحث + فلاتر + المسارات
 class ExploreScreen extends StatefulWidget {
@@ -171,12 +172,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('ما فيه مسارات تطابق بحثك'),
+                Text(AppLocalizations.of(context)!.noTrailsMatch),
                 if (explore.hasActiveFilters || explore.searchQuery.isNotEmpty)
-                  TextButton(
-                    onPressed: explore.resetFilters,
-                    child: const Text('إعادة ضبط الفلاتر'),
-                  ),
+  TextButton(
+    onPressed: explore.resetFilters,
+    child: Text(AppLocalizations.of(context).resetFilters),
+  ),
+                
               ],
             ),
           ),
@@ -188,7 +190,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
     return [
       // كل المسارات (عمودي)
-      const _SectionTitle(title: 'المسارات'),
+      _SectionTitle(title: AppLocalizations.of(context).trailsSection),
       for (final trail in trails)
         Padding(
           key: ValueKey(trail.id), // عشان الأنيميشن ما يختلط لو تغيّرت القائمة بالفلتر

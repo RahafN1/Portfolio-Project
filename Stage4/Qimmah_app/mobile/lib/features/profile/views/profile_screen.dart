@@ -159,7 +159,7 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 12),
             _stats(context), // الإحصائيات
             const SizedBox(height: 20),
-            const Text('الحساب',
+             Text( AppLocalizations.of(context)!.account,
                 style: TextStyle(fontSize: 13, color: AppColors.grey)),
             const SizedBox(height: 8),
             ListTile(
@@ -344,8 +344,8 @@ class ProfileScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(ok
-                        ? 'تم حفظ التعديلات'
-                        : (auth.errorMessage ?? 'تعذر الحفظ')),
+                    ? AppLocalizations.of(context).changesSaved
+                    : (auth.errorMessage ?? AppLocalizations.of(context).saveFailed)),
                   ),
                 );
               },
@@ -373,23 +373,26 @@ class ProfileScreen extends StatelessWidget {
             backgroundColor: AppColors.primaryLight,
             child: Icon(Icons.person_outline, color: AppColors.primary),
           ),
-          const SizedBox(height: 12),
-          const Text('أنت تتصفح كزائر',
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 6),
-          const Text(
-            'سجّل دخولك عشان تحفظ مساراتك وتقيّمها وتتابع إنجازاتك.',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.grey, fontSize: 13),
-          ),
+         const SizedBox(height: 12),
+Text(
+  AppLocalizations.of(context).guestTitle,
+  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+),
+const SizedBox(height: 6),
+Text(
+  AppLocalizations.of(context).guestMessage,
+  textAlign: TextAlign.center,
+  style: const TextStyle(color: AppColors.grey, fontSize: 13),
+),
+          
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             height: 48,
             child: FilledButton(
               style: FilledButton.styleFrom(backgroundColor: AppColors.primary),
-              onPressed: () => Navigator.pushNamed(context, AppRouter.login),
-              child: const Text('تسجيل الدخول'),
+onPressed: () => Navigator.pushNamed(context, AppRouter.login),
+child: Text(AppLocalizations.of(context).login),
             ),
           ),
         ],

@@ -26,11 +26,30 @@
   "statSaved": "Saved",
   "statCompleted": "Completed",
   "statKmWalked": "km walked",
+  "all": "All",
+
+  "filterTrails": "Filter trails",
+  "resetShort": "Reset",
+  "difficulty": "Difficulty",
+  "region": "Region",
+  "showTrails": "Show {count} trails",
+  "@showTrails": {
+  "placeholders": { "count": { "type": "int" } }
+  },
 
   "firstName": "First name",
   "lastName": "Last name",
   "email": "Email",
   "emailCannotChange": "Email can't be changed",
   "saveChanges": "Save changes",
-  "account": "Account"
+  "account": "Account",
+  "changesSaved": "Changes saved",
+  "saveFailed": "Couldn't save",
+  "guestTitle": "You're browsing as a guest",
+  "guestMessage": "Log in to save your trails, rate them, and track your achievements.",
+  "login": "Log in",
+  "trailsSection": "Trails",
+  "noTrailsMatch": "No trails match your search",
+  "resetFilters": "Reset filters",
+  "appSlogan": "Your trail... to the summit"
 }

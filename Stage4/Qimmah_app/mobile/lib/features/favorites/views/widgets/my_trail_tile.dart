@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../trails/models/trail.dart';
+import 'package:mobile/core/utils/difficulty_label.dart';
 
 // كرت أفقي صغير: صورة + اسم + منطقة + صعوبة + نص إضافي + عنصر بالنهاية
 // (علامة حفظ في المحفوظة، علامة صح في المكتملة)
@@ -149,9 +150,8 @@ class _DifficultyPill extends StatelessWidget {
           CircleAvatar(radius: 3, backgroundColor: fg),
           const SizedBox(width: 5),
           Text(
-            trail.difficultyArabic,
-            style:
-                TextStyle(color: fg, fontWeight: FontWeight.bold, fontSize: 12),
+        difficultyLabel(context, trail.difficulty),
+        style: TextStyle(color: fg, fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ],
       ),
