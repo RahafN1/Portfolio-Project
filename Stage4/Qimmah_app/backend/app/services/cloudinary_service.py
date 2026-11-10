@@ -10,6 +10,7 @@ cloudinary.config(
 )
 
 
+ 
 def upload_image(file):
     result = cloudinary.uploader.upload(file, folder="qimma/trails")
     return result["secure_url"]
