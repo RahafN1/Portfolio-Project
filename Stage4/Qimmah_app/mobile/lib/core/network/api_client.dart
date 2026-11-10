@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -6,13 +7,13 @@ import '../constants/api_endpoints.dart';
 import '../storage/token_storage.dart';
 import 'api_exception.dart';
 
-// هنا كل الطلبات اللي تروح للباك اند
 class ApiClient {
   final TokenStorage tokenStorage;
+  final http.Client _client = http.Client(); // اتصال واحد يُعاد استخدامه
+  static const Duration _timeout = Duration(seconds: 20);
 
   ApiClient(this.tokenStorage);
 
-  // الهيدرز: نرسل التوكن لو موجود (الضيف ما عنده توكن)
   Future<Map<String, String>> _headers() async {
     final token = await tokenStorage.getToken();
     return {
@@ -21,59 +22,41 @@ class ApiClient {
     };
   }
 
-  Future<Map<String, dynamic>> post(String path, Map<String, dynamic> body) async {
-    final response = await http.post(
-      Uri.parse(ApiEndpoints.baseUrl + path),
-      headers: await _headers(),
-      body: jsonEncode(body),
-    );
-    return _handleResponse(response);
-  }
+  Uri _uri(String path) => Uri.parse(ApiEndpoints.baseUrl + path);
 
-Future<Map<String, dynamic>> get(String path) async {
-  final response = await http
-      .get(
-        Uri.parse(ApiEndpoints.baseUrl + path),
-        headers: await _headers(),
-      )
-      .timeout(const Duration(seconds: 60));
-  return _handleResponse(response);
-}//حددنا له وقت 
+  Future<Map<String, dynamic>> get(String path) =>
+      _send(() async => _client.get(_uri(path), headers: await _headers()));
 
-  // لتعديل البيانات (مثل تعديل الحساب)
-  Future<Map<String, dynamic>> put(String path, Map<String, dynamic> body) async {
-    final response = await http.put(
-      Uri.parse(ApiEndpoints.baseUrl + path),
-      headers: await _headers(),
-      body: jsonEncode(body),
-    );
-    return _handleResponse(response);
-  }
-  // لتغيير حالة شي (مثل إيقاف مستخدم)
+  Future<Map<String, dynamic>> post(String path, Map<String, dynamic> body) =>
+      _send(() async => _client.post(_uri(path),
+          headers: await _headers(), body: jsonEncode(body)));
+
+  Future<Map<String, dynamic>> put(String path, Map<String, dynamic> body) =>
+      _send(() async => _client.put(_uri(path),
+          headers: await _headers(), body: jsonEncode(body)));
+
   Future<Map<String, dynamic>> patch(String path,
-      [Map<String, dynamic>? body]) async {
-    final response = await http
-        .patch(
-          Uri.parse(ApiEndpoints.baseUrl + path),
-          headers: await _headers(),
-          body: jsonEncode(body ?? {}),
-        )
-        .timeout(const Duration(seconds: 1));
-    return _handleResponse(response);
-  }
-  // للحذف (مثل حذف تقييم)
-  Future<Map<String, dynamic>> delete(String path) async {
-    final response = await http.delete(
-      Uri.parse(ApiEndpoints.baseUrl + path),
-      headers: await _headers(),
-    );
-    return _handleResponse(response);
+          [Map<String, dynamic>? body]) =>
+      _send(() async => _client.patch(_uri(path),
+          headers: await _headers(), body: jsonEncode(body ?? {})));
+
+  Future<Map<String, dynamic>> delete(String path) =>
+      _send(() async => _client.delete(_uri(path), headers: await _headers()));
+
+  // كل الطلبات تمر من هنا: نفس التايم أوت ونفس معالجة الخطأ
+  Future<Map<String, dynamic>> _send(
+      Future<http.Response> Function() request) async {
+    try {
+      final response = await request().timeout(_timeout);
+      return _handleResponse(response);
+    } on TimeoutException {
+      throw ApiException('انتهت مهلة الاتصال، حاول مرة ثانية', 408);
+    }
   }
 
   Map<String, dynamic> _handleResponse(http.Response response) {
     Map<String, dynamic> data = {};
     if (response.body.isNotEmpty) {
-      // utf8.decode عشان النص العربي يطلع صح
       data = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
     }
 

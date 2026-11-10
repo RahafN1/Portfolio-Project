@@ -15,6 +15,7 @@ import 'widgets/trail_card.dart';
 import '../../favorites/viewmodels/favorites_viewmodel.dart';
 import '../../../core/widgets/shimmer_box.dart';
 import 'widgets/trail_card_skeleton.dart';
+import 'widgets/openable_trail_card.dart';
 
 // الرئيسية: ترحيب + بحث + فلاتر + المسارات
 class ExploreScreen extends StatefulWidget {
@@ -190,14 +191,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
       const _SectionTitle(title: 'المسارات'),
       for (final trail in trails)
         Padding(
+          key: ValueKey(trail.id), // عشان الأنيميشن ما يختلط لو تغيّرت القائمة بالفلتر
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-          child: GestureDetector(
-            onTap: () => _openDetails(trail),
-            child: TrailCard(
-              trail: trail,
-              isSaved: context.watch<FavoritesViewModel>().isSaved(trail.id),
-              onSaveTap: () => _onSaveTap(trail),
-            ),
+          child: OpenableTrailCard(
+            trail: trail,
+            isSaved: context.watch<FavoritesViewModel>().isSaved(trail.id),
+            onSaveTap: () => _onSaveTap(trail),
           ),
         ),
         //تحميل الزياده بعد شمر

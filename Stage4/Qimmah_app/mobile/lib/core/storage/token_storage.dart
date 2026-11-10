@@ -1,15 +1,22 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-// نحفظ التوكن وبيانات المستخدم على الجهاز بشكل آمن
 class TokenStorage {
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
+  String? _token;          // نسخة بالذاكرة
+  bool _tokenLoaded = false;
+
   Future<void> saveToken(String token) async {
     await _storage.write(key: 'token', value: token);
+    _token = token;
+    _tokenLoaded = true;
   }
 
   Future<String?> getToken() async {
-    return await _storage.read(key: 'token');
+    if (_tokenLoaded) return _token;      // بدون قراءة من التخزين الآمن
+    _token = await _storage.read(key: 'token');
+    _tokenLoaded = true;
+    return _token;
   }
 
   Future<void> saveUser(String userJson) async {
@@ -20,8 +27,9 @@ class TokenStorage {
     return await _storage.read(key: 'user');
   }
 
-  // تسجيل الخروج = نمسح كل شي
   Future<void> clear() async {
     await _storage.deleteAll();
+    _token = null;
+    _tokenLoaded = true;
   }
 }

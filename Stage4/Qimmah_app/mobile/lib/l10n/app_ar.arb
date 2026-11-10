@@ -1,0 +1,25 @@
+{
+  "@@locale": "ar",
+  "appName": "قمّة",
+  "tagline": "خلك دائماً بالقمّة",
+  "startExploring": "ابدأ الاستكشاف",
+  "haveAccount": "عندك حساب؟",
+  "loginLink": "سجّل دخولك",
+  "searchHint": "ابحث عن مسار...",
+  "allRegions": "كل المناطق",
+  "language": "اللغة",
+  "difficultyEasy": "سهل",
+  "difficultyModerate": "متوسط",
+  "difficultyHard": "صعب",
+  "loadTrailsError": "ما قدرنا نجيب المسارات",
+
+  "welcomeUser": "أهلاً، {name}",
+  "@welcomeUser": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+
+  "reviewsCount": "{count, plural, =0{لا توجد تقييمات} =1{تقييم واحد} =2{تقييمان} few{{count} تقييمات} many{{count} تقييماً} other{{count} تقييم}}",
+  "@reviewsCount": {
+    "placeholders": { "count": { "type": "int" } }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "@@locale": "en",
+  "appName": "Qimmah",
+  "tagline": "Always at the summit",
+  "startExploring": "Start exploring",
+  "haveAccount": "Already have an account?",
+  "loginLink": "Log in",
+  "searchHint": "Search for a trail...",
+  "allRegions": "All regions",
+  "language": "Language",
+  "difficultyEasy": "Easy",
+  "difficultyModerate": "Moderate",
+  "difficultyHard": "Hard",
+  "loadTrailsError": "Couldn't load trails",
+  "welcomeUser": "Welcome, {name}",
+  "reviewsCount": "{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}"
+}
