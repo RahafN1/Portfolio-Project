@@ -10,6 +10,7 @@
 
 Protect each route with @admin_required from app.utils.decorators.
 """
+from app.services.cloudinary_service import upload_image
 from flask import Blueprint, jsonify, request
 
 from app.errors import APIError
@@ -47,14 +48,16 @@ def delete_trail(current_user, trail_id):
     return jsonify({"message": "Trail deleted"}), 200
 
 
+
 # 23
 @admin_bp.post("/trails/<int:trail_id>/images")
 @admin_required
 def upload_trail_images(current_user, trail_id):
-    images = _body().get("images")
-    if not isinstance(images, list) or not all(isinstance(url, str) for url in images):
-        raise APIError("images must be a list of image URLs", 400)
-    image_list = current_user.upload_trail_images(trail_id, images)
+    files = request.files.getlist("images")
+    if not files:
+        raise APIError("images must be sent as files", 400)
+    urls = [upload_image(f) for f in files]
+    image_list = current_user.upload_trail_images(trail_id, urls)
     return jsonify({"images": image_list}), 200
 
 
