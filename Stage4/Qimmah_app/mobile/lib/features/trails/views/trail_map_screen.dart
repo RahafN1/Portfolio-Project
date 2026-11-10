@@ -399,7 +399,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     final carouselTrails = _carouselTrails(vm);
 
     // مكان الأزرار العائمة: فوق الكرت لو ظاهر
-    final floatingBottom = _selected == null ? 90.0 : 240.0;
+    final floatingBottom = _selected == null ? 90.0 : 260.0;
 
     return Scaffold(
       // Stack: طبقات فوق بعض
@@ -457,6 +457,16 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
               // العلامات: المسارات + موقعي
               MarkerLayer(
                 markers: [
+                  // نقطة النهاية: تطلع بس لما يكون فيه مسار مختار وخطه محمّل
+                  if (_selected != null && _routePoints.length > 1)
+                    Marker(
+                      point: _routePoints.last,
+                      width: 44,
+                      height: 44,
+                      alignment: Alignment.topCenter, // رأس الدبوس على النقطة
+                      child: const _EndPin(),
+                    ),
+
                   // علامات المسارات
                   for (final trail in trails)
                     Marker(
@@ -626,6 +636,29 @@ class _TrailPin extends StatelessWidget {
   }
 }
 
+// علامة نهاية المسار: دبوس أبيض وفيه علم أخضر
+class _EndPin extends StatelessWidget {
+  const _EndPin();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        // ظل خفيف عشان الدبوس الأبيض يبان على الخريطة
+        const Icon(Icons.location_on, size: 44, color: Colors.black38),
+        // الدبوس الأبيض
+        const Icon(Icons.location_on, size: 42, color: Colors.white),
+        // علم أخضر داخل الدبوس
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Icon(Icons.flag, size: 16, color: AppColors.primary),
+        ),
+      ],
+    );
+  }
+}
+
 // النقطة الزرقاء: موقع المستخدم
 class _MyLocationDot extends StatelessWidget {
   const _MyLocationDot();
@@ -658,7 +691,7 @@ class _SearchBar extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 2)),
+          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 2)),
         ],
       ),
       child: TextField(
