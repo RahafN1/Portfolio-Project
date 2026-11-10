@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 
-
 import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
 
-
-// صورة المسار الكبيرة + أزرار (رجوع / مشاركة / لغة) + شارة "معتمد"
+// صورة المسار الكبيرة + أزرار (رجوع / مشاركة) + شارة "معتمد"
 // الحافة السفلية الدائرية هي شريط بلون الخلفية فوق أسفل الصورة
 class DetailsHero extends StatelessWidget {
   final Trail trail;
   final VoidCallback onBack;
   final VoidCallback onShare;
-  final VoidCallback? onLanguageTap; // نربطه لما يضاف دعم الإنجليزي
 
   const DetailsHero({
     super.key,
     required this.trail,
     required this.onBack,
     required this.onShare,
-    this.onLanguageTap,
   });
 
   @override
@@ -87,22 +83,17 @@ class DetailsHero extends StatelessWidget {
             ),
 
           // زر الرجوع (يمين)
-  PositionedDirectional(
-  top: top,
-  start: 16,
- child: _CircleButton(icon: Icons.chevron_right, onTap: onBack),
-),
-          // مشاركة + لغة (يسار)
+          PositionedDirectional(
+            top: top,
+            start: 16,
+            child: _CircleButton(icon: Icons.chevron_right, onTap: onBack),
+          ),
+
+          // مشاركة (يسار)
           PositionedDirectional(
             top: top,
             end: 16,
-            child: Row(
-              children: [
-                _LanguageButton(onTap: onLanguageTap),
-                const SizedBox(width: 8),
-                _CircleButton(icon: Icons.ios_share, onTap: onShare),
-              ],
-            ),
+            child: _CircleButton(icon: Icons.ios_share, onTap: onShare),
           ),
         ],
       ),
@@ -128,41 +119,8 @@ class _CircleButton extends StatelessWidget {
           width: 42,
           height: 42,
           child: Directionality(
-  textDirection: TextDirection.ltr,
-  child: Icon(icon, size: 22, color:AppColors.primary),
-),
-          
-        ),
-      ),
-    );
-  }
-}
-
-class _LanguageButton extends StatelessWidget {
-  final VoidCallback? onTap;
-
-  const _LanguageButton({this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      shape: const CircleBorder(),
-      child: InkWell(
-        onTap: onTap,
-        customBorder: const CircleBorder(),
-        child: const SizedBox(
-          width: 42,
-          height: 42,
-          child: Center(
-            child: Text(
-              'EN',
-              style: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-              ),
-            ),
+            textDirection: TextDirection.ltr,
+            child: Icon(icon, size: 22, color: AppColors.primary),
           ),
         ),
       ),

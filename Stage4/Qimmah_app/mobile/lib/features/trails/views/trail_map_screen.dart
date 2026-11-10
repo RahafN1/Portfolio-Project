@@ -575,7 +575,6 @@ class _MyLocationDot extends StatelessWidget {
   }
 }
 
-// شريط البحث الأبيض + زر EN
 class _SearchBar extends StatelessWidget {
   final ValueChanged<String> onChanged; // يُنادى كل ما تتغيّر الكتابة
 
@@ -592,39 +591,16 @@ class _SearchBar extends StatelessWidget {
           BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 2)),
         ],
       ),
-      child: Row(
-        children: [
-          // حقل البحث (بالعربي يجي يمين)
-          Expanded(
-            child: TextField(
-              onChanged: onChanged, // نرسل النص للصفحة
-              decoration: const InputDecoration(
-                hintText: AppStrings.mapSearchHint,
-                prefixIcon: Icon(Icons.search),
-                border: InputBorder.none, // بدون إطار
-                enabledBorder: InputBorder.none, // بدون إطار في الحالة العادية
-                focusedBorder: InputBorder.none, // بدون إطار لما نضغط عليه
-                filled: false, // بدون لون خلفية من الثيم
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          // زر EN (يجي يسار) — شكل بس حالياً
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: AppColors.primaryLight,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Text(
-              'EN',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
-              ),
-            ),
-          ),
-        ],
+      child: TextField(
+        onChanged: onChanged, // نرسل النص للصفحة
+        decoration: const InputDecoration(
+          hintText: AppStrings.mapSearchHint,
+          prefixIcon: Icon(Icons.search),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          filled: false,
+        ),
       ),
     );
   }
