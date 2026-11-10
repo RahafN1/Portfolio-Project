@@ -63,4 +63,37 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get tabExplore => 'استكشف';
+
+  @override
+  String get tabMap => 'الخريطة';
+
+  @override
+  String get tabMyTrails => 'مساراتي';
+
+  @override
+  String get tabProfile => 'حسابي';
+
+  @override
+  String get profileTitle => 'حسابي';
+
+  @override
+  String get accountSection => 'الحساب';
+
+  @override
+  String get editProfile => 'تعديل البيانات';
+
+  @override
+  String get logout => 'تسجيل الخروج';
+
+  @override
+  String get statSaved => 'محفوظة';
+
+  @override
+  String get statCompleted => 'مكتملة';
+
+  @override
+  String get statKmWalked => 'كم مشي';
 }

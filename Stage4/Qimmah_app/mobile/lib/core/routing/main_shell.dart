@@ -4,6 +4,7 @@ import '../../features/trails/views/explore_screen.dart';
 import '../theme/app_colors.dart';
 import '../../features/favorites/views/favorites_screen.dart';
 import '../../features/trails/views/trail_map_screen.dart';
+import '../../l10n/l10n.dart';
 
 // الهيكل الرئيسي: الصفحة الحالية + شريط التنقل السفلي
 class MainShell extends StatefulWidget {
@@ -17,11 +18,11 @@ class _MainShellState extends State<MainShell> {
   int _index = 0;
 
   // الترتيب من اليمين لليسار: استكشاف، الخريطة، مساراتي، حسابي
-  static const _tabs = [
-    _TabInfo('استكشف', Icons.home_outlined, Icons.home),
-    _TabInfo('الخريطة', Icons.map_outlined, Icons.map),
-    _TabInfo('مساراتي', Icons.bookmark_border, Icons.bookmark),
-    _TabInfo('حسابي', Icons.person_outline, Icons.person),
+  static final _tabs = [
+    _TabInfo((c) => c.l10n.tabExplore, Icons.home_outlined, Icons.home),
+    _TabInfo((c) => c.l10n.tabMap, Icons.map_outlined, Icons.map),
+    _TabInfo((c) => c.l10n.tabMyTrails, Icons.bookmark_border, Icons.bookmark),
+    _TabInfo((c) => c.l10n.tabProfile, Icons.person_outline, Icons.person),
   ];
 
   @override
@@ -34,7 +35,7 @@ class _MainShellState extends State<MainShell> {
           ExploreScreen(),
           TrailMapScreen(),
           FavoritesScreen(),
-           ProfileScreen(),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: _BottomBar(
@@ -47,7 +48,7 @@ class _MainShellState extends State<MainShell> {
 }
 
 class _TabInfo {
-  final String label;
+  final String Function(BuildContext) label;
   final IconData icon;
   final IconData activeIcon;
 
@@ -94,7 +95,7 @@ class _BottomBar extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          tabs[i].label,
+                          tabs[i].label(context),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: i == currentIndex

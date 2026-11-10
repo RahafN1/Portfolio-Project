@@ -181,6 +181,72 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'{count, plural, =0{لا توجد تقييمات} =1{تقييم واحد} =2{تقييمان} few{{count} تقييمات} many{{count} تقييماً} other{{count} تقييم}}'**
   String reviewsCount(int count);
+
+  /// No description provided for @tabExplore.
+  ///
+  /// In ar, this message translates to:
+  /// **'استكشف'**
+  String get tabExplore;
+
+  /// No description provided for @tabMap.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخريطة'**
+  String get tabMap;
+
+  /// No description provided for @tabMyTrails.
+  ///
+  /// In ar, this message translates to:
+  /// **'مساراتي'**
+  String get tabMyTrails;
+
+  /// No description provided for @tabProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابي'**
+  String get tabProfile;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابي'**
+  String get profileTitle;
+
+  /// No description provided for @accountSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب'**
+  String get accountSection;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل البيانات'**
+  String get editProfile;
+
+  /// No description provided for @logout.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الخروج'**
+  String get logout;
+
+  /// No description provided for @statSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'محفوظة'**
+  String get statSaved;
+
+  /// No description provided for @statCompleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'مكتملة'**
+  String get statCompleted;
+
+  /// No description provided for @statKmWalked.
+  ///
+  /// In ar, this message translates to:
+  /// **'كم مشي'**
+  String get statKmWalked;
 }
 
 class _AppLocalizationsDelegate

@@ -21,5 +21,17 @@
   "reviewsCount": "{count, plural, =0{لا توجد تقييمات} =1{تقييم واحد} =2{تقييمان} few{{count} تقييمات} many{{count} تقييماً} other{{count} تقييم}}",
   "@reviewsCount": {
     "placeholders": { "count": { "type": "int" } }
-  }
+  },
+
+  "tabExplore": "استكشف",
+  "tabMap": "الخريطة",
+  "tabMyTrails": "مساراتي",
+  "tabProfile": "حسابي",
+  "profileTitle": "حسابي",
+  "accountSection": "الحساب",
+  "editProfile": "تعديل البيانات",
+  "logout": "تسجيل الخروج",
+  "statSaved": "محفوظة",
+  "statCompleted": "مكتملة",
+  "statKmWalked": "كم مشي"
 }

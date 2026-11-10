@@ -60,4 +60,37 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get tabExplore => 'Explore';
+
+  @override
+  String get tabMap => 'Map';
+
+  @override
+  String get tabMyTrails => 'My trails';
+
+  @override
+  String get tabProfile => 'Profile';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get accountSection => 'Account';
+
+  @override
+  String get editProfile => 'Edit profile';
+
+  @override
+  String get logout => 'Log out';
+
+  @override
+  String get statSaved => 'Saved';
+
+  @override
+  String get statCompleted => 'Completed';
+
+  @override
+  String get statKmWalked => 'km walked';
 }

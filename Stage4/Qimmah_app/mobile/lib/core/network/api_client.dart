@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import '../constants/api_endpoints.dart';
 import '../storage/token_storage.dart';
 import 'api_exception.dart';
+import '../../l10n/l10n.dart';
 
 class ApiClient {
   final TokenStorage tokenStorage;
@@ -22,7 +23,13 @@ class ApiClient {
     };
   }
 
-  Uri _uri(String path) => Uri.parse(ApiEndpoints.baseUrl + path);
+   Uri _uri(String path) {
+    final uri = Uri.parse(ApiEndpoints.baseUrl + path);
+    return uri.replace(queryParameters: {
+      ...uri.queryParameters,
+      'lang': L10n.languageCode,
+    });
+  }
 
   Future<Map<String, dynamic>> get(String path) =>
       _send(() async => _client.get(_uri(path), headers: await _headers()));

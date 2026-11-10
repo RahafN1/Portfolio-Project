@@ -13,5 +13,17 @@
   "difficultyHard": "Hard",
   "loadTrailsError": "Couldn't load trails",
   "welcomeUser": "Welcome, {name}",
-  "reviewsCount": "{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}"
+  "reviewsCount": "{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}",
+
+  "tabExplore": "Explore",
+  "tabMap": "Map",
+  "tabMyTrails": "My trails",
+  "tabProfile": "Profile",
+  "profileTitle": "Profile",
+  "accountSection": "Account",
+  "editProfile": "Edit profile",
+  "logout": "Log out",
+  "statSaved": "Saved",
+  "statCompleted": "Completed",
+  "statKmWalked": "km walked"
 }

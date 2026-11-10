@@ -7,6 +7,7 @@ import '../../../core/theme/theme_viewmodel.dart'; // الوضع الداكن
 import '../../auth/viewmodels/auth_viewmodel.dart'; // حالة تسجيل الدخول
 import '../../favorites/viewmodels/favorites_viewmodel.dart'; // أرقام مساراتي
 import '../../../core/locale/locale_viewmodel.dart';
+import '../../../l10n/l10n.dart';
 
 // صفحة حسابي: زائر أو مسجّلة
 class ProfileScreen extends StatelessWidget {
@@ -143,7 +144,7 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: 16),
 
           const Text(
-            'حسابي',
+            'context.l10n.profileTitle',
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
