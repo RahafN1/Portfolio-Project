@@ -134,7 +134,7 @@ List<String> get regions {
 void setSearch(String value) {
   searchQuery = value;
   _searchDebounce?.cancel();
-  _searchDebounce = Timer(const Duration(milliseconds: 1000), loadTrails);
+  _searchDebounce = Timer(const Duration(milliseconds: 400), loadTrails);
   notifyListeners();
 }
 

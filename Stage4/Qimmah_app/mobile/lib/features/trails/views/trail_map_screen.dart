@@ -19,7 +19,7 @@ import 'widgets/location_permission_sheet.dart';
 import 'widgets/map_trail_card.dart';
 import 'widgets/on_trail_banner.dart';
 
-// صفحة الخريطة: علامات المسارات + البحث + موقعي + كرت المسار + على المسار
+// صفحة الخريطة: علامات المسارات + البحث + موقعي + كروت المسار (تلف) + على المسار
 class TrailMapScreen extends StatefulWidget {
   // لو جينا من صفحة التفاصيل: نفتح الخريطة على هذا المسار
   final Trail? initialTrail;
@@ -48,6 +48,13 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
   // "ريموت" الخريطة: نحرّكها فيه من الكود
   final MapController _mapController = MapController();
 
+  // مفتاح الـ carousel: نحرّكه من الكود لما نضغط علامة
+  final GlobalKey<MapTrailCarouselState> _carouselKey =
+      GlobalKey<MapTrailCarouselState>();
+
+  // أثناء ما الـ carousel يتحرك بالكود، نتجاهل الصفحات اللي يمر عليها
+  bool _carouselAnimating = false;
+
   // الخدمة اللي تجيب موقع المستخدم
   final LocationService _locationService = LocationService();
 
@@ -68,6 +75,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
 
   // كم ثانية مرّت من آخر تحديث للموقع
   int _secondsAgo = 0;
+
   // نقاط خط المسار المختار
   List<LatLng> _routePoints = [];
 
@@ -82,15 +90,15 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
   // عشان رسالة "وصلت" تطلع مرة وحدة
   bool _finishedShown = false;
 
-@override
-void initState() {
-  super.initState();
-  // الخريطة تحتاج كل العلامات، فنجيبها لوحدها (بدون صفحات)
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    context.read<ExploreViewModel>().loadMapTrails();
-    _openInitialTrail();
-  });
-}
+  @override
+  void initState() {
+    super.initState();
+    // الخريطة تحتاج كل العلامات، فنجيبها لوحدها (بدون صفحات)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ExploreViewModel>().loadMapTrails();
+      _openInitialTrail();
+    });
+  }
 
   // لو جينا من التفاصيل: نختار المسار، نرسم خطه، ونبدأ التتبّع
   Future<void> _openInitialTrail() async {
@@ -115,23 +123,63 @@ void initState() {
 
     if (widget.startTracking && mounted) await _startTrail();
   }
+
   // لما الصفحة تنقفل: نوقف الساعة عشان ما تضل شغّالة
   @override
   void dispose() {
     _trackTimer?.cancel();
-    _positionSub?.cancel(); //يوقف القناة لما تنقفل الصفحة
+    _positionSub?.cancel(); // يوقف القناة لما تنقفل الصفحة
     super.dispose();
   }
 
-  // لما نضغط علامة: نعرض الكرت، ونجيب خط المسار ونرسمه
-  Future<void> _selectTrail(Trail trail) async {
+  // المسارات الظاهرة على الخريطة: عندها نقطة بداية، واسمها فيه نص البحث
+  List<Trail> _visibleTrails(ExploreViewModel vm) {
+    return vm.mapTrails
+        .where((t) => t.startLat != null && t.startLng != null)
+        .where((t) => t.name.contains(_query.trim()))
+        .toList();
+  }
+
+  // المسارات اللي يلف بينها الكرت:
+  // - وإحنا على المسار: كرت واحد بس (ما نخلي المستخدم يلف)
+  // - لو المسار المختار مو في القائمة (مثلاً جينا من التفاصيل): نضيفه أول القائمة
+  List<Trail> _carouselTrails(ExploreViewModel vm) {
+    final selected = _selected;
+    if (selected == null) return const [];
+    if (_onTrail) return [selected];
+
+    final list = _visibleTrails(vm);
+    if (!list.any((t) => t.id == selected.id)) {
+      return [selected, ...list];
+    }
+    return list;
+  }
+
+  // لما نضغط علامة (أو نلف الكرت): نعرض الكرت، ونجيب خط المسار ونرسمه
+  Future<void> _selectTrail(Trail trail, {bool fromCarousel = false}) async {
     // لو على المسار، ما نغيّر المسار المختار
     if (_onTrail) return;
+
+    final wasShowing = _selected != null;
 
     setState(() {
       _selected = trail;
       _routePoints = [];
     });
+
+    // لو الكرت ظاهر والمستخدم ضغط علامة: نحرّك الـ carousel للكرت الجديد
+    if (wasShowing && !fromCarousel) {
+      final list = _carouselTrails(context.read<ExploreViewModel>());
+      final index = list.indexWhere((t) => t.id == trail.id);
+      if (index >= 0) {
+        // نتجاهل الصفحات اللي يمر عليها أثناء الحركة
+        _carouselAnimating = true;
+        _carouselKey.currentState?.goTo(index);
+        Future.delayed(const Duration(milliseconds: 400), () {
+          _carouselAnimating = false;
+        });
+      }
+    }
 
     try {
       final full =
@@ -155,6 +203,7 @@ void initState() {
       // لو فشل الجلب، يبقى الكرت والعلامة بدون خط
     }
   }
+
   // يفتح Google Maps على الطريق لين بداية المسار
   Future<void> _openDirections(Trail trail) async {
     // نركّب الرابط: destination = خط العرض,خط الطول
@@ -223,9 +272,10 @@ void initState() {
     // نحفظ الموقع، ولو مو تحديث هادي نقرّب عليه
     final here = LatLng(position.latitude, position.longitude);
     setState(() => _myLocation = here);
-        if (!silent && move) _mapController.move(here, 13);
+    if (!silent && move) _mapController.move(here, 13);
     return true;
   }
+
   // لما نضغط "ابدأ المسار"
   Future<void> _startTrail() async {
     // لازم يكون للمسار خط نتبعه
@@ -322,16 +372,34 @@ void initState() {
       _progress = null;
     });
   }
+
+  // فتح صفحة التفاصيل (نفس الكود القديم)
+  void _openDetails(Trail trail) {
+    if (widget.initialTrail != null) {
+      Navigator.of(context).pop(); // نرجع للتفاصيل
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TrailDetailsScreen(trail: trail),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // نجيب المسارات من نفس ViewModel صفحة الاستكشاف
     final vm = context.watch<ExploreViewModel>();
 
     // نخلي بس المسارات اللي عندها نقطة بداية، واسمها فيه نص البحث
-    final trails = vm.mapTrails
-        .where((t) => t.startLat != null && t.startLng != null)
-        .where((t) => t.name.contains(_query.trim()))
-        .toList();
+    final trails = _visibleTrails(vm);
+
+    // قائمة الكروت اللي يلف بينها المستخدم
+    final carouselTrails = _carouselTrails(vm);
+
+    // مكان الأزرار العائمة: فوق الكرت لو ظاهر
+    final floatingBottom = _selected == null ? 90.0 : 240.0;
 
     return Scaffold(
       // Stack: طبقات فوق بعض
@@ -362,7 +430,8 @@ void initState() {
                   polylines: [
                     if (_progress != null) ...[
                       Polyline(
-                        points: _routePoints.sublist(0, _progress!.nearestIndex + 1),
+                        points: _routePoints.sublist(
+                            0, _progress!.nearestIndex + 1),
                         strokeWidth: 5,
                         color: Colors.grey,
                         borderStrokeWidth: 2,
@@ -446,7 +515,7 @@ void initState() {
                   // الشريط: يطلع بس وإحنا على المسار
                   if (_onTrail) ...[
                     const SizedBox(height: 10),
-                                       OnTrailBanner(
+                    OnTrailBanner(
                       secondsAgo: _secondsAgo,
                       onEnd: _endTrail,
                       remainingMeters: _progress?.remainingMeters,
@@ -462,26 +531,29 @@ void initState() {
           // 3) زر "موقعي" يسار — يطلع فوق لو الكرت ظاهر
           Positioned(
             left: 16,
-            bottom: _selected == null ? 90 : 230,
+            bottom: floatingBottom,
             child: _LocateButton(onTap: () => _findMyLocation()),
           ),
           // زر "تتبّعني": يطلع لو حرّك الخريطة وإحنا على المسار
           if (_onTrail && !_following)
             Positioned(
               right: 16,
-              bottom: _selected == null ? 90 : 230,
+              bottom: floatingBottom,
               child: FloatingActionButton.extended(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
                 onPressed: () {
                   setState(() => _following = true);
-                  if (_myLocation != null) _mapController.move(_myLocation!, 17);
+                  if (_myLocation != null) {
+                    _mapController.move(_myLocation!, 17);
+                  }
                 },
                 icon: const Icon(Icons.navigation),
                 label: const Text(AppStrings.mapRecenter),
               ),
             ),
-          // 4) تحت: التلميح لو ما اخترنا مسار، والكرت لو اخترنا
+
+          // 4) تحت: التلميح لو ما اخترنا مسار، والكروت (تلف) لو اخترنا
           if (_selected == null)
             const Positioned(
               left: 0,
@@ -494,33 +566,31 @@ void initState() {
               left: 0,
               right: 0,
               bottom: 0,
-              child: MapTrailCard(
-                trail: _selected!,
+              child: MapTrailCarousel(
+                key: _carouselKey,
+                trails: carouselTrails,
+                initialIndex: math.max(
+                  0,
+                  carouselTrails.indexWhere((t) => t.id == _selected!.id),
+                ),
                 // وإحنا على المسار: يختفي زر "ابدأ المسار"
                 isOnTrail: _onTrail,
-                // X: نسكّر الكرت ونرجّع العلامة خضراء
-               onClose: () => setState(() {
-  _selected = null;
-  if (!_onTrail) _routePoints = [];
-}),
-                // الاتجاهات: يفتح Google Maps
-                onDirections: () => _openDirections(_selected!),
-                // ابدأ المسار: نافذة الإذن ثم الموقع الحقيقي ثم الشريط
-                onStart: () => _startTrail(),
-                // عرض التفاصيل: يفتح صفحة التفاصيل بنفس طريقة الاستكشاف
-                onDetails: () {
-                  if (widget.initialTrail != null) {
-                    Navigator.of(context).pop(); // نرجع للتفاصيل
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            TrailDetailsScreen(trail: _selected!),
-                      ),
-                    );
+                // لما يلف المستخدم: نختار المسار ونجيب خطه ونحرّك الكاميرا
+                onTrailChanged: (t) {
+                  if (_carouselAnimating) return;
+                  if (_selected?.id != t.id) {
+                    _selectTrail(t, fromCarousel: true);
                   }
                 },
+                // X: نسكّر الكرت ونرجّع العلامة خضراء
+                onClose: () => setState(() {
+                  _selected = null;
+                  if (!_onTrail) _routePoints = [];
+                }),
+                // الأزرار تشتغل على المسار اللي في الكرت
+                onDirections: (t) => _openDirections(t),
+                onStart: (_) => _startTrail(),
+                onDetails: (t) => _openDetails(t),
               ),
             ),
         ],
@@ -575,7 +645,6 @@ class _MyLocationDot extends StatelessWidget {
   }
 }
 
-// شريط البحث الأبيض + زر EN
 class _SearchBar extends StatelessWidget {
   final ValueChanged<String> onChanged; // يُنادى كل ما تتغيّر الكتابة
 
@@ -592,39 +661,16 @@ class _SearchBar extends StatelessWidget {
           BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 2)),
         ],
       ),
-      child: Row(
-        children: [
-          // حقل البحث (بالعربي يجي يمين)
-          Expanded(
-            child: TextField(
-              onChanged: onChanged, // نرسل النص للصفحة
-              decoration: const InputDecoration(
-                hintText: AppStrings.mapSearchHint,
-                prefixIcon: Icon(Icons.search),
-                border: InputBorder.none, // بدون إطار
-                enabledBorder: InputBorder.none, // بدون إطار في الحالة العادية
-                focusedBorder: InputBorder.none, // بدون إطار لما نضغط عليه
-                filled: false, // بدون لون خلفية من الثيم
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          // زر EN (يجي يسار) — شكل بس حالياً
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: AppColors.primaryLight,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Text(
-              'EN',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
-              ),
-            ),
-          ),
-        ],
+      child: TextField(
+        onChanged: onChanged, // نرسل النص للصفحة
+        decoration: const InputDecoration(
+          hintText: AppStrings.mapSearchHint,
+          prefixIcon: Icon(Icons.search),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          filled: false,
+        ),
       ),
     );
   }

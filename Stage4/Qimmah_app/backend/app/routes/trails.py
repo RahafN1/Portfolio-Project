@@ -24,7 +24,7 @@ def get_trails():
     )
     ratings = TrailService.average_ratings(trails)  # استعلام واحد لكل المسارات
     return jsonify({
-        "trails": [trail.get_summary(lang) for trail in trails],
+        "trails": [trail.get_summary(lang, ratings.get(trail.id)) for trail in trails],
         "page": page,
         "total": total,
     }), 200

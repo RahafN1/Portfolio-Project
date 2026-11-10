@@ -28,7 +28,8 @@ class MapTrailCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16), // مسافة من أطراف الشاشة
+      // أفقي صغير عشان الفراغ بين الكروت في الـ carousel ما يكبر
+      margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
       padding: const EdgeInsets.all(14), // مسافة داخل الكرت
       decoration: BoxDecoration(
         color: Colors.white,
@@ -246,6 +247,82 @@ class _DifficultyChip extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ---------- الـ Carousel: يلف بين الكروت ----------
+class MapTrailCarousel extends StatefulWidget {
+  final List<Trail> trails;
+  final int initialIndex;
+  final bool isOnTrail;
+  final ValueChanged<Trail> onTrailChanged; // حرّك الكاميرا + حدّد المؤشر
+  final VoidCallback onClose;
+  final ValueChanged<Trail> onDirections;
+  final ValueChanged<Trail> onStart;
+  final ValueChanged<Trail> onDetails;
+
+  const MapTrailCarousel({
+    super.key,
+    required this.trails,
+    required this.onTrailChanged,
+    required this.onClose,
+    required this.onDirections,
+    required this.onStart,
+    required this.onDetails,
+    this.initialIndex = 0,
+    this.isOnTrail = false,
+  });
+
+  @override
+  State<MapTrailCarousel> createState() => MapTrailCarouselState();
+}
+
+class MapTrailCarouselState extends State<MapTrailCarousel> {
+  late final PageController _controller = PageController(
+    viewportFraction: 0.92, // يبان طرف الكرت اللي بعده
+    initialPage: widget.initialIndex,
+  );
+
+  // تناديها من برّا لما المستخدم يضغط مؤشر في الخريطة
+  void goTo(int index) {
+    if (!_controller.hasClients) return;
+    _controller.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 210, // لو لسا فيه overflow زِدها شوي
+      child: PageView.builder(
+        controller: _controller,
+        itemCount: widget.trails.length,
+        onPageChanged: (i) => widget.onTrailChanged(widget.trails[i]),
+        itemBuilder: (context, i) {
+          final t = widget.trails[i];
+          return Align(
+            alignment: Alignment.bottomCenter,
+            child: MapTrailCard(
+              trail: t,
+              isOnTrail: widget.isOnTrail,
+              onClose: widget.onClose,
+              onDirections: () => widget.onDirections(t),
+              onStart: () => widget.onStart(t),
+              onDetails: () => widget.onDetails(t),
+            ),
+          );
+        },
       ),
     );
   }

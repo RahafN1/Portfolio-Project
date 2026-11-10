@@ -5,10 +5,8 @@ import '../../../../core/theme/app_colors.dart';
 
 // أعلى صفحة مساراتي: الشعار (يمين) + زر اللغة (يسار) + خط سفلي
 class MyTrailsHeader extends StatelessWidget {
-  // نربط زر اللغة لما يضاف دعم الإنجليزي للتطبيق
-  final VoidCallback? onLanguageTap;
 
-  const MyTrailsHeader({super.key, this.onLanguageTap});
+  const MyTrailsHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,35 +53,6 @@ class MyTrailsHeader extends StatelessWidget {
                 ],
               ),
             ],
-          ),
-          const Spacer(),
-          // زر اللغة
-          InkWell(
-            onTap: onLanguageTap,
-            borderRadius: BorderRadius.circular(24),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              decoration: BoxDecoration(
-                color: cs.surface,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: AppColors.border),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'EN',
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(width: 6),
-                  Icon(Icons.language, size: 18, color: AppColors.primary),
-                ],
-              ),
-            ),
           ),
         ],
       ),
