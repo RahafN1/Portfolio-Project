@@ -53,6 +53,80 @@ class ProfileScreen extends StatelessWidget {
     auth.loginAsGuest(); // نرجع كزائر
   }
 
+  // زر زجاجي (نفس اللي في السبلاش)
+  Widget _glassButton({
+    required bool isDark,
+    required String tooltip,
+    required VoidCallback? onTap,
+    required EdgeInsets padding,
+    required Widget child,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: Material(
+        color: isDark
+            ? Colors.black.withValues(alpha: 0.45)
+            : Colors.white.withValues(alpha: 0.85),
+        shape: const StadiumBorder(),
+        child: InkWell(
+          customBorder: const StadiumBorder(),
+          onTap: onTap,
+          child: Padding(padding: padding, child: child),
+        ),
+      ),
+    );
+  }
+
+  // أزرار اللغة والوضع الداكن (يسار)
+  Widget _topButtons(BuildContext context, bool isDark) {
+    final color = isDark ? AppColors.textDark : AppColors.textLight;
+
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _glassButton(
+              isDark: isDark,
+              tooltip: 'English',
+              onTap: null, // TODO: الإنجليزي لاحقاً
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'EN',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: color,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Icon(Icons.language, size: 18, color: color),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            _glassButton(
+              isDark: isDark,
+              tooltip: isDark ? 'الوضع الفاتح' : 'الوضع الداكن',
+              onTap: () => context.read<ThemeViewModel>().setDark(!isDark),
+              padding: const EdgeInsets.all(9),
+              child: Icon(
+                isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+                size: 18,
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -63,6 +137,10 @@ class ProfileScreen extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          // أزرار اللغة والوضع الداكن فوق
+          _topButtons(context, isDark),
+          const SizedBox(height: 16),
+
           const Text(
             'حسابي',
             style: TextStyle(
@@ -91,30 +169,8 @@ class ProfileScreen extends StatelessWidget {
               trailing: const Icon(Icons.chevron_left),
               onTap: () => _editSheet(context, user.name, user.email),
             ),
-          ] else
-            _guestCard(context),
-          const SizedBox(height: 20),
 
-          const Text('الإعدادات',
-              style: TextStyle(fontSize: 13, color: AppColors.grey)),
-          const SizedBox(height: 8),
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: SwitchListTile(
-              title: const Text('الوضع الداكن'),
-              secondary: const Icon(Icons.dark_mode_outlined),
-              value: isDark,
-              activeColor: AppColors.primary,
-              onChanged: (v) => context.read<ThemeViewModel>().setDark(v),
-            ),
-          ),
-
-          // زر تسجيل الخروج للمسجّلة فقط
-          if (loggedIn) ...[
+            // زر تسجيل الخروج للمسجّلة فقط
             const SizedBox(height: 16),
             OutlinedButton.icon(
               style: OutlinedButton.styleFrom(
@@ -126,7 +182,8 @@ class ProfileScreen extends StatelessWidget {
               icon: const Icon(Icons.logout),
               label: const Text('تسجيل الخروج'),
             ),
-          ],
+          ] else
+            _guestCard(context),
         ],
       ),
     );
