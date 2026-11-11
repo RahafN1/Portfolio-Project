@@ -57,6 +57,7 @@
   "trailsSection": "المسارات",
   "noTrailsMatch": "ما فيه مسارات تطابق بحثك",
  "resetFilters": "إعادة ضبط الفلاتر",
+ "loadMoreFailed": "ما قدرنا نحمّل المزيد",
  "appSlogan": "مسارك...للقمة"
   
 }

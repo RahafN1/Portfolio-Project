@@ -161,5 +161,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get resetFilters => 'إعادة ضبط الفلاتر';
 
   @override
+  String get loadMoreFailed => 'ما قدرنا نحمّل المزيد';
+
+  @override
   String get appSlogan => 'مسارك...للقمة';
 }

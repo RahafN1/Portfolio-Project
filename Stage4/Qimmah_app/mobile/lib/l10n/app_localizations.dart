@@ -368,6 +368,12 @@ abstract class AppLocalizations {
   /// **'إعادة ضبط الفلاتر'**
   String get resetFilters;
 
+  /// No description provided for @loadMoreFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما قدرنا نحمّل المزيد'**
+  String get loadMoreFailed;
+
   /// No description provided for @appSlogan.
   ///
   /// In ar, this message translates to:

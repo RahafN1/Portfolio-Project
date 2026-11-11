@@ -51,5 +51,6 @@
   "trailsSection": "Trails",
   "noTrailsMatch": "No trails match your search",
   "resetFilters": "Reset filters",
+  "loadMoreFailed": "Couldn't load more",
   "appSlogan": "Your trail... to the summit"
 }

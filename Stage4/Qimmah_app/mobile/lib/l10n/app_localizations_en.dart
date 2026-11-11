@@ -158,5 +158,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resetFilters => 'Reset filters';
 
   @override
+  String get loadMoreFailed => 'Couldn\'t load more';
+
+  @override
   String get appSlogan => 'Your trail... to the summit';
 }
