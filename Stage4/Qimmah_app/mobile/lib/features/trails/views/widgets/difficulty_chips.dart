@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/difficulty_label.dart';
 
 // شرائح الصعوبة: الكل / سهل / متوسط / صعب
 class DifficultyChips extends StatelessWidget {
@@ -13,29 +15,27 @@ class DifficultyChips extends StatelessWidget {
     required this.onSelected,
   });
 
-  static const _items = <MapEntry<String?, String>>[
-    MapEntry(null, 'الكل'),
-    MapEntry('easy', 'سهل'),
-    MapEntry('moderate', 'متوسط'),
-    MapEntry('hard', 'صعب'),
-  ];
+  // المفاتيح بس، النص المعروض يجي من الترجمة
+  static const _items = <String?>[null, 'easy', 'moderate', 'hard'];
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Row(
         children: [
-          for (final item in _items) ...[
+          for (final key in _items) ...[
             Expanded(
               child: _Chip(
-                difficulty: item.key,
-                label: item.value,
-                isSelected: selected == item.key,
-                onTap: () => onSelected(item.key),
+                difficulty: key,
+                label: key == null ? l10n.all : difficultyLabel(context, key),
+                isSelected: selected == key,
+                onTap: () => onSelected(key),
               ),
             ),
-            if (item != _items.last) const SizedBox(width: 8),
+            if (key != _items.last) const SizedBox(width: 8),
           ],
         ],
       ),

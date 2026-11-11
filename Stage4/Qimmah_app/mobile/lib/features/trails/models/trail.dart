@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:latlong2/latlong.dart';
+import '../../../../core/utils/difficulty_label.dart';
 
 class Trail {
   final int id;
@@ -117,15 +118,6 @@ class Trail {
       routePoints: routePoints,
     );
   }
-
-  // نعرض الصعوبة بالعربي
-  String get difficultyArabic {
-    if (difficulty == 'easy') return 'سهل';
-    if (difficulty == 'moderate') return 'متوسط';
-    if (difficulty == 'hard') return 'صعب';
-    return difficulty;
-  }
-
   // المسافة بدون ".0" لو رقم صحيح (9.0 تصير 9)
   String get distanceText =>
       distance % 1 == 0 ? distance.toStringAsFixed(0) : distance.toString();

@@ -81,9 +81,6 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
     if (trail != null) {
       _nameArController.text = trail.name;
       _region = trail.region;
-      if (['سهل', 'متوسط', 'صعب'].contains(trail.difficultyArabic)) {
-        _difficulty = trail.difficultyArabic;
-      }
       _distanceController.text = trail.distanceText;
       _durationController.text = trail.estimatedDuration;
       _descriptionController.text = trail.description;

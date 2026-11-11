@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 // أعلى الصفحة: الشعار + زر الحساب + الترحيب
 class ExploreHeader extends StatelessWidget {
@@ -18,6 +19,7 @@ class ExploreHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context); 
     final textColor = Theme.of(context).colorScheme.onSurface;
 
     return Padding(
@@ -70,7 +72,7 @@ class ExploreHeader extends StatelessWidget {
                 onTap: onProfileTap,
                 customBorder: const CircleBorder(),
                 child: Tooltip(
-                  message: 'تسجيل الدخول',
+                 message: l10n.login,                         // بدل 'تسجيل الدخول'
                   child: Container(
                     width: 44,
                     height: 44,
@@ -87,20 +89,20 @@ class ExploreHeader extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          Text(
-            'أهلاً، $userName',
-            style: TextStyle(fontSize: 14, color: textColor.withOpacity(0.75)),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'مسارك...للقمة',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          ),
+const SizedBox(height: 20),
+Text(
+  l10n.welcomeUser(userName),
+  style: TextStyle(fontSize: 14, color: textColor.withOpacity(0.75)),
+),
+     const SizedBox(height: 4),
+Text(
+  AppLocalizations.of(context).appSlogan,
+  style: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+    color: textColor,
+  ),
+),
         ],
       ),
     );
@@ -144,9 +146,9 @@ class ExploreSearchBar extends StatelessWidget {
             child: TextField(
               onChanged: onChanged,
               textInputAction: TextInputAction.search,
-              decoration: const InputDecoration(
-                hintText: 'ابحث عن مسار...',
-                prefixIcon: Icon(Icons.search, color: AppColors.grey),
+decoration: InputDecoration(
+  hintText: AppLocalizations.of(context).searchHint,
+  prefixIcon: const Icon(Icons.search, color: AppColors.grey),
                 filled: false,
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,

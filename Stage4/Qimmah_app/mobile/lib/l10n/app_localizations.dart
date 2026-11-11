@@ -181,6 +181,204 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'{count, plural, =0{لا توجد تقييمات} =1{تقييم واحد} =2{تقييمان} few{{count} تقييمات} many{{count} تقييماً} other{{count} تقييم}}'**
   String reviewsCount(int count);
+
+  /// No description provided for @tabExplore.
+  ///
+  /// In ar, this message translates to:
+  /// **'استكشف'**
+  String get tabExplore;
+
+  /// No description provided for @tabMap.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخريطة'**
+  String get tabMap;
+
+  /// No description provided for @tabMyTrails.
+  ///
+  /// In ar, this message translates to:
+  /// **'مساراتي'**
+  String get tabMyTrails;
+
+  /// No description provided for @tabProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابي'**
+  String get tabProfile;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابي'**
+  String get profileTitle;
+
+  /// No description provided for @accountSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب'**
+  String get accountSection;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل البيانات'**
+  String get editProfile;
+
+  /// No description provided for @logout.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الخروج'**
+  String get logout;
+
+  /// No description provided for @statSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'محفوظة'**
+  String get statSaved;
+
+  /// No description provided for @statCompleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'مكتملة'**
+  String get statCompleted;
+
+  /// No description provided for @statKmWalked.
+  ///
+  /// In ar, this message translates to:
+  /// **'كم مشي'**
+  String get statKmWalked;
+
+  /// No description provided for @all.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكل'**
+  String get all;
+
+  /// No description provided for @filterTrails.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصفية المسارات'**
+  String get filterTrails;
+
+  /// No description provided for @resetShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة ضبط'**
+  String get resetShort;
+
+  /// No description provided for @difficulty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصعوبة'**
+  String get difficulty;
+
+  /// No description provided for @region.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنطقة'**
+  String get region;
+
+  /// No description provided for @showTrails.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض {count} مسار'**
+  String showTrails(int count);
+
+  /// No description provided for @firstName.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم الأول'**
+  String get firstName;
+
+  /// No description provided for @lastName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم العائلة'**
+  String get lastName;
+
+  /// No description provided for @email.
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الإلكتروني'**
+  String get email;
+
+  /// No description provided for @emailCannotChange.
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد ما يتغير'**
+  String get emailCannotChange;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ التعديلات'**
+  String get saveChanges;
+
+  /// No description provided for @account.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب'**
+  String get account;
+
+  /// No description provided for @changesSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم حفظ التعديلات'**
+  String get changesSaved;
+
+  /// No description provided for @saveFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذر الحفظ'**
+  String get saveFailed;
+
+  /// No description provided for @guestTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنت تتصفح كزائر'**
+  String get guestTitle;
+
+  /// No description provided for @guestMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجّل دخولك عشان تحفظ مساراتك وتقيّمها وتتابع إنجازاتك.'**
+  String get guestMessage;
+
+  /// No description provided for @login.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get login;
+
+  /// No description provided for @trailsSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'المسارات'**
+  String get trailsSection;
+
+  /// No description provided for @noTrailsMatch.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما فيه مسارات تطابق بحثك'**
+  String get noTrailsMatch;
+
+  /// No description provided for @resetFilters.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة ضبط الفلاتر'**
+  String get resetFilters;
+
+  /// No description provided for @loadMoreFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما قدرنا نحمّل المزيد'**
+  String get loadMoreFailed;
+
+  /// No description provided for @appSlogan.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسارك...للقمة'**
+  String get appSlogan;
 }
 
 class _AppLocalizationsDelegate

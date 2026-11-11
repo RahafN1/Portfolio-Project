@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../viewmodels/explore_viewmodel.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 // ورقة الفلتر اللي تنفتح من زر الضبط جنب البحث
 void showFilterSheet(BuildContext context) {
@@ -17,16 +18,26 @@ void showFilterSheet(BuildContext context) {
 class _FilterSheet extends StatelessWidget {
   const _FilterSheet();
 
-  static const _difficulties = <MapEntry<String?, String>>[
-    MapEntry(null, 'الكل'),
-    MapEntry('easy', 'سهل'),
-    MapEntry('moderate', 'متوسط'),
-    MapEntry('hard', 'صعب'),
-  ];
+  static const _difficulties = <String?>[null, 'easy', 'moderate', 'hard'];
+
+  String _difficultyLabel(BuildContext context, String? key) {
+    final l10n = AppLocalizations.of(context);
+    switch (key) {
+      case 'easy':
+        return l10n.difficultyEasy;
+      case 'moderate':
+        return l10n.difficultyModerate;
+      case 'hard':
+        return l10n.difficultyHard;
+      default:
+        return l10n.all;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<ExploreViewModel>();
+    final l10n = AppLocalizations.of(context);
 
     return SafeArea(
       child: Padding(
@@ -37,36 +48,36 @@ class _FilterSheet extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Text(
-                  'تصفية المسارات',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Text(
+                  l10n.filterTrails,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 TextButton(
                   onPressed: vm.hasActiveFilters ? vm.resetFilters : null,
-                  child: const Text('إعادة ضبط'),
+                  child: Text(l10n.resetShort),
                 ),
               ],
             ),
             const SizedBox(height: 12),
-            const Text('الصعوبة',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(l10n.difficulty,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               children: [
-                for (final d in _difficulties)
+                for (final key in _difficulties)
                   ChoiceChip(
-                    label: Text(d.value),
-                    selected: vm.selectedDifficulty == d.key,
-                    selectedColor: AppColors.primaryLight,
-                    onSelected: (_) => vm.setDifficulty(d.key),
+                    label: Text(_difficultyLabel(context, key)),
+                   selected: vm.selectedDifficulty == key,
+                    onSelected: (_) => vm.setDifficulty(key),
                   ),
               ],
             ),
             const SizedBox(height: 16),
-            const Text('المنطقة',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(l10n.region,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
@@ -84,7 +95,7 @@ class _FilterSheet extends StatelessWidget {
             const SizedBox(height: 20),
             FilledButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('عرض ${vm.total} مسار'),
+              child: Text(l10n.showTrails(vm.total)),
             ),
           ],
         ),

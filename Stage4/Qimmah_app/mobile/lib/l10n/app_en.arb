@@ -13,5 +13,44 @@
   "difficultyHard": "Hard",
   "loadTrailsError": "Couldn't load trails",
   "welcomeUser": "Welcome, {name}",
-  "reviewsCount": "{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}"
+  "reviewsCount": "{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}",
+
+  "tabExplore": "Explore",
+  "tabMap": "Map",
+  "tabMyTrails": "My trails",
+  "tabProfile": "Profile",
+  "profileTitle": "Profile",
+  "accountSection": "Account",
+  "editProfile": "Edit profile",
+  "logout": "Log out",
+  "statSaved": "Saved",
+  "statCompleted": "Completed",
+  "statKmWalked": "km walked",
+  "all": "All",
+
+  "filterTrails": "Filter trails",
+  "resetShort": "Reset",
+  "difficulty": "Difficulty",
+  "region": "Region",
+  "showTrails": "Show {count} trails",
+  "@showTrails": {
+  "placeholders": { "count": { "type": "int" } }
+  },
+
+  "firstName": "First name",
+  "lastName": "Last name",
+  "email": "Email",
+  "emailCannotChange": "Email can't be changed",
+  "saveChanges": "Save changes",
+  "account": "Account",
+  "changesSaved": "Changes saved",
+  "saveFailed": "Couldn't save",
+  "guestTitle": "You're browsing as a guest",
+  "guestMessage": "Log in to save your trails, rate them, and track your achievements.",
+  "login": "Log in",
+  "trailsSection": "Trails",
+  "noTrailsMatch": "No trails match your search",
+  "resetFilters": "Reset filters",
+  "loadMoreFailed": "Couldn't load more",
+  "appSlogan": "Your trail... to the summit"
 }

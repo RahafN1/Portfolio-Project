@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import '../data/trails_repository.dart';
 import '../models/trail.dart';
 import 'dart:async';//عشان نستخدم Timer في البحث
+import '../../../l10n/l10n.dart';
 
 class ExploreViewModel extends ChangeNotifier {
   final TrailsRepository repository;
 
   ExploreViewModel(this.repository);
 
-  static const String allRegions = 'كل المناطق';
+  // قيمة داخلية فقط، ما تنعرض للمستخدم (العرض من l10n.allRegions)
+  static const String allRegions = '__all__';
+
+  // لغة آخر تحميل: لو تغيّرت نمسح أسماء المناطق والخريطة المخزّنة باللغة القديمة
+  String? _loadedLang;
   // كم مسار نجيب بكل مرة
 static const int pageSize = 10;
 
@@ -50,6 +55,14 @@ Timer? _searchDebounce;
 
 // يجيب أول صفحة (عند فتح الشاشة، تغيير الفلاتر، والسحب للتحديث)
 Future<void> loadTrails() async {
+  // اللغة تغيّرت؟ الأسماء والمسارات المخزّنة كانت باللغة القديمة
+  if (_loadedLang != L10n.languageCode) {
+    _loadedLang = L10n.languageCode;
+    _knownRegions.clear();
+    _mapAll = [];
+    selectedRegion = allRegions; // الاسم المختار كان بلغة ثانية
+  }
+
   final id = ++_requestId;
   isLoading = true;
   isLoadingMore = false;
@@ -74,7 +87,7 @@ Future<void> loadTrails() async {
     _rememberRegions(result.trails);
   } catch (e) {
     if (id != _requestId) return;
-    errorMessage = 'ما قدرنا نجيب المسارات';
+    errorMessage = L10n.tr.loadTrailsError;
   }
 
   isLoading = false;
@@ -106,7 +119,7 @@ Future<void> loadMore() async {
     _rememberRegions(result.trails);
   } catch (e) {
     if (id != _requestId) return;
-    loadMoreError = 'ما قدرنا نحمّل المزيد';
+    loadMoreError = L10n.tr.loadMoreFailed;
   }
 
   isLoadingMore = false;

@@ -7,6 +7,7 @@ import '../../trails/models/trail.dart';
 import '../viewmodels/admin_viewmodel.dart';
 import 'add_trail_screen.dart';
 import 'widgets/admin_helpers.dart';
+import 'package:mobile/core/utils/difficulty_label.dart';
 
 // تبويب المسارات: قائمة مع إضافة وتعديل وحذف
 class ManageTrailsScreen extends StatelessWidget {
@@ -128,7 +129,7 @@ class ManageTrailsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 6),
-                                _DifficultyBadge(label: trail.difficultyArabic),
+                                _DifficultyBadge(label: difficultyLabel(context, trail.difficulty)),
                               ],
                             ),
                           ],

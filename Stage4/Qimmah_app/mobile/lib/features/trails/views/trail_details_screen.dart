@@ -24,6 +24,7 @@ import '../../reviews/viewmodels/reviews_viewmodel.dart';
 import '../../reviews/views/widgets/reviews_section.dart';
 import 'widgets/photo_viewer.dart';
 import 'trail_map_screen.dart';
+import '../../../l10n/l10n.dart';
 
 // مؤقت للرسالة، عشان تطلع مرة وحدة بعد ما يسكت المستخدم
 
@@ -135,7 +136,8 @@ await SharePlus.instance.share(
       );
     } catch (_) {}
     if (!opened && context.mounted) {
-      _toast(context, 'ما قدرنا نفتح تطبيق الخرائط');
+      _toast(context, AppLocalizations.of(context)!.loadTrailsError
+      );
     }
   }
 

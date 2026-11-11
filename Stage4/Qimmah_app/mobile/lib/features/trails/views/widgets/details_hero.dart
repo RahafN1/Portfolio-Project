@@ -89,7 +89,7 @@ class DetailsHero extends StatelessWidget {
           PositionedDirectional(
             top: top,
             start: 16,
-            child: _CircleButton(icon: Icons.chevron_right, onTap: onBack),
+            child: _CircleButton(icon: Icons.chevron_left, onTap: onBack),
           ),
 
           // مشاركة (يسار)
@@ -110,25 +110,22 @@ class _CircleButton extends StatelessWidget {
 
   const _CircleButton({required this.icon, required this.onTap});
 
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      shape: const CircleBorder(),
-      child: InkWell(
-        onTap: onTap,
-        customBorder: const CircleBorder(),
-        child: SizedBox(
-          width: 42,
-          height: 42,
-          child: Directionality(
-            textDirection: TextDirection.ltr,
-            child: Icon(icon, size: 22, color: AppColors.primary),
-          ),
-        ),
+@override
+Widget build(BuildContext context) {
+  return Material(
+    color: Colors.white,
+    shape: const CircleBorder(),
+    child: InkWell(
+      onTap: onTap,
+      customBorder: const CircleBorder(),
+      child: SizedBox(
+        width: 42,
+        height: 42,
+        child: Icon(icon, size: 22, color: AppColors.primary),
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 class _Placeholder extends StatelessWidget {
