@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/l10n.dart';
+
 const Color adminDanger = Color(0xFFA6382A);
 
 // نافذة تأكيد. ترجّع true لو أكد
@@ -31,7 +33,7 @@ Future<bool> showConfirmDialog(
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => Navigator.pop(ctx, false),
-                    child: const Text('إلغاء'),
+                    child: Text(ctx.l10n.adminCancel),
                   ),
                 ),
                 const SizedBox(width: 12),

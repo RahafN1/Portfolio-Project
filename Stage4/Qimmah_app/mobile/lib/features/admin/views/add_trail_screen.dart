@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/constants/app_strings.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/l10n.dart';
 import '../../trails/models/trail.dart';
 import '../viewmodels/admin_viewmodel.dart';
 import 'widgets/admin_helpers.dart';
@@ -40,17 +40,10 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
   String? _region;
 
   // الصعوبة المختارة (المتوسط محدد من البداية مثل التصميم)
-  String _difficulty = 'متوسط';
+  String _difficulty = 'moderate';
 
   // هل نرسل للسيرفر الحين؟ (عشان نعطل الزر ونطلع دائرة تحميل)
   bool _isSaving = false;
-
-  // السيرفر يفهم الصعوبة بالإنجليزي بس
-  static const Map<String, String> _difficultyCodes = {
-    'سهل': 'easy',
-    'متوسط': 'moderate',
-    'صعب': 'hard',
-  };
 
   // قائمة المناطق (عدليها لو تبين)
   static const List<String> _regions = [
@@ -68,6 +61,41 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
     'الباحة',
     'الجوف',
   ];
+
+  // اسم المنطقة المعروض (القيمة اللي تنرسل للسيرفر تبقى بالعربي)
+  String _regionLabel(BuildContext context, String value) {
+    final l10n = context.l10n;
+    switch (value) {
+      case 'الرياض':
+        return l10n.adminRegionRiyadh;
+      case 'مكة المكرمة':
+        return l10n.adminRegionMakkah;
+      case 'المدينة المنورة':
+        return l10n.adminRegionMadinah;
+      case 'القصيم':
+        return l10n.adminRegionQassim;
+      case 'الشرقية':
+        return l10n.adminRegionEastern;
+      case 'عسير':
+        return l10n.adminRegionAsir;
+      case 'تبوك':
+        return l10n.adminRegionTabuk;
+      case 'حائل':
+        return l10n.adminRegionHail;
+      case 'الحدود الشمالية':
+        return l10n.adminRegionNorthernBorders;
+      case 'جازان':
+        return l10n.adminRegionJazan;
+      case 'نجران':
+        return l10n.adminRegionNajran;
+      case 'الباحة':
+        return l10n.adminRegionBaha;
+      case 'الجوف':
+        return l10n.adminRegionJawf;
+      default:
+        return value;
+    }
+  }
 
   // هل نحن في وضع التعديل؟
   bool get _isEdit => widget.trail != null;
@@ -109,6 +137,7 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
 
   // نشر مسار جديد، أو حفظ تعديلات مسار موجود
   Future<void> _onPublish() async {
+    final l10n = context.l10n;
     final nameAr = _nameArController.text.trim();
     final description = _descriptionController.text.trim();
     final duration = _durationController.text.trim();
@@ -119,24 +148,24 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
 
     // نتأكد إن الحقول المطلوبة معبية
     if (nameAr.isEmpty) {
-      showAdminToast(context, 'اكتبي اسم المسار بالعربي');
+      showAdminToast(context, l10n.adminEnterNameAr);
       return;
     }
     if (_region == null) {
-      showAdminToast(context, 'اختاري المنطقة');
+      showAdminToast(context, l10n.adminChooseRegion);
       return;
     }
     if (distance == null || distance <= 0) {
-      showAdminToast(context, 'اكتبي المسافة كرقم صحيح');
+      showAdminToast(context, l10n.adminEnterDistance);
       return;
     }
     if (duration.isEmpty) {
-      showAdminToast(context, 'اكتبي المدة المتوقعة');
+      showAdminToast(context, l10n.adminEnterDuration);
       return;
     }
     // النبذة إجبارية في الإضافة بس
     if (!_isEdit && description.isEmpty) {
-      showAdminToast(context, 'اكتبي نبذة عن المسار');
+      showAdminToast(context, l10n.adminEnterAbout);
       return;
     }
 
@@ -144,7 +173,7 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
     final data = <String, dynamic>{
       'name': nameAr,
       'region': _region,
-      'difficulty': _difficultyCodes[_difficulty],
+      'difficulty': _difficulty,
       'distance': distance,
       'estimated_duration': duration,
       // النبذة ما نرسلها فاضية، عشان ما نمسح النبذة القديمة في التعديل
@@ -154,9 +183,9 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
     setState(() => _isSaving = true);
 
     final vm = context.read<AdminViewModel>();
-    final ok = _isEdit
-        ? await vm.updateTrail(widget.trail!, data)
-        : await vm.addTrail(data);
+        final ok = _isEdit
+        ? await vm.updateTrail(widget.trail!, data, images: _images)
+        : await vm.addTrail(data, images: _images);
 
     if (!mounted) return;
     setState(() => _isSaving = false);
@@ -164,11 +193,11 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
     if (ok) {
       showAdminToast(
         context,
-        _isEdit ? 'تم حفظ التعديلات' : 'تم نشر المسار',
+        _isEdit ? l10n.changesSaved : l10n.adminTrailPublished,
       );
       Navigator.pop(context);
     } else {
-      showAdminToast(context, 'ما قدرنا نحفظ المسار، حاول مرة ثانية');
+      showAdminToast(context, l10n.adminSaveTrailFailed);
     }
   }
 
@@ -206,8 +235,8 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    AppStrings.appNameEn,
+                  Text(
+                    context.l10n.adminBrandLatin,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
@@ -220,8 +249,8 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 8),
                     color: AppColors.primary,
                   ),
-                  const Text(
-                    AppStrings.appNameAr,
+                  Text(
+                    context.l10n.adminBrandArabic,
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
@@ -232,7 +261,9 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
               ),
             ),
             Text(
-              _isEdit ? 'تعديل مسار' : 'إضافة مسار',
+              _isEdit
+                  ? context.l10n.adminEditTrailTitle
+                  : context.l10n.adminAddTrailTitle,
               style: const TextStyle(fontSize: 11, color: AppColors.grey),
             ),
           ],
@@ -276,7 +307,7 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           // صور المسار
-          const _FieldLabel('صور المسار'),
+          _FieldLabel(context.l10n.adminTrailImages),
           SizedBox(
             height: 84,
             child: ListView(
@@ -301,14 +332,15 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
           ),
           const SizedBox(height: 16),
 
-          const _FieldLabel('اسم المسار بالعربي'),
+          _FieldLabel(context.l10n.adminTrailNameAr),
           TextField(
             controller: _nameArController,
-            decoration: const InputDecoration(hintText: 'مسار وادي لجب'),
+            decoration:
+                InputDecoration(hintText: context.l10n.adminTrailNameArHint),
           ),
           const SizedBox(height: 16),
 
-          const _FieldLabel('اسم المسار بالإنجليزي'),
+          _FieldLabel(context.l10n.adminTrailNameEn),
           TextField(
             controller: _nameEnController,
             textDirection: TextDirection.ltr,
@@ -317,45 +349,48 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
           const SizedBox(height: 16),
 
           // المنطقة
-          const _FieldLabel('المنطقة'),
+          _FieldLabel(context.l10n.region),
           DropdownButtonFormField<String>(
             value: _region,
-            hint: const Text('اختر المنطقة'),
+            hint: Text(context.l10n.adminSelectRegionHint),
             items: regionItems
-                .map((r) => DropdownMenuItem(value: r, child: Text(r)))
+                .map((r) => DropdownMenuItem(
+                      value: r,
+                      child: Text(_regionLabel(context, r)),
+                    ))
                 .toList(),
             onChanged: (value) => setState(() => _region = value),
           ),
           const SizedBox(height: 16),
 
           // الصعوبة
-          const _FieldLabel('الصعوبة'),
+          _FieldLabel(context.l10n.difficulty),
           Row(
             children: [
               Expanded(
                 child: _DifficultyOption(
-                  label: 'سهل',
+                  label: context.l10n.difficultyEasy,
                   color: Colors.green,
-                  selected: _difficulty == 'سهل',
-                  onTap: () => setState(() => _difficulty = 'سهل'),
+                  selected: _difficulty == 'easy',
+                  onTap: () => setState(() => _difficulty = 'easy'),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _DifficultyOption(
-                  label: 'متوسط',
+                  label: context.l10n.difficultyModerate,
                   color: Colors.blue,
-                  selected: _difficulty == 'متوسط',
-                  onTap: () => setState(() => _difficulty = 'متوسط'),
+                  selected: _difficulty == 'moderate',
+                  onTap: () => setState(() => _difficulty = 'moderate'),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _DifficultyOption(
-                  label: 'صعب',
+                  label: context.l10n.difficultyHard,
                   color: Colors.deepOrange,
-                  selected: _difficulty == 'صعب',
-                  onTap: () => setState(() => _difficulty = 'صعب'),
+                  selected: _difficulty == 'hard',
+                  onTap: () => setState(() => _difficulty = 'hard'),
                 ),
               ),
             ],
@@ -370,7 +405,7 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const _FieldLabel('المسافة (كم)'),
+                    _FieldLabel(context.l10n.adminDistanceKm),
                     TextField(
                       controller: _distanceController,
                       keyboardType:
@@ -385,7 +420,7 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const _FieldLabel('المدة المتوقعة (ساعات)'),
+                    _FieldLabel(context.l10n.adminDurationHours),
                     TextField(
                       controller: _durationController,
                       decoration: const InputDecoration(hintText: '2–3'),
@@ -398,13 +433,13 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
           const SizedBox(height: 16),
 
           // نبذة عن المسار
-          const _FieldLabel('نبذة عن المسار'),
+          _FieldLabel(context.l10n.adminTrailAbout),
           TextField(
             controller: _descriptionController,
             minLines: 4,
             maxLines: 6,
-            decoration: const InputDecoration(
-              hintText: 'وصف مختصر للمسار وطبيعته...',
+            decoration: InputDecoration(
+              hintText: context.l10n.adminTrailAboutHint,
             ),
           ),
         ],
@@ -437,7 +472,9 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
                             color: Colors.white,
                           ),
                         )
-                      : Text(_isEdit ? 'حفظ التعديلات' : 'نشر المسار'),
+                      : Text(_isEdit
+                          ? context.l10n.saveChanges
+                          : context.l10n.adminPublishTrail),
                 ),
               ),
               const SizedBox(width: 10),
@@ -450,7 +487,7 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  child: const Text('إلغاء'),
+                  child: Text(context.l10n.adminCancel),
                 ),
               ),
             ],
@@ -507,14 +544,15 @@ class _AddImageButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: AppColors.border),
           ),
-          child: const Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.image_outlined, color: AppColors.primary),
-              SizedBox(height: 4),
+              const Icon(Icons.image_outlined, color: AppColors.primary),
+              const SizedBox(height: 4),
               Text(
-                'إضافة صورة',
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                context.l10n.adminAddImage,
+                style:
+                    const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
               ),
             ],
           ),

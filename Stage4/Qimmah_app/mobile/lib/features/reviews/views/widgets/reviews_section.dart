@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/guest_login_sheet.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../auth/viewmodels/auth_viewmodel.dart';
 import '../../models/review.dart';
 import '../../viewmodels/reviews_viewmodel.dart';
@@ -27,7 +28,10 @@ class ReviewsSection extends StatelessWidget {
   Future<void> _onWrite(BuildContext context) async {
     // الضيف يطلع له تنبيه تسجيل الدخول
     if (context.read<AuthViewModel>().isGuest) {
-      showGuestLoginSheet(context, title: 'سجّل دخولك عشان تقيّم المسار');
+      showGuestLoginSheet(
+        context,
+        title: context.l10n.reviewsGuestLoginToRate,
+      );
       return;
     }
     final vm = context.read<ReviewsViewModel>();
@@ -37,7 +41,7 @@ class ReviewsSection extends StatelessWidget {
       trailName: trailName,
     );
     if (posted == true && context.mounted) {
-      _toast(context, 'تم نشر تقييمك، شكراً لك!');
+      _toast(context, context.l10n.reviewsPosted);
     }
   }
 
@@ -49,7 +53,9 @@ class ReviewsSection extends StatelessWidget {
     if (!context.mounted) return;
     _toast(
       context,
-      ok ? 'تم حذف تقييمك' : 'ما قدرنا نحذف التقييم، حاول مرة ثانية',
+      ok
+          ? context.l10n.reviewsDeleted
+          : context.l10n.reviewsDeleteFailed,
     );
   }
 
@@ -65,7 +71,9 @@ class ReviewsSection extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                vm.total > 0 ? 'التقييمات (${vm.total})' : 'التقييمات',
+                vm.total > 0
+                    ? context.l10n.reviewsTitleWithCount(vm.total)
+                    : context.l10n.reviewsTitle,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
@@ -75,7 +83,7 @@ class ReviewsSection extends StatelessWidget {
               TextButton.icon(
                 onPressed: () => _onWrite(context),
                 icon: const Icon(Icons.edit_outlined, size: 18),
-                label: const Text('اكتب تقييمك'),
+                label: Text(context.l10n.reviewsWriteTitle),
               ),
           ],
         ),
@@ -94,14 +102,14 @@ class ReviewsSection extends StatelessWidget {
               ),
               TextButton(
                 onPressed: vm.retry,
-                child: const Text('حاول مرة ثانية'),
+                child: Text(context.l10n.reviewsRetry),
               ),
             ],
           )
         else if (vm.reviews.isEmpty)
-          const Text(
-            'ما فيه تقييمات للحين، كن أول من يقيّم هذا المسار.',
-            style: TextStyle(color: AppColors.grey, fontSize: 14),
+          Text(
+            context.l10n.reviewsEmpty,
+            style: const TextStyle(color: AppColors.grey, fontSize: 14),
           )
         else ...[
           // تقييمي أول القائمة

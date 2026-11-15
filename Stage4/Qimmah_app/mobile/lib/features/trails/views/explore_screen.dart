@@ -70,7 +70,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final ok = await context.read<FavoritesViewModel>().toggleSaved(trail);
     if (!ok && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ما قدرنا نحفظ المسار، حاول مرة ثانية')),
+        SnackBar(content: Text(context.l10n.trailsSaveFailed)),
       );
     }
   }
@@ -91,7 +91,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final explore = context.watch<ExploreViewModel>();
     final isGuest = user?.isGuest == true;
     final name = (isGuest || (user?.name ?? '').isEmpty)
-    ? 'مستكشف'
+    ? context.l10n.trailsExplorerName
     : user!.name.trim().split(' ').first;
 
     return SafeArea(
@@ -155,7 +155,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 Text(explore.errorMessage!),
                 TextButton(
                   onPressed: explore.loadTrails,
-                  child: const Text('حاول مرة ثانية'),
+                  child: Text(context.l10n.trailsRetry),
                 ),
               ],
             ),
@@ -208,7 +208,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         Center(
           child: TextButton(
             onPressed: explore.loadMore,
-            child: Text('${explore.loadMoreError!}، حاول مرة ثانية'),
+            child: Text(context.l10n.trailsLoadMoreRetry(explore.loadMoreError!)),
           ),
         ),
     ];

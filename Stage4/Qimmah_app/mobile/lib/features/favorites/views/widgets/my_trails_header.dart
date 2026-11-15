@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 
 // أعلى صفحة مساراتي: الشعار (يمين) + زر اللغة (يسار) + خط سفلي
@@ -29,7 +28,7 @@ class MyTrailsHeader extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
-                    AppStrings.appNameAr,
+                    'قمّة',
                     style: TextStyle(
                       color: AppColors.primary,
                       fontSize: 18,
@@ -43,7 +42,7 @@ class MyTrailsHeader extends StatelessWidget {
                     color: AppColors.disabled,
                   ),
                   const Text(
-                    AppStrings.appNameEn,
+                    'Qimmah',
                     style: TextStyle(
                       color: AppColors.primary,
                       fontSize: 14,

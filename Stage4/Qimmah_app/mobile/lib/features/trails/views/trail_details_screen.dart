@@ -87,15 +87,15 @@ class _DetailsView extends StatelessWidget {
       _toast(
         context,
         favorites.isSaved(trail.id)
-            ? 'تم الحفظ '
-            : '  تم ازالة الحفظ ',
+            ? context.l10n.trailsSavedToast
+            : context.l10n.trailsUnsavedToast,
       );
     });
   }
 
     Future<void> _onComplete(BuildContext context, Trail trail) async {
     if (context.read<AuthViewModel>().isGuest) {
-      showGuestLoginSheet(context, title: 'سجّل دخولك عشان تسجّل المسار');
+      showGuestLoginSheet(context, title: context.l10n.trailsLoginToComplete);
       return;
     }
     final favorites = context.read<FavoritesViewModel>();
@@ -107,8 +107,8 @@ class _DetailsView extends StatelessWidget {
       _toast(
         context,
         favorites.isCompleted(trail.id)
-            ? 'مبروك! اكتمل المسار  '
-            : '  تم ازالة المسار',
+            ? context.l10n.trailsCompletedToast
+            : context.l10n.trailsUncompletedToast,
       );
     });
   }
@@ -117,7 +117,7 @@ class _DetailsView extends StatelessWidget {
 Future<void> _onShare(BuildContext context, Trail trail) async {
   final lines = [
     trail.name,
-    '${trail.region} · ${trail.distanceText} كم',
+    '${trail.region} · ${context.l10n.trailsKm(trail.distanceText)}',
     if (trail.locationUrl != null) trail.locationUrl!,
   ];
 await SharePlus.instance.share(
@@ -176,7 +176,7 @@ await SharePlus.instance.share(
                 const SizedBox(height: 18),
                 TrailStatsRow(trail: trail),
                 const SizedBox(height: 24),
-                const _SectionTitle('نبذة عن المسار'),
+                _SectionTitle(context.l10n.trailsAboutTitle),
                 _About(vm: vm),
                 if (trail.images.length > 1) ...[
                   const SizedBox(height: 16),
@@ -184,7 +184,7 @@ await SharePlus.instance.share(
                 ],
                          if (trail.hasStartPoint) ...[
                   const SizedBox(height: 24),
-                  const _SectionTitle('نقطة البداية'),
+                  _SectionTitle(context.l10n.trailsStartPointTitle),
              StartPointCard(
   point: LatLng(trail.startLat!, trail.startLng!),
   route: trail.routePoints,
@@ -203,7 +203,7 @@ await SharePlus.instance.share(
                 ],
                 if (trail.safetyTips.isNotEmpty) ...[
                   const SizedBox(height: 24),
-                  const _SectionTitle('نصائح السلامة'),
+                  _SectionTitle(context.l10n.trailsSafetyTipsTitle),
                   SafetyTipsCard(tips: trail.safetyTips),
                 ],
                   const SizedBox(height: 24),
@@ -327,14 +327,14 @@ class _About extends StatelessWidget {
         children: [
           Text(vm.errorMessage!,
               style: const TextStyle(color: AppColors.grey, fontSize: 14)),
-          TextButton(onPressed: vm.retry, child: const Text('حاول مرة ثانية')),
+          TextButton(onPressed: vm.retry, child: Text(context.l10n.trailsRetry)),
         ],
       );
     }
 
-    return const Text(
-      'ما فيه نبذة لهذا المسار للحين.',
-      style: TextStyle(color: AppColors.grey, fontSize: 14),
+    return Text(
+      context.l10n.trailsNoDescription,
+      style: const TextStyle(color: AppColors.grey, fontSize: 14),
     );
   }
 }

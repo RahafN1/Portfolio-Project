@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/l10n.dart';
 import '../../auth/viewmodels/auth_viewmodel.dart';
 import '../../trails/data/trails_repository.dart';
 import '../data/admin_repository.dart';
@@ -34,9 +35,9 @@ class _AdminView extends StatelessWidget {
   Future<void> _onLogout(BuildContext context) async {
     final confirmed = await showConfirmDialog(
       context,
-      title: 'تسجيل الخروج؟',
-      message: 'بترجعين لصفحة البداية.',
-      confirmText: 'خروج',
+      title: context.l10n.adminLogoutConfirmTitle,
+      message: context.l10n.adminLogoutConfirmMessage,
+      confirmText: context.l10n.adminLogoutConfirmButton,
     );
     if (!confirmed || !context.mounted) return;
 
@@ -60,13 +61,13 @@ class _AdminView extends StatelessWidget {
           centerTitle: true,
           // زر خروج بدل سهم الرجوع (ما فيه رجوع لواجهة اليوزر)
           leading: IconButton(
-            tooltip: 'تسجيل الخروج',
+            tooltip: context.l10n.logout,
             icon: const Icon(Icons.logout),
             onPressed: () => _onLogout(context),
           ),
-          title: const Text(
-            'لوحة التحكم',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          title: Text(
+            context.l10n.adminDashboardTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         body: _buildBody(context, vm),
@@ -85,7 +86,9 @@ class _AdminView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(vm.errorMessage!),
-            TextButton(onPressed: vm.load, child: const Text('حاول مرة ثانية')),
+            TextButton(
+                onPressed: vm.load,
+                child: Text(context.l10n.adminRetry)),
           ],
         ),
       );
@@ -98,13 +101,19 @@ class _AdminView extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
           child: Row(
             children: [
-              Expanded(child: _StatCard(value: vm.trailsCount, label: 'مسارات')),
+              Expanded(child: _StatCard(
+                      value: vm.trailsCount,
+                      label: context.l10n.adminStatTrails)),
               const SizedBox(width: 10),
               Expanded(
-                  child: _StatCard(value: vm.reviewsCount, label: 'تقييمات')),
+                  child: _StatCard(
+                      value: vm.reviewsCount,
+                      label: context.l10n.adminStatReviews)),
               const SizedBox(width: 10),
               Expanded(
-                  child: _StatCard(value: vm.usersCount, label: 'مستخدمين')),
+                  child: _StatCard(
+                      value: vm.usersCount,
+                      label: context.l10n.adminStatUsers)),
             ],
           ),
         ),
@@ -128,10 +137,10 @@ class _AdminView extends StatelessWidget {
               labelColor: AppColors.primary,
               unselectedLabelColor: AppColors.grey,
               labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-              tabs: const [
-                Tab(text: 'المسارات'),
-                Tab(text: 'التقييمات'),
-                Tab(text: 'المستخدمين'),
+              tabs: [
+                Tab(text: context.l10n.trailsSection),
+                Tab(text: context.l10n.adminTabReviews),
+                Tab(text: context.l10n.adminTabUsers),
               ],
             ),
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 // الشريط الأخضر: "أنت على المسار" + المتبقي + تقدّم + زر إنهاء
 class OnTrailBanner extends StatelessWidget {
@@ -20,17 +20,17 @@ class OnTrailBanner extends StatelessWidget {
     this.offRoute = false,
   });
 
-  String _format(double meters) => meters < 1000
-      ? '${meters.round()} م'
-      : '${(meters / 1000).toStringAsFixed(1)} كم';
+  String _format(BuildContext context, double meters) => meters < 1000
+      ? context.l10n.mapDistanceMeters(meters.round())
+      : context.l10n.mapDistanceKm((meters / 1000).toStringAsFixed(1));
 
   @override
   Widget build(BuildContext context) {
     final subtitle = offRoute
-        ? AppStrings.onTrailOffRoute
+        ? context.l10n.mapOnTrailOffRoute
         : remainingMeters != null
-            ? '${AppStrings.onTrailRemaining} ${_format(remainingMeters!)}'
-            : '${AppStrings.onTrailUpdated} قبل $secondsAgo ث';
+            ? context.l10n.mapOnTrailRemaining(_format(context, remainingMeters!))
+            : context.l10n.mapOnTrailUpdatedAgo(secondsAgo);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -65,9 +65,9 @@ class OnTrailBanner extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      AppStrings.onTrailTitle,
-                      style: TextStyle(
+                    Text(
+                      context.l10n.mapOnTrailTitle,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -93,9 +93,9 @@ OutlinedButton(
     side: const BorderSide(color: Colors.white70),
     padding: const EdgeInsets.symmetric(horizontal: 14),
   ),
-  child: const Text(
-    AppStrings.onTrailEnd,
-    style: TextStyle(fontWeight: FontWeight.bold),
+  child: Text(
+    context.l10n.mapOnTrailEnd,
+    style: const TextStyle(fontWeight: FontWeight.bold),
   ),
 ),
             ],

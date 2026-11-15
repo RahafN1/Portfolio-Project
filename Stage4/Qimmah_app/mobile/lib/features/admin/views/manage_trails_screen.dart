@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/l10n.dart';
 import '../../trails/models/trail.dart';
 import '../viewmodels/admin_viewmodel.dart';
 import 'add_trail_screen.dart';
@@ -16,9 +17,9 @@ class ManageTrailsScreen extends StatelessWidget {
   Future<void> _onDelete(BuildContext context, Trail trail) async {
     final confirmed = await showConfirmDialog(
       context,
-      title: 'حذف المسار؟',
-      message: 'بينحذف "${trail.name}" مع كل تقييماته ومفضلاته نهائياً.',
-      confirmText: 'حذف',
+      title: context.l10n.adminDeleteTrailTitle,
+      message: context.l10n.adminDeleteTrailMessage(trail.name),
+      confirmText: context.l10n.adminDelete,
     );
     if (!confirmed || !context.mounted) return;
 
@@ -26,7 +27,9 @@ class ManageTrailsScreen extends StatelessWidget {
     if (!context.mounted) return;
     showAdminToast(
       context,
-      ok ? 'تم حذف المسار' : 'ما قدرنا نحذف المسار، حاول مرة ثانية',
+      ok
+          ? context.l10n.adminTrailDeleted
+          : context.l10n.adminDeleteTrailFailed,
     );
   }
 
@@ -35,7 +38,7 @@ class ManageTrailsScreen extends StatelessWidget {
     final vm = context.watch<AdminViewModel>();
 
     if (vm.trails.isEmpty) {
-      return const Center(child: Text('ما فيه مسارات'));
+      return Center(child: Text(context.l10n.adminNoTrails));
     }
 
     return Column(
@@ -59,7 +62,7 @@ class ManageTrailsScreen extends StatelessWidget {
                 );
               },
               icon: const Icon(Icons.add),
-              label: const Text('إضافة مسار'),
+              label: Text(context.l10n.adminAddTrailTitle),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
@@ -129,7 +132,11 @@ class ManageTrailsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 6),
-                                _DifficultyBadge(label: difficultyLabel(context, trail.difficulty)),
+                                _DifficultyBadge(
+                                  label: difficultyLabel(
+                                      context, trail.difficulty),
+                                  difficulty: trail.difficulty,
+                                ),
                               ],
                             ),
                           ],
@@ -137,7 +144,7 @@ class ManageTrailsScreen extends StatelessWidget {
                       ),
                       // زر التعديل (أخضر): يفتح صفحة الإضافة بوضع التعديل
                       _SquareIconButton(
-                        tooltip: 'تعديل المسار',
+                        tooltip: context.l10n.adminEditTrailTooltip,
                         icon: Icons.edit_outlined,
                         color: AppColors.primary,
                         onTap: () {
@@ -156,7 +163,7 @@ class ManageTrailsScreen extends StatelessWidget {
                       const SizedBox(width: 8),
                       // زر الحذف (أحمر)
                       _SquareIconButton(
-                        tooltip: 'حذف المسار',
+                        tooltip: context.l10n.adminDeleteTrailTooltip,
                         icon: Icons.delete_outline,
                         color: adminDanger,
                         onTap: () => _onDelete(context, trail),
@@ -211,17 +218,18 @@ class _SquareIconButton extends StatelessWidget {
 // شارة الصعوبة الصغيرة
 class _DifficultyBadge extends StatelessWidget {
   final String label;
+  final String difficulty;
 
-  const _DifficultyBadge({required this.label});
+  const _DifficultyBadge({required this.label, required this.difficulty});
 
   // اللون حسب الصعوبة
   Color get _color {
-    switch (label) {
-      case 'سهل':
+    switch (difficulty) {
+      case 'easy':
         return Colors.green;
-      case 'متوسط':
+      case 'moderate':
         return Colors.blue;
-      case 'صعب':
+      case 'hard':
         return Colors.deepOrange;
       default:
         return Colors.grey;

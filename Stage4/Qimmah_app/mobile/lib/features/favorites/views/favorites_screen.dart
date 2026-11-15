@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/l10n.dart';
 import '../../../core/widgets/loading_indicator.dart';
 import '../../auth/viewmodels/auth_viewmodel.dart';
 import '../../trails/models/trail.dart';
@@ -45,7 +46,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     final ok = await context.read<FavoritesViewModel>().removeSaved(trail);
     if (!ok && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ما قدرنا نلغي الحفظ، حاول مرة ثانية')),
+        SnackBar(content: Text(context.l10n.favoritesUnsaveFailed)),
       );
     }
   }
@@ -74,9 +75,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         // يخلي السحب للتحديث يشتغل حتى لو القائمة قصيرة
         physics: const AlwaysScrollableScrollPhysics(),
         children: [
-          const Text(
-            'مساراتي',
-            style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+          Text(
+            context.l10n.tabMyTrails,
+            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           MyTrailsTabs(
@@ -101,7 +102,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       return [
         _Message(
           text: vm.errorMessage!,
-          actionLabel: 'حاول مرة ثانية',
+          actionLabel: context.l10n.favoritesRetry,
           onAction: vm.load,
         ),
       ];
@@ -109,7 +110,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
     if (vm.tab == MyTrailsTab.saved) {
       if (vm.saved.isEmpty) {
-        return const [_Message(text: 'ما حفظت أي مسار للحين')];
+        return [_Message(text: context.l10n.favoritesNoSaved)];
       }
       return [
         for (final trail in vm.saved)
@@ -120,7 +121,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               detailText: _meta(trail),
               onTap: () => _openDetails(trail),
               trailing: IconButton(
-                tooltip: 'إلغاء الحفظ',
+                tooltip: context.l10n.favoritesUnsave,
                 onPressed: () => _unsave(trail),
                 icon: const Icon(Icons.bookmark, color: AppColors.primary),
               ),
@@ -130,7 +131,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     }
 
     if (vm.completed.isEmpty) {
-      return const [_Message(text: 'ما أكملت أي مسار للحين')];
+      return [_Message(text: context.l10n.favoritesNoCompleted)];
     }
     return [
       CompletedBanner(
@@ -153,7 +154,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   // "8 كم · 3–4 ساعات"
   String _meta(Trail trail) {
-    final km = '${trail.distanceText} كم';
+    final km = context.l10n.favoritesDistanceKm(trail.distanceText);
     if (trail.estimatedDuration.isEmpty) return km;
     return '$km · ${trail.estimatedDuration}';
   }
@@ -161,7 +162,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   // "أكملته 12 سبتمبر 2026"
   String _completedText(CompletedTrail item) {
     final date = item.completedAtText;
-    return date.isEmpty ? 'مكتمل' : 'أكملته $date';
+    return date.isEmpty
+        ? context.l10n.favoritesCompleted
+        : context.l10n.favoritesCompletedOn(date);
   }
 }
 
@@ -174,9 +177,9 @@ class _GuestState extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
       children: [
-        const Text(
-          'مساراتي',
-          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+        Text(
+          context.l10n.tabMyTrails,
+          style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 72),
         Center(
@@ -195,18 +198,18 @@ class _GuestState extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        const Text(
-          'مساراتك في مكان واحد',
+        Text(
+          context.l10n.favoritesGuestTitle,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
-            'سجّل دخولك عشان تحفظ المسارات وتتابع إنجازاتك.',
+            context.l10n.favoritesGuestMessage,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: AppColors.grey, height: 1.6),
+            style: const TextStyle(fontSize: 14, color: AppColors.grey, height: 1.6),
           ),
         ),
         const SizedBox(height: 24),
@@ -216,7 +219,7 @@ class _GuestState extends StatelessWidget {
             height: 52,
             child: FilledButton(
               onPressed: () => Navigator.pushNamed(context, AppRouter.login),
-              child: const Text('تسجيل الدخول'),
+              child: Text(context.l10n.login),
             ),
           ),
         ),

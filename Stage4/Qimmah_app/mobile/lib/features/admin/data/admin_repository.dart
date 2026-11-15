@@ -1,3 +1,7 @@
+import 'dart:typed_data';
+
+import 'package:http/http.dart' as http;
+
 import '../../../core/constants/api_endpoints.dart';
 import '../../../core/network/api_client.dart';
 import '../models/admin_models.dart';
@@ -51,10 +55,10 @@ class AdminRepository {
     await api.patch('${ApiEndpoints.adminUsers}/$userId/$action');
   }
 
-
-  // إضافة مسار جديد
-  Future<void> addTrail(Map<String, dynamic> data) async {
-    await api.post(ApiEndpoints.adminTrails, data);
+  // إضافة مسار جديد، يرجع رقم المسار
+  Future<int?> addTrail(Map<String, dynamic> data) async {
+    final res = await api.post(ApiEndpoints.adminTrails, data);
+    return res['id'] ?? res['trail']?['id'];
   }
 
   // تعديل مسار موجود
@@ -62,8 +66,26 @@ class AdminRepository {
     await api.put('${ApiEndpoints.adminTrails}/$trailId', data);
   }
 
-
   Future<void> deleteTrail(int trailId) async {
     await api.delete('${ApiEndpoints.adminTrails}/$trailId');
+  }
+
+  // رفع صور المسار
+  Future<void> uploadTrailImages(int trailId, List<Uint8List> images) async {
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('${ApiEndpoints.adminTrails}/$trailId/images'),
+    );
+    for (var i = 0; i < images.length; i++) {
+      request.files.add(http.MultipartFile.fromBytes(
+        'images',
+        images[i],
+        filename: 'trail_$i.jpg',
+      ));
+    }
+    final response = await request.send();
+    if (response.statusCode >= 400) {
+      throw Exception('فشل رفع الصور');
+    }
   }
 }

@@ -1,3 +1,5 @@
+import '../../../l10n/l10n.dart';
+
 // تقييم كما يشوفه الأدمن (مع اسم صاحبه واسم المسار)
 class AdminReview {
   final int id;
@@ -38,10 +40,10 @@ class AdminReview {
     final d = createdAt;
     if (d == null) return '';
     final diff = DateTime.now().difference(d);
-    if (diff.inDays >= 30) return 'قبل ${diff.inDays ~/ 30} شهر';
-    if (diff.inDays >= 1) return 'قبل ${diff.inDays} يوم';
-    if (diff.inHours >= 1) return 'قبل ${diff.inHours} ساعة';
-    return 'قبل دقائق';
+    if (diff.inDays >= 30) return L10n.tr.adminTimeAgoMonths(diff.inDays ~/ 30);
+    if (diff.inDays >= 1) return L10n.tr.adminTimeAgoDays(diff.inDays);
+    if (diff.inHours >= 1) return L10n.tr.adminTimeAgoHours(diff.inHours);
+    return L10n.tr.adminTimeAgoMinutes;
   }
 }
 

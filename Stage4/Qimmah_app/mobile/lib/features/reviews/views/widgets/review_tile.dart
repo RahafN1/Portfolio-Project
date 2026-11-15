@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 import '../../models/review.dart';
 import 'star_rating.dart';
 
@@ -19,7 +20,9 @@ class ReviewTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = review.userName.isEmpty ? 'مستخدم' : review.userName;
+    final name = review.userName.isEmpty
+        ? context.l10n.reviewsAnonymousUser
+        : review.userName;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -51,7 +54,7 @@ class ReviewTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isMine ? '$name (أنت)' : name,
+                      isMine ? context.l10n.reviewsNameYou(name) : name,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -77,7 +80,7 @@ class ReviewTile extends StatelessWidget {
               if (isMine && onDelete != null)
                 IconButton(
                   onPressed: onDelete,
-                  tooltip: 'حذف تقييمك',
+                  tooltip: context.l10n.reviewsDeleteYours,
                   icon: const Icon(Icons.delete_outline,
                       color: AppColors.hardFg),
                 ),

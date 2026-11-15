@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 import '../../viewmodels/favorites_viewmodel.dart';
 
 // تبويبين: المحفوظة (يمين) / المكتملة (يسار) مع العدد
@@ -29,12 +30,12 @@ class MyTrailsTabs extends StatelessWidget {
       child: Row(
         children: [
           _TabItem(
-            label: 'المحفوظة ($savedCount)',
+            label: context.l10n.favoritesTabSaved(savedCount),
             active: selected == MyTrailsTab.saved,
             onTap: () => onSelected(MyTrailsTab.saved),
           ),
           _TabItem(
-            label: 'المكتملة ($completedCount)',
+            label: context.l10n.favoritesTabCompleted(completedCount),
             active: selected == MyTrailsTab.completed,
             onTap: () => onSelected(MyTrailsTab.completed),
           ),

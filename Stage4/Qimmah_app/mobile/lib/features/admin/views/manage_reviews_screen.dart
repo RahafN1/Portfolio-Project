@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/l10n.dart';
 import '../../reviews/views/widgets/star_rating.dart';
 import '../models/admin_models.dart';
 import '../viewmodels/admin_viewmodel.dart';
@@ -14,9 +15,9 @@ class ManageReviewsScreen extends StatelessWidget {
   Future<void> _onDelete(BuildContext context, AdminReview review) async {
     final confirmed = await showConfirmDialog(
       context,
-      title: 'حذف هذا التقييم؟',
-      message: 'بينحذف التقييم لأنه مخالف لسياسة المحتوى، وما يقدر صاحبه يرجعه.',
-      confirmText: 'حذف',
+      title: context.l10n.adminDeleteReviewTitle,
+      message: context.l10n.adminDeleteReviewMessage,
+      confirmText: context.l10n.adminDelete,
     );
     if (!confirmed || !context.mounted) return;
 
@@ -24,7 +25,9 @@ class ManageReviewsScreen extends StatelessWidget {
     if (!context.mounted) return;
     showAdminToast(
       context,
-      ok ? 'تم حذف التقييم' : 'ما قدرنا نحذف التقييم، حاول مرة ثانية',
+      ok
+          ? context.l10n.adminReviewDeleted
+          : context.l10n.adminDeleteReviewFailed,
     );
   }
 
@@ -33,7 +36,7 @@ class ManageReviewsScreen extends StatelessWidget {
     final vm = context.watch<AdminViewModel>();
 
     if (vm.reviews.isEmpty) {
-      return const Center(child: Text('ما فيه تقييمات'));
+      return Center(child: Text(context.l10n.adminNoReviews));
     }
 
     return RefreshIndicator(
@@ -79,7 +82,7 @@ class ManageReviewsScreen extends StatelessWidget {
                   ),
                   onPressed: () => _onDelete(context, review),
                   icon: const Icon(Icons.delete_outline, size: 18),
-                  label: const Text('حذف التقييم'),
+                  label: Text(context.l10n.adminDeleteReviewButton),
                 ),
               ],
             ),

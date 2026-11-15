@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
+import '../../../../l10n/l10n.dart';
 
 // صورة المسار الكبيرة + أزرار (رجوع / مشاركة) + شارة "معتمد"
 // الحافة السفلية الدائرية هي شريط بلون الخلفية فوق أسفل الصورة
@@ -67,14 +68,14 @@ class DetailsHero extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.verified, size: 18, color: AppColors.primary),
-                    SizedBox(width: 4),
+                    const Icon(Icons.verified, size: 18, color: AppColors.primary),
+                    const SizedBox(width: 4),
                     Text(
-                      'معتمد',
-                      style: TextStyle(
+                      context.l10n.trailsCertified,
+                      style: const TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 13,

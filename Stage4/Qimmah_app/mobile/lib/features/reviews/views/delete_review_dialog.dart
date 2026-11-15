@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/l10n.dart';
 
 const Color _danger = Color(0xFFA6382A);
 
@@ -21,15 +22,16 @@ Future<bool> showDeleteReviewDialog(BuildContext context) async {
               child: Icon(Icons.delete_outline, color: _danger, size: 28),
             ),
             const SizedBox(height: 14),
-            const Text(
-              'حذف تقييمك؟',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Text(
+              ctx.l10n.reviewsDeleteTitle,
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 6),
-            const Text(
-              'بينحذف تقييمك وتعليقك على هذا المسار نهائياً.',
+            Text(
+              ctx.l10n.reviewsDeleteMessage,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.grey, fontSize: 14),
+              style: const TextStyle(color: AppColors.grey, fontSize: 14),
             ),
             const SizedBox(height: 20),
             Row(
@@ -38,7 +40,7 @@ Future<bool> showDeleteReviewDialog(BuildContext context) async {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => Navigator.pop(ctx, false),
-                    child: const Text('إلغاء'),
+                    child: Text(ctx.l10n.reviewsCancel),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -46,7 +48,7 @@ Future<bool> showDeleteReviewDialog(BuildContext context) async {
                   child: FilledButton(
                     style: FilledButton.styleFrom(backgroundColor: _danger),
                     onPressed: () => Navigator.pop(ctx, true),
-                    child: const Text('حذف'),
+                    child: Text(ctx.l10n.reviewsDelete),
                   ),
                 ),
               ],

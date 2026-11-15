@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
 import '../constants/api_endpoints.dart';
@@ -57,10 +57,37 @@ class ApiClient {
       final response = await request().timeout(_timeout);
       return _handleResponse(response);
     } on TimeoutException {
-      throw ApiException('انتهت مهلة الاتصال، حاول مرة ثانية', 408);
+      throw ApiException(L10n.tr.coreRequestTimeout, 408);
     }
   }
+  // لرفع الصور
+  Future<Map<String, dynamic>> postFiles(
+    String path,
+    String fieldName,
+    List<Uint8List> files,
+  ) async {
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse(ApiEndpoints.baseUrl + path),
+    );
 
+    final token = await tokenStorage.getToken();
+    if (token != null) {
+      request.headers['Authorization'] = 'Bearer $token';
+    }
+
+    for (int i = 0; i < files.length; i++) {
+      request.files.add(http.MultipartFile.fromBytes(
+        fieldName,
+        files[i],
+        filename: 'image_$i.jpg',
+      ));
+    }
+
+    final streamed = await request.send().timeout(const Duration(seconds: 60));
+    final response = await http.Response.fromStream(streamed);
+    return _handleResponse(response);
+  }
   Map<String, dynamic> _handleResponse(http.Response response) {
     Map<String, dynamic> data = {};
     if (response.body.isNotEmpty) {
@@ -72,7 +99,7 @@ class ApiClient {
     }
 
     throw ApiException(
-      data['error']?.toString() ?? 'صار خطأ، حاول مرة ثانية',
+      data['error']?.toString() ?? L10n.tr.coreGenericError,
       response.statusCode,
     );
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/constants/app_strings.dart';
 import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/theme_viewmodel.dart';
 import '../../auth/viewmodels/auth_viewmodel.dart'; // جديد
 import '../../../core/locale/locale_viewmodel.dart';
+import '../../../l10n/l10n.dart';
 
 /// صفحة البداية (Splash): صورة متحركة ببطء + الشعار + زر ابدأ الاستكشاف
 class SplashScreen extends StatefulWidget {
@@ -187,7 +187,7 @@ class _SplashScreenState extends State<SplashScreen>
                   children: [
                     _glassButton(
                       isDark: isDark,
-                      tooltip: 'English',
+                      tooltip: context.watch<LocaleViewModel>().isEnglish ? 'العربية' : 'English',
                       onTap: () => context.read<LocaleViewModel>().toggle(),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -197,7 +197,7 @@ class _SplashScreenState extends State<SplashScreen>
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'EN',
+                            context.watch<LocaleViewModel>().isEnglish ? 'AR' : 'EN',
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
@@ -220,7 +220,9 @@ class _SplashScreenState extends State<SplashScreen>
                     const SizedBox(width: 8),
                     _glassButton(
                       isDark: isDark,
-                      tooltip: isDark ? 'الوضع الفاتح' : 'الوضع الداكن',
+                      tooltip: isDark
+                          ? context.l10n.splashLightMode
+                          : context.l10n.splashDarkMode,
                       onTap: () {
                         context.read<ThemeViewModel>().setDark(!isDark);
                       },
@@ -286,7 +288,7 @@ class _SplashScreenState extends State<SplashScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppStrings.appNameEn,
+                'Qimmah',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -300,7 +302,7 @@ class _SplashScreenState extends State<SplashScreen>
                 color: green,
               ),
               Text(
-                AppStrings.appNameAr,
+                'قمّة',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w800,
@@ -312,9 +314,9 @@ class _SplashScreenState extends State<SplashScreen>
         ),
         const SizedBox(height: 12),
 
-        const Text(
-          AppStrings.tagline,
-          style: TextStyle(
+        Text(
+          context.l10n.tagline,
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: AppColors.accent,
@@ -337,15 +339,15 @@ class _SplashScreenState extends State<SplashScreen>
             ),
             onPressed: () => Navigator.of(context)
                 .pushReplacementNamed(AppRouter.explore),
-            child: const Stack(
+            child: Stack(
               alignment: Alignment.center,
               children: [
                 Text(
-                  AppStrings.startExploring,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  context.l10n.startExploring,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
                 // في العربي (RTL) السهم يطلع يسار ويأشّر لليسار تلقائياً
-                Align(
+                const Align(
                   alignment: AlignmentDirectional.centerEnd,
                   child: Icon(Icons.arrow_forward, size: 20),
                 ),
@@ -359,7 +361,7 @@ class _SplashScreenState extends State<SplashScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${AppStrings.haveAccount} ',
+              '${context.l10n.haveAccount} ',
               style: TextStyle(fontSize: 14, color: textColor),
             ),
             InkWell(
@@ -369,7 +371,7 @@ class _SplashScreenState extends State<SplashScreen>
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Text(
-                  AppStrings.loginLink,
+                  context.l10n.loginLink,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
