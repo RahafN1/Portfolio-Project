@@ -1,5 +1,6 @@
 from sqlalchemy import func
 from sqlalchemy.orm import defer
+from sqlalchemy import or_
 
 from app.errors import APIError
 from app.extensions import db
@@ -21,7 +22,8 @@ class TrailService:
     def filter_by_region(region, query=None):
         """UML: filterByRegion(region)."""
         query = query if query is not None else Trail.query
-        return query.filter(Trail.region == region)
+        return query.filter(or_(Trail.region == region, Trail.region_en == region))
+
 
     @staticmethod
     def filter_by_difficulty(difficulty, query=None):

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../viewmodels/explore_viewmodel.dart';
+import '../../../../l10n/l10n.dart';
 
 // تبويبات المناطق مع خط تحت المختار
 class RegionTabs extends StatelessWidget {
@@ -55,8 +56,10 @@ class RegionTabs extends StatelessWidget {
                             size: 15, color: inactive),
                         const SizedBox(width: 4),
                       ],
-                      Text(
-                        region,
+                Text(
+  region == ExploreViewModel.allRegions
+      ? context.l10n.all
+      : region,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: region == selected

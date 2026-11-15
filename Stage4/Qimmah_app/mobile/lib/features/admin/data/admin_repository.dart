@@ -1,6 +1,5 @@
-import 'dart:typed_data';
 
-import 'package:http/http.dart' as http;
+import 'dart:typed_data';
 
 import '../../../core/constants/api_endpoints.dart';
 import '../../../core/network/api_client.dart';
@@ -26,6 +25,7 @@ class AdminRepository {
 
   Future<AdminStats> getStats() async {
     final data = await api.get(ApiEndpoints.adminStats);
+
     return AdminStats(
       trails: data['trails'] ?? 0,
       reviews: data['reviews'] ?? 0,
@@ -34,58 +34,88 @@ class AdminRepository {
   }
 
   Future<List<AdminReview>> getReviews() async {
-    final data = await api.get('${ApiEndpoints.adminReviews}?limit=100');
+    final data = await api.get(
+      '${ApiEndpoints.adminReviews}?limit=100',
+    );
+
     final List list = data['reviews'] ?? [];
-    return list.map((item) => AdminReview.fromJson(item)).toList();
+
+    return list
+        .map((item) => AdminReview.fromJson(item))
+        .toList();
   }
 
   Future<List<AdminUser>> getUsers() async {
-    final data = await api.get('${ApiEndpoints.adminUsers}?limit=100');
+    final data = await api.get(
+      '${ApiEndpoints.adminUsers}?limit=100',
+    );
+
     final List list = data['users'] ?? [];
-    return list.map((item) => AdminUser.fromJson(item)).toList();
+
+    return list
+        .map((item) => AdminUser.fromJson(item))
+        .toList();
   }
 
   Future<void> deleteReview(int reviewId) async {
-    await api.delete('${ApiEndpoints.adminReviews}/$reviewId');
+    await api.delete(
+      '${ApiEndpoints.adminReviews}/$reviewId',
+    );
   }
 
-  // suspended = true يوقفه، false يلغي الإيقاف
-  Future<void> setSuspended(int userId, bool suspended) async {
+  // suspended = true يوقف المستخدم
+  // suspended = false يلغي الإيقاف
+  Future<void> setSuspended(
+    int userId,
+    bool suspended,
+  ) async {
     final action = suspended ? 'suspend' : 'unsuspend';
-    await api.patch('${ApiEndpoints.adminUsers}/$userId/$action');
+
+    await api.patch(
+      '${ApiEndpoints.adminUsers}/$userId/$action',
+    );
   }
 
-  // إضافة مسار جديد، يرجع رقم المسار
+  // إضافة مسار جديد وإرجاع رقمه
   Future<int?> addTrail(Map<String, dynamic> data) async {
-    final res = await api.post(ApiEndpoints.adminTrails, data);
-    return res['id'] ?? res['trail']?['id'];
-  }
+    final res = await api.post(
+      ApiEndpoints.adminTrails,
+      data,
+    );
 
-  // تعديل مسار موجود
-  Future<void> updateTrail(int trailId, Map<String, dynamic> data) async {
-    await api.put('${ApiEndpoints.adminTrails}/$trailId', data);
-  }
+    final id = res['id'] ?? res['trail']?['id'];
 
-  Future<void> deleteTrail(int trailId) async {
-    await api.delete('${ApiEndpoints.adminTrails}/$trailId');
+    return id as int?;
   }
 
   // رفع صور المسار
-  Future<void> uploadTrailImages(int trailId, List<Uint8List> images) async {
-    final request = http.MultipartRequest(
-      'POST',
-      Uri.parse('${ApiEndpoints.adminTrails}/$trailId/images'),
+  Future<void> uploadTrailImages(
+    int trailId,
+    List<Uint8List> images,
+  ) async {
+    await api.postFiles(
+      '${ApiEndpoints.adminTrails}/$trailId/images',
+      'images',
+      images,
     );
-    for (var i = 0; i < images.length; i++) {
-      request.files.add(http.MultipartFile.fromBytes(
-        'images',
-        images[i],
-        filename: 'trail_$i.jpg',
-      ));
-    }
-    final response = await request.send();
-    if (response.statusCode >= 400) {
-      throw Exception('فشل رفع الصور');
-    }
+  }
+
+  // تعديل مسار موجود
+  Future<void> updateTrail(
+    int trailId,
+    Map<String, dynamic> data,
+  ) async {
+    await api.put(
+      '${ApiEndpoints.adminTrails}/$trailId',
+      data,
+    );
+  }
+
+  // حذف مسار
+  Future<void> deleteTrail(int trailId) async {
+    await api.delete(
+      '${ApiEndpoints.adminTrails}/$trailId',
+    );
   }
 }
+
