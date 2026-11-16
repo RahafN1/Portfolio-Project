@@ -1,0 +1,333 @@
+import 'package:flutter/material.dart';
+
+// ../../../../ = نطلع 4 مجلدات (widgets ← views ← trails ← features) لين نوصل lib
+import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
+// ../../ = نطلع لـ trails، وبعدها ندخل models
+import '../../models/trail.dart';
+import 'package:mobile/core/utils/difficulty_label.dart';
+
+// الكرت اللي يطلع تحت لما نضغط على علامة مسار
+class MapTrailCard extends StatelessWidget {
+  final Trail trail; // المسار اللي نعرضه
+  final bool isOnTrail; // هل المستخدم بدأ المسار؟
+  final VoidCallback onClose; // زر X
+  final VoidCallback onDirections; // زر الاتجاهات
+  final VoidCallback onStart; // زر ابدأ المسار
+  final VoidCallback onDetails; // زر عرض التفاصيل
+
+  const MapTrailCard({
+    super.key,
+    required this.trail,
+    this.isOnTrail = false, // افتراضياً: ما بدأ
+    required this.onClose,
+    required this.onDirections,
+    required this.onStart,
+    required this.onDetails,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // أفقي صغير عشان الفراغ بين الكروت في الـ carousel ما يكبر
+      margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
+      padding: const EdgeInsets.all(14), // مسافة داخل الكرت
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 12, offset: Offset(0, 4)),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min, // الكرت بطول محتواه بس
+        children: [
+          // ---------- الجزء الأول: الصورة + المعلومات + X ----------
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // صورة المسار (بالعربي تجي يمين)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: _cover(),
+              ),
+              const SizedBox(width: 12),
+
+              // المعلومات تاخذ المساحة الباقية
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // اسم المسار
+                    Text(
+                      trail.name,
+                      maxLines: 2, // سطرين بالكثير
+                      overflow: TextOverflow.ellipsis, // لو أطول نحط ...
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    // المنطقة
+                    Text(
+                      trail.region,
+                      style: const TextStyle(fontSize: 12, color: AppColors.grey),
+                    ),
+                    const SizedBox(height: 8),
+                    // الصعوبة + المسافة والمدة
+                    Row(
+                      children: [
+                        _DifficultyChip(
+                          difficulty: trail.difficulty,
+                          label: difficultyLabel(context, trail.difficulty),
+                        ),
+                        const SizedBox(width: 8),
+                        // Flexible: النص ياخذ المكان الباقي بس، ولو طويل يقص
+                        Flexible(
+                          child: Text(
+                            context.l10n.mapDistanceAndDuration(
+                              trail.distanceText,
+                              trail.estimatedDuration,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // زر X (بالعربي يجي يسار)
+              IconButton(
+                onPressed: onClose,
+                icon: const Icon(Icons.close, size: 20),
+                visualDensity: VisualDensity.compact, // زر أصغر
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+
+          // ---------- الجزء الثاني: الأزرار ----------
+          Row(
+            children: [
+              // الاتجاهات (أخضر فاتح)
+              Expanded(
+                child: FilledButton.icon(
+                  onPressed: onDirections,
+                  icon: const Icon(Icons.near_me_outlined, size: 16),
+                  label: _ButtonText(context.l10n.mapDirections),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.primaryLight,
+                    foregroundColor: AppColors.primary,
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                  ),
+                ),
+              ),
+
+              // ابدأ المسار (أخضر غامق) — يختفي لو المستخدم بدأ
+              if (!isOnTrail) ...[
+                const SizedBox(width: 6),
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: onStart,
+                    icon: const Icon(Icons.play_arrow, size: 16),
+                    label: _ButtonText(context.l10n.mapStartTrail),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                    ),
+                  ),
+                ),
+              ],
+              const SizedBox(width: 6),
+
+              // عرض التفاصيل (أبيض بإطار)
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: onDetails,
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                  ),
+                  child: _ButtonText(context.l10n.mapViewDetails),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // صورة المسار، ولو ما فيه صورة نحط أيقونة جبل
+  Widget _cover() {
+    const size = 80.0;
+    final placeholder = Container(
+      width: size,
+      height: size,
+      color: AppColors.primaryLight,
+      child: const Icon(Icons.landscape, color: AppColors.primary),
+    );
+
+    if (trail.coverImage == null) return placeholder;
+
+    return Image.network(
+      trail.coverImage!,
+      width: size,
+      height: size,
+      fit: BoxFit.cover,
+      // لو الصورة ما فتحت (مثلاً النت فصل) نطلع الأيقونة
+      errorBuilder: (context, error, stack) => placeholder,
+    );
+  }
+}
+
+// نص الزر: يصغر لحاله لو المكان ضيق بدل ما يطلع برّا
+class _ButtonText extends StatelessWidget {
+  final String text;
+
+  const _ButtonText(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      fit: BoxFit.scaleDown, // يصغّر النص بس، ما يكبّره
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+// شارة الصعوبة: لونها يتغيّر حسب سهل/متوسط/صعب
+class _DifficultyChip extends StatelessWidget {
+  final String difficulty; // easy أو moderate أو hard
+  final String label; // سهل أو متوسط أو صعب
+
+  const _DifficultyChip({required this.difficulty, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    // نختار اللون حسب الصعوبة
+    Color color;
+    if (difficulty == 'easy') {
+      color = AppColors.primary; // أخضر
+    } else if (difficulty == 'hard') {
+      color = AppColors.orange; // برتقالي
+    } else {
+      color = const Color(0xFF3B6BB5); // أزرق للمتوسط
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12), // نفس اللون بس فاتح
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // النقطة الصغيرة
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------- الـ Carousel: يلف بين الكروت ----------
+class MapTrailCarousel extends StatefulWidget {
+  final List<Trail> trails;
+  final int initialIndex;
+  final bool isOnTrail;
+  final ValueChanged<Trail> onTrailChanged; // حرّك الكاميرا + حدّد المؤشر
+  final VoidCallback onClose;
+  final ValueChanged<Trail> onDirections;
+  final ValueChanged<Trail> onStart;
+  final ValueChanged<Trail> onDetails;
+
+  const MapTrailCarousel({
+    super.key,
+    required this.trails,
+    required this.onTrailChanged,
+    required this.onClose,
+    required this.onDirections,
+    required this.onStart,
+    required this.onDetails,
+    this.initialIndex = 0,
+    this.isOnTrail = false,
+  });
+
+  @override
+  State<MapTrailCarousel> createState() => MapTrailCarouselState();
+}
+
+class MapTrailCarouselState extends State<MapTrailCarousel> {
+  late final PageController _controller = PageController(
+    viewportFraction: 0.92, // يبان طرف الكرت اللي بعده
+    initialPage: widget.initialIndex,
+  );
+
+  // تناديها من برّا لما المستخدم يضغط مؤشر في الخريطة
+  void goTo(int index) {
+    if (!_controller.hasClients) return;
+    _controller.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 210, // لو لسا فيه overflow زِدها شوي
+      child: PageView.builder(
+        controller: _controller,
+        itemCount: widget.trails.length,
+        onPageChanged: (i) => widget.onTrailChanged(widget.trails[i]),
+        itemBuilder: (context, i) {
+          final t = widget.trails[i];
+          return Align(
+            alignment: Alignment.bottomCenter,
+            child: MapTrailCard(
+              trail: t,
+              isOnTrail: widget.isOnTrail,
+              onClose: widget.onClose,
+              onDirections: () => widget.onDirections(t),
+              onStart: () => widget.onStart(t),
+              onDetails: () => widget.onDetails(t),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
