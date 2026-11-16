@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/locale/locale_viewmodel.dart'; // جديد
 import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/theme_viewmodel.dart'; // جديد
 import '../../../l10n/l10n.dart';
 import '../../auth/viewmodels/auth_viewmodel.dart';
 import '../../trails/data/trails_repository.dart';
@@ -53,6 +55,7 @@ class _AdminView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<AdminViewModel>();
+    final isDark = Theme.of(context).brightness == Brightness.dark; // جديد
 
     return DefaultTabController(
       length: 3,
@@ -69,6 +72,64 @@ class _AdminView extends StatelessWidget {
             context.l10n.adminDashboardTitle,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
+          // جديد: زر اللغة وزر الثيم (نفس شكل السبلاش)
+          actions: [
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Row(
+                children: [
+                  _GlassButton(
+                    isDark: isDark,
+                    tooltip: 'English',
+                    onTap: () => context.read<LocaleViewModel>().toggle(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 9,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'EN',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: isDark
+                                ? AppColors.textDark
+                                : AppColors.textLight,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Icon(
+                          Icons.language,
+                          size: 18,
+                          color: isDark
+                              ? AppColors.textDark
+                              : AppColors.textLight,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  _GlassButton(
+                    isDark: isDark,
+                    tooltip: isDark ? 'الوضع الفاتح' : 'الوضع الداكن',
+                    onTap: () =>
+                        context.read<ThemeViewModel>().setDark(!isDark),
+                    padding: const EdgeInsets.all(9),
+                    child: Icon(
+                      isDark
+                          ? Icons.light_mode_outlined
+                          : Icons.dark_mode_outlined,
+                      size: 18,
+                      color: isDark ? AppColors.textDark : AppColors.textLight,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+          ],
         ),
         body: _buildBody(context, vm),
       ),
@@ -191,6 +252,41 @@ class _StatCard extends StatelessWidget {
             style: const TextStyle(fontSize: 13, color: AppColors.grey),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// جديد: زر زجاجي أبيض (نفس _glassButton في السبلاش)
+class _GlassButton extends StatelessWidget {
+  final bool isDark;
+  final String tooltip;
+  final VoidCallback? onTap;
+  final EdgeInsets padding;
+  final Widget child;
+
+  const _GlassButton({
+    required this.isDark,
+    required this.tooltip,
+    required this.onTap,
+    required this.padding,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: Material(
+        color: isDark
+            ? Colors.black.withValues(alpha: 0.45)
+            : Colors.white.withValues(alpha: 0.85),
+        shape: const StadiumBorder(),
+        child: InkWell(
+          customBorder: const StadiumBorder(),
+          onTap: onTap,
+          child: Padding(padding: padding, child: child),
+        ),
       ),
     );
   }
