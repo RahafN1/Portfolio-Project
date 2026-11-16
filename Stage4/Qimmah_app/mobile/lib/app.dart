@@ -17,6 +17,7 @@ import 'features/favorites/viewmodels/favorites_viewmodel.dart';
 import 'features/reviews/data/reviews_repository.dart';
 import 'features/admin/data/admin_repository.dart';
 import 'l10n/app_localizations.dart';
+import 'features/splash/views/intro_splash_screen.dart';
 
 class QimmahApp extends StatelessWidget {
   // اللغة تنقرأ في main() قبل ما يبدأ التطبيق
@@ -65,7 +66,7 @@ class QimmahApp extends StatelessWidget {
             onGenerateInitialRoutes: (String initialRoute) {
               return [
                 MaterialPageRoute(
-                  builder: (context) => const SplashScreen(),
+                 builder: (context) => const IntroSplashScreen(),
                   settings: const RouteSettings(name: AppRouter.splash),
                 ),
               ];

@@ -6,9 +6,11 @@ import '../../features/auth/views/otp_screen.dart';
 import '../../features/auth/views/signup_screen.dart';
 import '../../features/splash/views/splash_screen.dart';
 import 'main_shell.dart';
+import '../../features/splash/views/intro_splash_screen.dart';
 
 class AppRouter {
-  static const String splash = '/';
+  static const String splash = '/'; // أول شاشة: الجبل يترسم
+  static const String welcome = '/welcome'; // سبلاش الترحيب (للي بدون حساب)
   static const String login = '/login';
   static const String signup = '/signup';
   static const String otp = '/otp';
@@ -17,8 +19,8 @@ class AppRouter {
   static const String admin = '/admin';
 
   static Map<String, WidgetBuilder> routes = {
-    splash: (context) => const SplashScreen(),
-    login: (context) => const LoginScreen(),
+    splash: (context) => const IntroSplashScreen(),
+    welcome: (context) => const SplashScreen(),
     signup: (context) => const SignupScreen(),
     otp: (context) => const OtpScreen(),
     signupSuccess: (context) => const SignupSuccessScreen(),

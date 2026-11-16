@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/theme_viewmodel.dart';
-import '../../auth/viewmodels/auth_viewmodel.dart'; // جديد
 import '../../../core/locale/locale_viewmodel.dart';
 import '../../../l10n/l10n.dart';
 
@@ -55,9 +54,6 @@ class _SplashScreenState extends State<SplashScreen>
         weight: 20,
       ),
     ]).animate(_controller);
-
-    // جديد: نسترجع الدخول المحفوظ بعد ما ينبني أول إطار
-    WidgetsBinding.instance.addPostFrameCallback((_) => _restoreLogin());
   }
 
   @override
@@ -82,29 +78,6 @@ class _SplashScreenState extends State<SplashScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
- 
-  // جديد: لو فيه دخول محفوظ نفتح الرئيسية بدون ما يطلب دخول
-   // استعادة الدخول المحفوظ وتوجيه المستخدم حسب نوع الحساب
-  Future<void> _restoreLogin() async {
-    final authViewModel = context.read<AuthViewModel>();
-    final hasLogin = await authViewModel.checkSavedLogin();
-
-    if (!mounted) return;
-
-    if (hasLogin) {
-      if (authViewModel.isAdmin) {
-        // الأدمن يذهب إلى لوحة التحكم
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          AppRouter.admin,
-          (route) => false,
-        );
-      } else {
-        // المستخدم العادي يذهب إلى الرئيسية
-        Navigator.of(context).pushReplacementNamed(AppRouter.explore);
-      }
-    }
   }
 
   @override
