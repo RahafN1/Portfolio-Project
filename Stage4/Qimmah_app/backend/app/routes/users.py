@@ -109,12 +109,13 @@ def list_favorites(current_user):
       401:
         description: Missing or expired token
     """
+    lang = request.args.get("lang", "ar")
     trails = (Trail.query
               .join(Favorite, Favorite.trail_id == Trail.id)
               .filter(Favorite.user_id == current_user.id)
               .order_by(Favorite.created_at.desc())
               .all())
-    return jsonify({"trails": [t.get_summary() for t in trails],
+    return jsonify({"trails": [t.get_summary(lang=lang) for t in trails],
                     "total": len(trails)}), 200
 
 
@@ -206,6 +207,7 @@ def list_completed_trails(current_user):
       401:
         description: Missing or expired token
     """
+    lang = request.args.get("lang", "ar")
     rows = (db.session.query(Trail, CompletedTrail)
             .join(CompletedTrail, CompletedTrail.trail_id == Trail.id)
             .filter(CompletedTrail.user_id == current_user.id)
@@ -214,7 +216,7 @@ def list_completed_trails(current_user):
 
     trails = []
     for trail, completed in rows:
-        data = trail.get_summary()
+        data = trail.get_summary(lang=lang)
         data["completed_at"] = completed.completed_at.isoformat() + "Z"
         trails.append(data)
 
