@@ -72,7 +72,7 @@ class _DetailsView extends StatelessWidget {
       );
   }
 
-    Future<void> _onSave(BuildContext context, Trail trail) async {
+  Future<void> _onSave(BuildContext context, Trail trail) async {
     // الضيف يطلع له تنبيه تسجيل الدخول
     if (context.read<AuthViewModel>().isGuest) {
       showGuestLoginSheet(context);
@@ -93,7 +93,7 @@ class _DetailsView extends StatelessWidget {
     });
   }
 
-    Future<void> _onComplete(BuildContext context, Trail trail) async {
+  Future<void> _onComplete(BuildContext context, Trail trail) async {
     if (context.read<AuthViewModel>().isGuest) {
       showGuestLoginSheet(context, title: context.l10n.trailsLoginToComplete);
       return;
@@ -113,17 +113,17 @@ class _DetailsView extends StatelessWidget {
     });
   }
 
-// المشاركة: نفتح قائمة المشاركة (واتساب، رسائل...) باسم المسار + رابط الموقع
-Future<void> _onShare(BuildContext context, Trail trail) async {
-  final lines = [
-    trail.name,
-    '${trail.region} · ${context.l10n.trailsKm(trail.distanceText)}',
-    if (trail.locationUrl != null) trail.locationUrl!,
-  ];
-await SharePlus.instance.share(
-  ShareParams(text: lines.join('\n'), subject: trail.name),
-);
-}
+  // المشاركة: نفتح قائمة المشاركة (واتساب، رسائل...) باسم المسار + رابط الموقع
+  Future<void> _onShare(BuildContext context, Trail trail) async {
+    final lines = [
+      trail.name,
+      '${trail.region} · ${context.l10n.trailsKm(trail.distanceText)}',
+      if (trail.locationUrl != null) trail.locationUrl!,
+    ];
+    await SharePlus.instance.share(
+      ShareParams(text: lines.join('\n'), subject: trail.name),
+    );
+  }
 
   Future<void> _onDirections(BuildContext context, Trail trail) async {
     final url = trail.directionsUrl;
@@ -136,8 +136,7 @@ await SharePlus.instance.share(
       );
     } catch (_) {}
     if (!opened && context.mounted) {
-      _toast(context, AppLocalizations.of(context)!.loadTrailsError
-      );
+      _toast(context, AppLocalizations.of(context)!.loadTrailsError);
     }
   }
 
@@ -155,60 +154,63 @@ await SharePlus.instance.share(
         onSave: () => _onSave(context, trail),
         onComplete: () => _onComplete(context, trail),
       ),
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
+      body: CustomScrollView(
+        slivers: [
           DetailsHero(
             trail: trail,
             onBack: () => Navigator.pop(context),
             onShare: () => _onShare(context, trail),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 28),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _TitleRow(
-                trail: trail,
-                   // المتوسط من التقييمات (يتحدث بعد النشر والحذف)
-                rating: reviews.hasLoaded ? reviews.averageRating : trail.averageRating,
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 28),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _TitleRow(
+                    trail: trail,
+                    // المتوسط من التقييمات (يتحدث بعد النشر والحذف)
+                    rating: reviews.hasLoaded
+                        ? reviews.averageRating
+                        : trail.averageRating,
+                  ),
+                  const SizedBox(height: 18),
+                  TrailStatsRow(trail: trail),
+                  const SizedBox(height: 24),
+                  _SectionTitle(context.l10n.trailsAboutTitle),
+                  _About(vm: vm),
+                  if (trail.images.length > 1) ...[
+                    const SizedBox(height: 16),
+                    _PhotoStrip(images: trail.images),
+                  ],
+                  if (trail.hasStartPoint) ...[
+                    const SizedBox(height: 24),
+                    _SectionTitle(context.l10n.trailsStartPointTitle),
+                    StartPointCard(
+                      point: LatLng(trail.startLat!, trail.startLng!),
+                      route: trail.routePoints,
+                      onDirections: () => _onDirections(context, trail),
+                      // الضغط على الخريطة: نفتح التتبّع على نفس المسار
+                      onMapTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => TrailMapScreen(
+                            initialTrail: trail,
+                            startTracking: true,
                           ),
-                const SizedBox(height: 18),
-                TrailStatsRow(trail: trail),
-                const SizedBox(height: 24),
-                _SectionTitle(context.l10n.trailsAboutTitle),
-                _About(vm: vm),
-                if (trail.images.length > 1) ...[
-                  const SizedBox(height: 16),
-                  _PhotoStrip(images: trail.images),
-                ],
-                         if (trail.hasStartPoint) ...[
-                  const SizedBox(height: 24),
-                  _SectionTitle(context.l10n.trailsStartPointTitle),
-             StartPointCard(
-  point: LatLng(trail.startLat!, trail.startLng!),
-  route: trail.routePoints,
-  onDirections: () => _onDirections(context, trail),
-  // الضغط على الخريطة: نفتح التتبّع على نفس المسار
-  onMapTap: () => Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => TrailMapScreen(
-        initialTrail: trail,
-        startTracking: true,
-      ),
-    ),
-  ),
-),
-                ],
-                if (trail.safetyTips.isNotEmpty) ...[
-                  const SizedBox(height: 24),
-                  _SectionTitle(context.l10n.trailsSafetyTipsTitle),
-                  SafetyTipsCard(tips: trail.safetyTips),
-                ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (trail.safetyTips.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    _SectionTitle(context.l10n.trailsSafetyTipsTitle),
+                    SafetyTipsCard(tips: trail.safetyTips),
+                  ],
                   const SizedBox(height: 24),
                   ReviewsSection(trailName: trail.name),
-              ],
+                ],
+              ),
             ),
           ),
         ],
