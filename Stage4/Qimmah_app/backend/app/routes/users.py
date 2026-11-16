@@ -28,6 +28,18 @@ users_bp = Blueprint("users", __name__)
 @users_bp.get("/me")
 @login_required
 def get_current_user(current_user):
+    """Endpoint 5 — my profile.
+    ---
+    tags:
+      - Users
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: The current user's data
+      401:
+        description: Missing or expired token
+    """
     return jsonify({"user": current_user.to_dict()}), 200
 
 @users_bp.put("/me")
