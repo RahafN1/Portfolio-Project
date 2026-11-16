@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 // الشريط الثابت أسفل الصفحة: "أكملت المسار" (يمين) و"محفوظ" (يسار)
 // الزر المفعّل يصير أخضر معبّى، وغير المفعّل بإطار فقط
@@ -36,7 +37,7 @@ class DetailsBottomBar extends StatelessWidget {
                 child: _BarButton(
                   active: isCompleted,
                   icon: Icons.check,
-                  label: isCompleted ? 'مكتمل' : 'أكملت المسار',
+                  label: isCompleted ? context.l10n.trailsCompleted : context.l10n.trailsMarkCompleted,
                   onTap: onComplete,
                 ),
               ),
@@ -45,7 +46,7 @@ class DetailsBottomBar extends StatelessWidget {
                 child: _BarButton(
                   active: isSaved,
                   icon: isSaved ? Icons.bookmark : Icons.bookmark_border,
-                  label: isSaved ? 'محفوظ' : 'حفظ',
+                  label: isSaved ? context.l10n.trailsSavedLabel : context.l10n.trailsSave,
                   onTap: onSave,
                 ),
               ),

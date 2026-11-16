@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart'; 
-import '../../../../core/constants/app_strings.dart';
 
 // الجزء اللي فوق في كل شاشات الدخول: صورة الجبل + الشعار
 class AuthHeader extends StatelessWidget {
@@ -27,7 +26,7 @@ class AuthHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-               AppStrings.appNameAr,
+               'قمّة',
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
@@ -41,7 +40,7 @@ class AuthHeader extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 10),
             ),
             const Text(
-              AppStrings.appNameEn,
+              'Qimmah',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,

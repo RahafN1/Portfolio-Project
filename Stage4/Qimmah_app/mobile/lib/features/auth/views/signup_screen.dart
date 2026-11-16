@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/primary_button.dart';
+import '../../../l10n/l10n.dart';
 import '../viewmodels/auth_viewmodel.dart';
 import 'widgets/auth_header.dart';
 
@@ -28,11 +29,11 @@ class _SignupScreenState extends State<SignupScreen> {
     final password = passwordController.text;
 
     if (firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty) {
-      _showMessage('عبّ كل الحقول');
+      _showMessage(context.l10n.authFillAllFields);
       return;
     }
     if (password.length < 8) {
-      _showMessage('كلمة المرور 8 أحرف على الأقل');
+      _showMessage(context.l10n.authPasswordMinLength);
       return;
     }
 
@@ -80,16 +81,16 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               const AuthHeader(),
 
-              const Text(
-                'أنشئ حسابك',
-                style: TextStyle(
+              Text(
+                context.l10n.authSignupTitle,
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
                 ),
               ),
-              const Text(
-                'حساب واحد تحفظ فيه مساراتك وإنجازاتك.',
+              Text(
+                context.l10n.authSignupSubtitle,
                 style: TextStyle(color: AppColors.grey),
               ),
 
@@ -100,7 +101,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _label('الاسم الأول'),
+                        _label(context.l10n.firstName),
                         TextField(controller: firstNameController),
                       ],
                     ),
@@ -110,7 +111,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _label('اسم العائلة'),
+                        _label(context.l10n.lastName),
                         TextField(controller: lastNameController),
                       ],
                     ),
@@ -118,7 +119,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ],
               ),
 
-              _label('البريد الإلكتروني'),
+              _label(context.l10n.email),
               TextField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
@@ -126,7 +127,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 decoration: const InputDecoration(hintText: 'name@example.com'),
               ),
 
-              _label('كلمة المرور'),
+              _label(context.l10n.authPassword),
               TextField(
                 controller: passwordController,
                 obscureText: hidePassword,
@@ -142,17 +143,17 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 6),
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
                 child: Text(
-                  '8 أحرف على الأقل',
-                  style: TextStyle(color: AppColors.primary, fontSize: 12),
+                  context.l10n.authPasswordHint,
+                  style: const TextStyle(color: AppColors.primary, fontSize: 12),
                 ),
               ),
               const SizedBox(height: 24),
 
               PrimaryButton(
-                text: 'إنشاء حساب',
+                text: context.l10n.authCreateAccountButton,
                 isLoading: viewModel.isLoading,
                 onPressed: _signup,
               ),
@@ -161,12 +162,12 @@ class _SignupScreenState extends State<SignupScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('عندك حساب؟'),
+                  Text(context.l10n.haveAccount),
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      'سجّل دخولك',
-                      style: TextStyle(
+                    child: Text(
+                      context.l10n.loginLink,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
@@ -176,21 +177,21 @@ class _SignupScreenState extends State<SignupScreen> {
                 ],
               ),
 
-              const Row(
+              Row(
                 children: [
-                  Expanded(child: Divider()),
+                  const Expanded(child: Divider()),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Text('أو'),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(context.l10n.authOr),
                   ),
-                  Expanded(child: Divider()),
+                  const Expanded(child: Divider()),
                 ],
               ),
               const SizedBox(height: 12),
 
               OutlinedButton(
                 onPressed: _browseAsGuest,
-                child: const Text('تصفّح كزائر'),
+                child: Text(context.l10n.authBrowseAsGuest),
               ),
             ],
           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'package:mobile/l10n/app_localizations.dart';
 
@@ -38,9 +37,9 @@ class ExploreHeader extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        AppStrings.appNameAr,
-                        style: TextStyle(
+                      Text(
+                        l10n.trailsLogoAr,
+                        style: const TextStyle(
                           color: AppColors.primary,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -52,9 +51,9 @@ class ExploreHeader extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(horizontal: 8),
                         color: AppColors.disabled,
                       ),
-                      const Text(
-                        AppStrings.appNameEn,
-                        style: TextStyle(
+                      Text(
+                        l10n.trailsLogoEn,
+                        style: const TextStyle(
                           color: AppColors.primary,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,

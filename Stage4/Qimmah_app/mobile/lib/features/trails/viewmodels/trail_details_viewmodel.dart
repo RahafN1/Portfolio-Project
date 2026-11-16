@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/trails_repository.dart';
 import '../models/trail.dart';
+import '../../../l10n/l10n.dart';
 
 // صفحة التفاصيل: نبدأ ببيانات القائمة وبعدين نجيب التفاصيل الكاملة
 class TrailDetailsViewModel extends ChangeNotifier {
@@ -20,7 +21,7 @@ class TrailDetailsViewModel extends ChangeNotifier {
       trail = fresh.copyWith(isCertified: trail.isCertified);
       errorMessage = null;
     } catch (_) {
-      errorMessage = 'ما قدرنا نحمّل تفاصيل المسار';
+      errorMessage = L10n.tr.trailsDetailsLoadError;
     }
     isLoading = false;
     notifyListeners();

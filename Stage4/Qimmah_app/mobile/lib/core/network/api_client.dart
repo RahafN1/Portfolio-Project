@@ -57,7 +57,7 @@ class ApiClient {
       final response = await request().timeout(_timeout);
       return _handleResponse(response);
     } on TimeoutException {
-      throw ApiException('انتهت مهلة الاتصال، حاول مرة ثانية', 408);
+      throw ApiException(L10n.tr.coreRequestTimeout, 408);
     }
   }
   // لرفع الصور
@@ -99,7 +99,7 @@ class ApiClient {
     }
 
     throw ApiException(
-      data['error']?.toString() ?? 'صار خطأ، حاول مرة ثانية',
+      data['error']?.toString() ?? L10n.tr.coreGenericError,
       response.statusCode,
     );
   }

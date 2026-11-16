@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 // ../../../../ = نطلع 4 مجلدات (widgets ← views ← trails ← features) لين نوصل lib
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 // ../../ = نطلع لـ trails، وبعدها ندخل models
 import '../../models/trail.dart';
 import 'package:mobile/core/utils/difficulty_label.dart';
@@ -86,7 +86,10 @@ class MapTrailCard extends StatelessWidget {
                         // Flexible: النص ياخذ المكان الباقي بس، ولو طويل يقص
                         Flexible(
                           child: Text(
-                            '${trail.distanceText} كم · ${trail.estimatedDuration}',
+                            context.l10n.mapDistanceAndDuration(
+                              trail.distanceText,
+                              trail.estimatedDuration,
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -119,7 +122,7 @@ class MapTrailCard extends StatelessWidget {
                 child: FilledButton.icon(
                   onPressed: onDirections,
                   icon: const Icon(Icons.near_me_outlined, size: 16),
-                  label: const _ButtonText(AppStrings.mapDirections),
+                  label: _ButtonText(context.l10n.mapDirections),
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColors.primaryLight,
                     foregroundColor: AppColors.primary,
@@ -135,7 +138,7 @@ class MapTrailCard extends StatelessWidget {
                   child: FilledButton.icon(
                     onPressed: onStart,
                     icon: const Icon(Icons.play_arrow, size: 16),
-                    label: const _ButtonText(AppStrings.mapStartTrail),
+                    label: _ButtonText(context.l10n.mapStartTrail),
                     style: FilledButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
@@ -153,7 +156,7 @@ class MapTrailCard extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 6),
                   ),
-                  child: const _ButtonText(AppStrings.mapViewDetails),
+                  child: _ButtonText(context.l10n.mapViewDetails),
                 ),
               ),
             ],

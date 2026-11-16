@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/primary_button.dart';
+import '../../../l10n/l10n.dart';
 import '../viewmodels/reviews_viewmodel.dart';
 import 'widgets/star_rating.dart';
 
@@ -77,9 +78,10 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'اكتب تقييمك',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            Text(
+              context.l10n.reviewsWriteTitle,
+              style:
+                  const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 2),
             Text(
@@ -87,9 +89,10 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
               style: const TextStyle(color: AppColors.grey, fontSize: 14),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'تقييمك للمسار',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            Text(
+              context.l10n.reviewsYourRating,
+              style:
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             StarRating(
@@ -98,17 +101,18 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
               onChanged: (value) => setState(() => _rating = value),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'تعليقك',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            Text(
+              context.l10n.reviewsYourComment,
+              style:
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: _controller,
               maxLines: 4,
               onChanged: (_) => setState(() {}), // يحدّث حالة الزر
-              decoration: const InputDecoration(
-                hintText: 'شاركنا تجربتك في المسار...',
+              decoration: InputDecoration(
+                hintText: context.l10n.reviewsCommentHint,
               ),
             ),
             if (_error != null) ...[
@@ -117,7 +121,7 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
             ],
             const SizedBox(height: 16),
             PrimaryButton(
-              text: 'نشر التقييم',
+              text: context.l10n.reviewsPublish,
               isLoading: _submitting,
               onPressed: _canSubmit ? _submit : null,
             ),
@@ -125,7 +129,7 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
               child: TextButton(
                 onPressed:
                     _submitting ? null : () => Navigator.pop(context, false),
-                child: const Text('إلغاء'),
+                child: Text(context.l10n.reviewsCancel),
               ),
             ),
           ],

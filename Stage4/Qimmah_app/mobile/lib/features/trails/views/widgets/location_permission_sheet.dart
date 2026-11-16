@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 // نافذة "نحتاج نعرف موقعك" اللي تطلع من تحت
 // ترجّع true لو ضغط "السماح"، و false لو "ليس الآن"
@@ -60,17 +60,17 @@ class LocationPermissionSheet extends StatelessWidget {
             const SizedBox(height: 16),
 
             // نحتاج نعرف موقعك
-            const Text(
-              AppStrings.locationTitle,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              context.l10n.mapLocationTitle,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
 
             // الشرح
-            const Text(
-              AppStrings.locationBody,
+            Text(
+              context.l10n.mapLocationBody,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.grey, height: 1.5),
+              style: const TextStyle(color: AppColors.grey, height: 1.5),
             ),
             const SizedBox(height: 24),
 
@@ -86,9 +86,9 @@ class LocationPermissionSheet extends StatelessWidget {
                   ),
                 ),
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text(
-                  AppStrings.locationAllow,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                child: Text(
+                  context.l10n.mapLocationAllow,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -97,9 +97,9 @@ class LocationPermissionSheet extends StatelessWidget {
             // ليس الآن: يسكّر النافذة ويرجّع false
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text(
-                AppStrings.locationNotNow,
-                style: TextStyle(
+              child: Text(
+                context.l10n.mapLocationNotNow,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
                 ),

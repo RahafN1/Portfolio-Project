@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
 import 'package:mobile/core/utils/difficulty_label.dart';
+import '../../../../l10n/l10n.dart';
 
 // كرت المسار: صورة + اسم + تقييم + منطقة + صعوبة
 // width = عرض ثابت للكروت الأفقية (المختارة)، وبدونه ياخذ العرض كامل
@@ -115,7 +116,7 @@ class TrailCard extends StatelessWidget {
 
   // "9 كم · 3–4 ساعات"
   String _meta() {
-    final km = '${trail.distanceText} كم';
+    final km = L10n.tr.trailsKm(trail.distanceText);
     if (trail.estimatedDuration.isEmpty) return km;
     return '$km · ${trail.estimatedDuration}';
   }
@@ -147,14 +148,14 @@ class TrailCard extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.verified, size: 18, color: AppColors.primary),
-                  SizedBox(width: 4),
+                  const Icon(Icons.verified, size: 18, color: AppColors.primary),
+                  const SizedBox(width: 4),
                   Text(
-                    'معتمد',
-                    style: TextStyle(
+                    L10n.tr.trailsCertified,
+                    style: const TextStyle(
                       color: AppColors.primary,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,

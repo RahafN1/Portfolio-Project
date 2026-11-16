@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/l10n.dart';
 import '../models/admin_models.dart';
 import '../viewmodels/admin_viewmodel.dart';
 import 'widgets/admin_helpers.dart';
@@ -17,9 +18,9 @@ class ManageUsersScreen extends StatelessWidget {
     if (suspending) {
       final confirmed = await showConfirmDialog(
         context,
-        title: 'إيقاف المستخدم؟',
-        message: 'ما يقدر يسجل دخول أو يكتب تقييمات لين تلغي الإيقاف.',
-        confirmText: 'إيقاف',
+        title: context.l10n.adminSuspendUserTitle,
+        message: context.l10n.adminSuspendUserMessage,
+        confirmText: context.l10n.adminSuspend,
       );
       if (!confirmed || !context.mounted) return;
     }
@@ -29,10 +30,10 @@ class ManageUsersScreen extends StatelessWidget {
     showAdminToast(
       context,
       !ok
-          ? 'صار خطأ، حاول مرة ثانية'
+          ? context.l10n.adminGenericError
           : suspending
-              ? 'تم إيقاف ${user.name}'
-              : 'تم إلغاء إيقاف ${user.name}',
+              ? context.l10n.adminUserSuspended(user.name)
+              : context.l10n.adminUserUnsuspended(user.name),
     );
   }
 
@@ -41,7 +42,7 @@ class ManageUsersScreen extends StatelessWidget {
     final vm = context.watch<AdminViewModel>();
 
     if (vm.users.isEmpty) {
-      return const Center(child: Text('ما فيه مستخدمين'));
+      return Center(child: Text(context.l10n.adminNoUsers));
     }
 
     return RefreshIndicator(
@@ -103,7 +104,7 @@ class ManageUsersScreen extends StatelessWidget {
                             fontSize: 13, color: AppColors.grey),
                       ),
                       Text(
-                        '${user.reviewsCount} تقييمات',
+                        context.l10n.adminUserReviewsCount(user.reviewsCount),
                         style: const TextStyle(
                             fontSize: 12, color: AppColors.grey),
                       ),
@@ -123,7 +124,9 @@ class ManageUsersScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () => _onToggle(context, user),
-                  child: Text(suspended ? 'إلغاء الإيقاف' : 'إيقاف'),
+                  child: Text(suspended
+                      ? context.l10n.adminUnsuspend
+                      : context.l10n.adminSuspend),
                 ),
               ],
             ),
@@ -149,7 +152,9 @@ class _StatusChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
-        suspended ? 'موقوف' : 'نشط',
+        suspended
+            ? context.l10n.adminStatusSuspended
+            : context.l10n.adminStatusActive,
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.bold,

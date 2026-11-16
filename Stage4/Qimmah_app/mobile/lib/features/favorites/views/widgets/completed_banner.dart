@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 // الشريط الأخضر: "أكملت مسارين · 17 كم مشي"
 class CompletedBanner extends StatelessWidget {
@@ -12,14 +13,6 @@ class CompletedBanner extends StatelessWidget {
     required this.count,
     required this.distance,
   });
-
-  // المفرد والمثنى والجمع بالعربي
-  String get _countText {
-    if (count == 1) return 'مسارًا واحدًا';
-    if (count == 2) return 'مسارين';
-    if (count <= 10) return '$count مسارات';
-    return '$count مسارًا';
-  }
 
   String get _distanceText =>
       distance % 1 == 0 ? distance.toStringAsFixed(0) : distance.toStringAsFixed(1);
@@ -36,7 +29,7 @@ class CompletedBanner extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              'أكملت $_countText · $_distanceText كم مشي',
+              context.l10n.favoritesCompletedBanner(count, _distanceText),
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,

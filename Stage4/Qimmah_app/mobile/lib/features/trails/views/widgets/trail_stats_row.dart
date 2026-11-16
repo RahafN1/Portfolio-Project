@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
 import 'package:mobile/core/utils/difficulty_label.dart';
+import '../../../../l10n/l10n.dart';
 
 // الكروت الثلاثة: المسافة / المدة / الصعوبة (الصعوبة ملوّنة حسب مستواها)
 class TrailStatsRow extends StatelessWidget {
@@ -17,8 +18,8 @@ class TrailStatsRow extends StatelessWidget {
         Expanded(
           child: _StatCard(
             icon: Icons.route,
-            value: '${trail.distanceText} كم',
-            label: 'المسافة',
+            value: context.l10n.trailsKm(trail.distanceText),
+            label: context.l10n.trailsDistance,
           ),
         ),
         const SizedBox(width: 10),
@@ -28,7 +29,7 @@ class TrailStatsRow extends StatelessWidget {
             value: trail.estimatedDuration.isEmpty
                 ? '-'
                 : trail.estimatedDuration,
-            label: 'المدة المتوقعة',
+            label: context.l10n.trailsEstimatedDuration,
           ),
         ),
         const SizedBox(width: 10),
@@ -36,7 +37,7 @@ class TrailStatsRow extends StatelessWidget {
           child: _StatCard(
             icon: Icons.landscape,
             value: difficultyLabel(context, trail.difficulty),
-            label: 'الصعوبة',
+            label: context.l10n.difficulty,
             fg: AppColors.difficultyFg(trail.difficulty),
             bg: AppColors.difficultyBg(trail.difficulty),
           ),

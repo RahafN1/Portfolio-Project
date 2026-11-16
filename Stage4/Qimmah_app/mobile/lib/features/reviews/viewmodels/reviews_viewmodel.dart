@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/network/api_exception.dart';
+import '../../../l10n/l10n.dart';
 import '../data/reviews_repository.dart';
 import '../models/review.dart';
 
@@ -37,7 +38,7 @@ class ReviewsViewModel extends ChangeNotifier {
       errorMessage = null;
       hasLoaded = true;
     } catch (_) {
-      errorMessage = 'ما قدرنا نحمّل التقييمات';
+      errorMessage = L10n.tr.reviewsLoadError;
     }
     isLoading = false;
     notifyListeners();
@@ -55,10 +56,10 @@ class ReviewsViewModel extends ChangeNotifier {
     try {
       await repository.addReview(trailId, rating, comment);
     } on ApiException catch (e) {
-      if (e.statusCode == 401) return 'انتهت جلستك، سجّل دخولك مرة ثانية';
+      if (e.statusCode == 401) return L10n.tr.reviewsSessionExpired;
       return e.message;
     } catch (_) {
-      return 'ما قدرنا ننشر التقييم، حاول مرة ثانية';
+      return L10n.tr.reviewsPublishFailed;
     }
     await load(); // نحدّث القائمة والمتوسط
     return null;

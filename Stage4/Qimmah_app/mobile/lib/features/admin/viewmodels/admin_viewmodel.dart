@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../trails/data/trails_repository.dart';
 import '../../trails/models/trail.dart';
 import '../data/admin_repository.dart';
@@ -47,7 +48,7 @@ class AdminViewModel extends ChangeNotifier {
       users = results[3] as List<AdminUser>;
       errorMessage = null;
     } catch (_) {
-      if (!silent) errorMessage = 'ما قدرنا نحمّل بيانات لوحة التحكم';
+      if (!silent) errorMessage = L10n.tr.adminLoadError;
     }
     isLoading = false;
     notifyListeners();

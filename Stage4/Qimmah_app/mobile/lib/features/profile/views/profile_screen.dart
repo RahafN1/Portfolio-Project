@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
 
   // أول حرف من الاسم للدائرة
   String _initial(String name) =>
-      name.trim().isEmpty ? '؟' : name.trim().characters.first;
+      name.trim().isEmpty ? L10n.tr.profileInitialFallback : name.trim().characters.first;
 
   // حوار تأكيد تسجيل الخروج
   Future<void> _confirmLogout(BuildContext context) async {
@@ -24,8 +24,7 @@ class ProfileScreen extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title:  Text(AppLocalizations.of(context)!.logout),
-        content:
-            const Text('سيرجع حسابك كزائر، ومساراتك تبقى محفوظة في حسابك.'),
+        content: Text(context.l10n.profileLogoutMessage),
         actions: [
           // الزرين جنب بعض بنفس العرض
           Row(
@@ -33,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
               Expanded(
                 child: OutlinedButton(
                   onPressed: () => Navigator.pop(ctx, false),
-                  child: const Text('إلغاء'),
+                  child: Text(context.l10n.profileCancel),
                 ),
               ),
               const SizedBox(width: 8),
@@ -93,14 +92,14 @@ class ProfileScreen extends StatelessWidget {
           children: [
             _glassButton(
               isDark: isDark,
-              tooltip: 'English',
+              tooltip: context.watch<LocaleViewModel>().isEnglish ? 'العربية' : 'English',
                 onTap: () => context.read<LocaleViewModel>().toggle(),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'EN',
+                    context.watch<LocaleViewModel>().isEnglish ? 'AR' : 'EN',
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -115,7 +114,9 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(width: 8),
             _glassButton(
               isDark: isDark,
-              tooltip: isDark ? 'الوضع الفاتح' : 'الوضع الداكن',
+              tooltip: isDark
+                  ? context.l10n.profileLightMode
+                  : context.l10n.profileDarkMode,
               onTap: () => context.read<ThemeViewModel>().setDark(!isDark),
               padding: const EdgeInsets.all(9),
               child: Icon(

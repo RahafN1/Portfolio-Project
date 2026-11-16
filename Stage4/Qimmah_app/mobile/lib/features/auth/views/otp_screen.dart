@@ -9,7 +9,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/primary_button.dart';
 import '../viewmodels/auth_viewmodel.dart';
 import 'widgets/auth_header.dart';
-import '../../../core/constants/app_strings.dart';
+import '../../../l10n/l10n.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -66,7 +66,7 @@ class _OtpScreenState extends State<OtpScreen> {
     if (!mounted) return;
 
     if (success) {
-      _showMessage('أرسلنا رمز جديد');
+      _showMessage(context.l10n.authNewCodeSent);
       setState(() => _startTimer());
     } else {
       _showMessage(viewModel.errorMessage!);
@@ -118,19 +118,19 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
               const SizedBox(height: 16),
 
-              const Text(
-                'تحقق من بريدك',
+              Text(
+                context.l10n.authOtpTitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
                 ),
               ),
-              const Text(
-                'أرسلنا رمز من 6 أرقام إلى',
+              Text(
+                context.l10n.authOtpSentTo,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.grey),
+                style: const TextStyle(color: AppColors.grey),
               ),
               Text(
                 viewModel.emailToVerify ?? '',
@@ -139,8 +139,8 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
               const SizedBox(height: 24),
 
-              const Text('رمز التحقق',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(context.l10n.authOtpLabel,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
 
               // الأرقام من اليسار لليمين حتى لو التطبيق عربي
@@ -157,7 +157,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
               // الزر مقفل لين تكتمل الست أرقام
               PrimaryButton(
-                text: 'تأكيد',
+                text: context.l10n.authOtpConfirm,
                 isLoading: viewModel.isLoading,
                 onPressed: code.length == 6 ? _verify : null,
               ),
@@ -166,13 +166,13 @@ class _OtpScreenState extends State<OtpScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('ما وصلك الرمز؟'),
+                  Text(context.l10n.authOtpNotReceived),
                   TextButton(
                     onPressed: seconds > 0 ? null : _resend,
                     child: Text(
                       seconds > 0
-                          ? 'إعادة الإرسال بعد $seconds ث'
-                          : 'إعادة الإرسال',
+                          ? context.l10n.authOtpResendIn(seconds)
+                          : context.l10n.authOtpResend,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -182,9 +182,9 @@ class _OtpScreenState extends State<OtpScreen> {
               // يرجع لشاشة التسجيل عشان يعدل الإيميل
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text(
-                  'تغيير البريد الإلكتروني',
-                  style: TextStyle(
+                child: Text(
+                  context.l10n.authChangeEmail,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
@@ -224,10 +224,10 @@ class SignupSuccessScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               // تم إنشاء حسابك
-              const Text(
-                AppStrings.accountCreatedTitle,
+              Text(
+                context.l10n.authAccountCreatedTitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
@@ -236,16 +236,16 @@ class SignupSuccessScreen extends StatelessWidget {
               const SizedBox(height: 4),
 
               // كل شي جاهز، يلا نطلع للقمّة.
-              const Text(
-                AppStrings.accountCreatedSubtitle,
+              Text(
+                context.l10n.authAccountCreatedSubtitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.grey),
+                style: const TextStyle(color: AppColors.grey),
               ),
               const SizedBox(height: 32),
 
               // زر متابعة: يروح للاستكشاف ويمسح الصفحات اللي قبل
               PrimaryButton(
-                text: AppStrings.continueText,
+                text: context.l10n.authContinue,
                 onPressed: () => Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRouter.explore,
@@ -257,9 +257,9 @@ class SignupSuccessScreen extends StatelessWidget {
               // رجوع للنموذج: يرجع لصفحة التسجيل
               TextButton(
                 onPressed: () => Navigator.pushNamed(context, AppRouter.signup),
-                child: const Text(
-                  AppStrings.backToForm,
-                  style: TextStyle(color: AppColors.grey),
+                child: Text(
+                  context.l10n.authBackToForm,
+                  style: const TextStyle(color: AppColors.grey),
                 ),
               ),
             ],

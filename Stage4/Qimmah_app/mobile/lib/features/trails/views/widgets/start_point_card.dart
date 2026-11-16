@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 // كرت نقطة البداية: خريطة حقيقية على إحداثيات المسار + زر "الاتجاهات"
 class StartPointCard extends StatelessWidget {
@@ -98,21 +99,21 @@ class StartPointCard extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'نقطة الانطلاق',
-                        style: TextStyle(
+                        context.l10n.mapStartPointTitle,
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 2),
                       Text(
-                        'افتح الموقع في تطبيق الخرائط',
-                        style: TextStyle(fontSize: 12, color: AppColors.grey),
+                        context.l10n.mapStartPointSubtitle,
+                        style: const TextStyle(fontSize: 12, color: AppColors.grey),
                       ),
                     ],
                   ),
@@ -134,7 +135,7 @@ class StartPointCard extends StatelessWidget {
                     ),
                   ),
                   icon: const Icon(Icons.near_me_outlined, size: 18),
-                  label: const Text('الاتجاهات'),
+                  label: Text(context.l10n.mapDirections),
                 ),
               ],
             ),

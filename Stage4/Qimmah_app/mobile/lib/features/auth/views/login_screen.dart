@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/primary_button.dart';
+import '../../../l10n/l10n.dart';
 import '../viewmodels/auth_viewmodel.dart';
 import 'widgets/auth_header.dart';
 
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
-      _showMessage('عبّ الإيميل وكلمة المرور');
+      _showMessage(context.l10n.authFillEmailPassword);
       return;
     }
 
@@ -77,20 +78,20 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const AuthHeader(),
 
-              const Text(
-                'أهلًا من جديد',
-                style: TextStyle(
+              Text(
+                context.l10n.authLoginTitle,
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
                 ),
               ),
-              const Text(
-                'سجّل دخولك عشان تحفظ مساراتك وتقيّمها.',
+              Text(
+                context.l10n.authLoginSubtitle,
                 style: TextStyle(color: AppColors.grey),
               ),
 
-              _label('البريد الإلكتروني'),
+              _label(context.l10n.email),
               TextField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
@@ -98,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: const InputDecoration(hintText: 'name@example.com'),
               ),
 
-              _label('كلمة المرور'),
+              _label(context.l10n.authPassword),
               TextField(
                 controller: passwordController,
                 obscureText: hidePassword,
@@ -118,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 24),
 
               PrimaryButton(
-                text: 'تسجيل الدخول',
+                text: context.l10n.login,
                 isLoading: viewModel.isLoading,
                 onPressed: _login,
               ),
@@ -127,13 +128,13 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('ما عندك حساب؟'),
+                  Text(context.l10n.authNoAccount),
                   TextButton(
                     onPressed: () =>
                         Navigator.pushNamed(context, AppRouter.signup),
-                    child: const Text(
-                      'أنشئ حساب جديد',
-                      style: TextStyle(
+                    child: Text(
+                      context.l10n.authCreateAccount,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
@@ -144,21 +145,21 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               // خط "أو"
-              const Row(
+              Row(
                 children: [
-                  Expanded(child: Divider()),
+                  const Expanded(child: Divider()),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Text('أو'),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(context.l10n.authOr),
                   ),
-                  Expanded(child: Divider()),
+                  const Expanded(child: Divider()),
                 ],
               ),
               const SizedBox(height: 12),
 
               OutlinedButton(
                 onPressed: _browseAsGuest,
-                child: const Text('تصفّح كزائر'),
+                child: Text(context.l10n.authBrowseAsGuest),
               ),
             ],
           ),

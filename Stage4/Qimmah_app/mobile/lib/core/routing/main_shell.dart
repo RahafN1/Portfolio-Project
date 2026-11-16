@@ -126,6 +126,7 @@ class _ComingSoon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Center(child: Text('$title — قريباً')));
+    return SafeArea(child: Center(child:
+    Text(context.l10n.coreComingSoon(title))));
   }
 }

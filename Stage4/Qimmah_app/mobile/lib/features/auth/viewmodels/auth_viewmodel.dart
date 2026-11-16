@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/network/api_exception.dart';
+import '../../../l10n/l10n.dart';
 import '../data/auth_repository.dart';
 import '../models/user.dart';
 
@@ -88,7 +89,7 @@ class AuthViewModel extends ChangeNotifier {
 
   // الضيف ما يكلم السيرفر، بس نعطيه اسم "ضيف"
   void loginAsGuest() {
-    user = User(id: 0, name: 'ضيف', email: '', role: 'guest');
+    user = User(id: 0, name: L10n.tr.authGuestName, email: '', role: 'guest');
     notifyListeners();
   }
 
@@ -115,7 +116,7 @@ void _showError(Object e) {
   if (e is ApiException) {
     errorMessage = e.message; 
   } else {
-    errorMessage = 'تأكد من اتصالك بالإنترنت';
+    errorMessage = L10n.tr.authCheckConnection;
   }
   isLoading = false;
   notifyListeners();

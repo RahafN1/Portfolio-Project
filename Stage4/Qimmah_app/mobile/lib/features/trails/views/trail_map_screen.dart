@@ -8,9 +8,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../core/constants/app_strings.dart';
 import '../../../core/services/location_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/l10n.dart';
 import '../models/trail.dart';
 import '../utils/route_tracker.dart';
 import '../viewmodels/explore_viewmodel.dart';
@@ -218,7 +218,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     // لو ما انفتح، نطلع رسالة تحت
     if (!opened && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text(AppStrings.mapDirectionsError)),
+        SnackBar(content: Text(context.l10n.mapDirectionsError)),
       );
     }
   }
@@ -263,7 +263,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     if (position == null) {
       if (!silent) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text(AppStrings.locationError)),
+          SnackBar(content: Text(context.l10n.mapLocationError)),
         );
       }
       return false;
@@ -281,7 +281,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     // لازم يكون للمسار خط نتبعه
     if (_routePoints.length < 2) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text(AppStrings.mapNoRoute)),
+        SnackBar(content: Text(context.l10n.mapNoRoute)),
       );
       return;
     }
@@ -316,7 +316,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
       onError: (_) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text(AppStrings.locationError)),
+          SnackBar(content: Text(context.l10n.mapLocationError)),
         );
       },
     );
@@ -356,7 +356,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
         progress.remainingMeters < 30) {
       _finishedShown = true;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text(AppStrings.onTrailFinished)),
+        SnackBar(content: Text(context.l10n.mapOnTrailFinished)),
       );
     }
   }
@@ -559,7 +559,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
                   }
                 },
                 icon: const Icon(Icons.navigation),
-                label: const Text(AppStrings.mapRecenter),
+                label: Text(context.l10n.mapRecenter),
               ),
             ),
 
@@ -696,9 +696,9 @@ class _SearchBar extends StatelessWidget {
       ),
       child: TextField(
         onChanged: onChanged, // نرسل النص للصفحة
-        decoration: const InputDecoration(
-          hintText: AppStrings.mapSearchHint,
-          prefixIcon: Icon(Icons.search),
+        decoration: InputDecoration(
+          hintText: context.l10n.searchHint,
+          prefixIcon: const Icon(Icons.search),
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -769,14 +769,14 @@ class _HintChip extends StatelessWidget {
         color: const Color(0xFF1E2A24), // أخضر غامق جداً
         borderRadius: BorderRadius.circular(24),
       ),
-      child: const Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min, // بحجم محتواه بس
         children: [
-          Icon(Icons.location_on_outlined, color: Colors.white, size: 16),
-          SizedBox(width: 6),
+          const Icon(Icons.location_on_outlined, color: Colors.white, size: 16),
+          const SizedBox(width: 6),
           Text(
-            AppStrings.mapTapHint,
-            style: TextStyle(color: Colors.white, fontSize: 13),
+            context.l10n.mapTapHint,
+            style: const TextStyle(color: Colors.white, fontSize: 13),
           ),
         ],
       ),

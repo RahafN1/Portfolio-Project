@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../core/network/api_exception.dart';
+import '../../../l10n/l10n.dart';
 import '../../trails/models/trail.dart';
 import '../data/favorites_repository.dart';
 import '../models/completed_trail.dart';
@@ -48,7 +49,7 @@ class FavoritesViewModel extends ChangeNotifier {
     } on ApiException catch (e) {
       errorMessage = e.message;
     } catch (_) {
-      errorMessage = 'ما قدرنا نجيب مساراتك';
+      errorMessage = L10n.tr.favoritesLoadError;
     }
 
     // المكتملة: لو فشلت ما نخرّب الشاشة كلها
