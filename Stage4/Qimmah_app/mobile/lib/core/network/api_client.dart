@@ -12,6 +12,17 @@ class ApiClient {
   final TokenStorage tokenStorage;
   final http.Client _client = http.Client(); // اتصال واحد يُعاد استخدامه
   static const Duration _timeout = Duration(seconds: 20);
+  static const Duration _uploadTimeout = Duration(seconds: 60);
+
+  // مسارات الدخول/التسجيل: 401 فيها يعني بيانات غلط مو جلسة منتهية
+  static const List<String> _authPaths = ['login', 'register', 'signin'];
+
+  // تنادى لما تنتهي الجلسة (التطبيق يرجّع المستخدم لتسجيل الدخول)
+  void Function()? onSessionExpired;
+
+  // آخر توكن اعتبرناه منتهي. لو جاء طلب بنفس التوكن ما نبلّغ مرة ثانية،
+  // وأي تسجيل دخول جديد يعطي توكن مختلف فيشتغل التنبيه من جديد
+  String? _expiredAuth;
 
   ApiClient(this.tokenStorage);
 
@@ -23,7 +34,7 @@ class ApiClient {
     };
   }
 
-   Uri _uri(String path) {
+  Uri _uri(String path) {
     final uri = Uri.parse(ApiEndpoints.baseUrl + path);
     return uri.replace(queryParameters: {
       ...uri.queryParameters,
@@ -32,34 +43,45 @@ class ApiClient {
   }
 
   Future<Map<String, dynamic>> get(String path) =>
-      _send(() async => _client.get(_uri(path), headers: await _headers()));
+      _send(path, (h) => _client.get(_uri(path), headers: h));
 
   Future<Map<String, dynamic>> post(String path, Map<String, dynamic> body) =>
-      _send(() async => _client.post(_uri(path),
-          headers: await _headers(), body: jsonEncode(body)));
+      _send(path,
+          (h) => _client.post(_uri(path), headers: h, body: jsonEncode(body)));
 
   Future<Map<String, dynamic>> put(String path, Map<String, dynamic> body) =>
-      _send(() async => _client.put(_uri(path),
-          headers: await _headers(), body: jsonEncode(body)));
+      _send(path,
+          (h) => _client.put(_uri(path), headers: h, body: jsonEncode(body)));
 
   Future<Map<String, dynamic>> patch(String path,
           [Map<String, dynamic>? body]) =>
-      _send(() async => _client.patch(_uri(path),
-          headers: await _headers(), body: jsonEncode(body ?? {})));
+      _send(
+          path,
+          (h) => _client.patch(_uri(path),
+              headers: h, body: jsonEncode(body ?? {})));
 
   Future<Map<String, dynamic>> delete(String path) =>
-      _send(() async => _client.delete(_uri(path), headers: await _headers()));
+      _send(path, (h) => _client.delete(_uri(path), headers: h));
 
   // كل الطلبات تمر من هنا: نفس التايم أوت ونفس معالجة الخطأ
   Future<Map<String, dynamic>> _send(
-      Future<http.Response> Function() request) async {
+    String path,
+    Future<http.Response> Function(Map<String, String> headers) request,
+  ) async {
+    // نقرأ الهيدر مرة وحدة، ونعرف منه هل الطلب انرسل بتوكن
+    final headers = await _headers();
     try {
-      final response = await request().timeout(_timeout);
-      return _handleResponse(response);
+      final response = await request(headers).timeout(_timeout);
+      return await _handleResponse(
+        response,
+        path: path,
+        auth: headers['Authorization'],
+      );
     } on TimeoutException {
       throw ApiException(L10n.tr.coreRequestTimeout, 408);
     }
   }
+
   // لرفع الصور
   Future<Map<String, dynamic>> postFiles(
     String path,
@@ -72,8 +94,9 @@ class ApiClient {
     );
 
     final token = await tokenStorage.getToken();
-    if (token != null) {
-      request.headers['Authorization'] = 'Bearer $token';
+    final auth = token != null ? 'Bearer $token' : null;
+    if (auth != null) {
+      request.headers['Authorization'] = auth;
     }
 
     for (int i = 0; i < files.length; i++) {
@@ -84,23 +107,58 @@ class ApiClient {
       ));
     }
 
-    final streamed = await request.send().timeout(const Duration(seconds: 60));
-    final response = await http.Response.fromStream(streamed);
-    return _handleResponse(response);
+    try {
+      final streamed = await request.send().timeout(_uploadTimeout);
+      final response =
+          await http.Response.fromStream(streamed).timeout(_uploadTimeout);
+      return await _handleResponse(response, path: path, auth: auth);
+    } on TimeoutException {
+      throw ApiException(L10n.tr.coreRequestTimeout, 408);
+    }
   }
-  Map<String, dynamic> _handleResponse(http.Response response) {
+
+  // نمسح التوكن ونبلّغ التطبيق مرة وحدة لكل توكن
+  Future<void> _handleExpired(String auth) async {
+    if (_expiredAuth == auth) return;
+    _expiredAuth = auth;
+    await tokenStorage.clear(); // ننتظر المسح قبل ما نبلّغ التطبيق
+    onSessionExpired?.call();
+  }
+
+  Future<Map<String, dynamic>> _handleResponse(
+    http.Response response, {
+    required String path,
+    required String? auth,
+  }) async {
+    final isSuccess = response.statusCode >= 200 && response.statusCode < 300;
+
+    // السيرفر ممكن يرجّع HTML (مثل 502) فنحمي الـ jsonDecode
     Map<String, dynamic> data = {};
     if (response.body.isNotEmpty) {
-      data = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      try {
+        final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+        if (decoded is Map<String, dynamic>) data = decoded;
+      } catch (_) {
+        if (isSuccess) {
+          throw ApiException(L10n.tr.coreGenericError, response.statusCode);
+        }
+        // لو كان خطأ، نكمل بـ data فاضية ونعرض الرسالة العامة
+      }
     }
 
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      return data;
+    if (isSuccess) return data;
+
+    final message = data['error']?.toString() ?? L10n.tr.coreGenericError;
+
+    // انتهت الجلسة: الطلب كان معه توكن، وهو مو طلب دخول/تسجيل،
+    // والسيرفر رجّع 401 أو رسالة فيها expired
+    final isAuthRequest = _authPaths.any((p) => path.contains(p));
+    final looksExpired = response.statusCode == 401 ||
+        message.toLowerCase().contains('expired');
+    if (auth != null && !isAuthRequest && looksExpired) {
+      await _handleExpired(auth);
     }
 
-    throw ApiException(
-      data['error']?.toString() ?? L10n.tr.coreGenericError,
-      response.statusCode,
-    );
+    throw ApiException(message, response.statusCode);
   }
 }

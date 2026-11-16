@@ -21,6 +21,8 @@ class AppRouter {
   static Map<String, WidgetBuilder> routes = {
     splash: (context) => const IntroSplashScreen(),
     welcome: (context) => const SplashScreen(),
+    // كان ناقص: بدونه التحويل لتسجيل الدخول ما يلقى الشاشة
+    login: (context) => const LoginScreen(),
     signup: (context) => const SignupScreen(),
     otp: (context) => const OtpScreen(),
     signupSuccess: (context) => const SignupSuccessScreen(),

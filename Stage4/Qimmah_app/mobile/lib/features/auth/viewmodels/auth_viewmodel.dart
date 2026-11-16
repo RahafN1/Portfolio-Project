@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/network/api_exception.dart';
@@ -19,6 +20,7 @@ class AuthViewModel extends ChangeNotifier {
   bool get isGuest => user == null || user!.role == 'guest';
   // هل المستخدم أدمن؟ (من الدور اللي يرجعه السيرفر، مو من الإيميل)
   bool get isAdmin => user != null && user!.role == 'admin';
+
   Future<bool> checkSavedLogin() async {
     user = await repository.getSavedUser();
     notifyListeners();
@@ -99,6 +101,16 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // تنادى من ApiClient لما تنتهي الجلسة.
+  // التوكن انمسح هناك، فهنا نصفّر حالة المستخدم بس (بدون طلب للسيرفر)
+  void handleSessionExpired() {
+    user = null;
+    isLoading = false;
+    errorMessage = null;
+    emailToVerify = null;
+    notifyListeners();
+  }
+
   void _startLoading() {
     isLoading = true;
     errorMessage = null;
@@ -110,15 +122,15 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-void _showError(Object e) {
-  print("الخطأ الحقيقي الذي حدث هو: $e"); // تجربه  هذا السطر
-  
-  if (e is ApiException) {
-    errorMessage = e.message; 
-  } else {
-    errorMessage = L10n.tr.authCheckConnection;
+  void _showError(Object e) {
+    if (kDebugMode) debugPrint('AuthViewModel error: $e');
+
+    if (e is ApiException) {
+      errorMessage = e.message;
+    } else {
+      errorMessage = L10n.tr.authCheckConnection;
+    }
+    isLoading = false;
+    notifyListeners();
   }
-  isLoading = false;
-  notifyListeners();
-}
 }
