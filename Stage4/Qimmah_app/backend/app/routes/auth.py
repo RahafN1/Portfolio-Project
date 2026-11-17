@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-
+from flask_jwt_extended import jwt_required
 from app.models.user import User
 
 auth_bp = Blueprint("auth", __name__)
@@ -38,3 +38,9 @@ def login():
     data = _body()
     user, token = User.login(data.get("email"), data.get("password"))
     return jsonify({"token": token, "user": user.to_dict()}), 200
+
+
+@auth_bp.post("/logout")
+@jwt_required()
+def logout():
+    return jsonify({"message": "Logged out successfully"}), 200
