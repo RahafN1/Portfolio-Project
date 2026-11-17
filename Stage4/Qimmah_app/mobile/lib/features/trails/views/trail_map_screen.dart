@@ -37,7 +37,8 @@ class TrailMapScreen extends StatefulWidget {
   State<TrailMapScreen> createState() => _TrailMapScreenState();
 }
 
-class _TrailMapScreenState extends State<TrailMapScreen> {
+class _TrailMapScreenState extends State<TrailMapScreen>
+    with SingleTickerProviderStateMixin {
   // وسط المملكة ومستوى التكبير اللي يبين المملكة كلها
   static const LatLng _saudiCenter = LatLng(24.5, 44.0);
   static const double _saudiZoom = 5.5;
@@ -48,9 +49,62 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
   // "ريموت" الخريطة: نحرّكها فيه من الكود
   final MapController _mapController = MapController();
 
+  // ---------- حركة الكاميرا السلسة ----------
+  // بدل ما الخريطة تقفز، نحرّكها خطوة خطوة (center + zoom) بمنحنى ناعم
+  late final AnimationController _camAnim = AnimationController(vsync: this)
+    ..addListener(_onCameraTick);
+  double _fromLat = 0, _fromLng = 0, _fromZoom = 0;
+  double _toLat = 0, _toLng = 0, _toZoom = 0;
+
+  // كل إطار من الحركة: نحسب المكان بين البداية والنهاية ونحرّك الخريطة
+  void _onCameraTick() {
+    final t = Curves.easeInOutCubic.transform(_camAnim.value);
+    _mapController.move(
+      LatLng(
+        _fromLat + (_toLat - _fromLat) * t,
+        _fromLng + (_toLng - _fromLng) * t,
+      ),
+      _fromZoom + (_toZoom - _fromZoom) * t,
+    );
+  }
+
+  // تحرّك الكاميرا بسلاسة لمكان وتكبير معيّن
+  void _animateCameraTo(LatLng center, double zoom, {int ms = 700}) {
+    final cam = _mapController.camera;
+    _fromLat = cam.center.latitude;
+    _fromLng = cam.center.longitude;
+    _fromZoom = cam.zoom;
+    _toLat = center.latitude;
+    _toLng = center.longitude;
+    _toZoom = zoom;
+    _camAnim.duration = Duration(milliseconds: ms);
+    _camAnim.forward(from: 0); // لو فيه حركة شغّالة، تنبدّل بالجديدة
+  }
+
+  // تحرّك الكاميرا بسلاسة لين يبان المسار كامل
+  void _animateToFit(List<LatLng> points) {
+    final fitted = CameraFit.coordinates(
+      coordinates: points,
+      padding: const EdgeInsets.fromLTRB(40, 120, 40, 280),
+    ).fit(_mapController.camera);
+    _animateCameraTo(fitted.center, fitted.zoom, ms: 800);
+  }
+
   // مفتاح الـ carousel: نحرّكه من الكود لما نضغط علامة
   final GlobalKey<MapTrailCarouselState> _carouselKey =
       GlobalKey<MapTrailCarouselState>();
+
+  // نأخّر اختيار المسار لين يستقر الكرت (عشان ما نثقل الشاشة أثناء السحب)
+  Timer? _swipeDebounce;
+
+  void _onCarouselChanged(Trail t) {
+    if (_carouselAnimating) return;
+    _swipeDebounce?.cancel();
+    _swipeDebounce = Timer(const Duration(milliseconds: 250), () {
+      if (!mounted) return;
+      if (_selected?.id != t.id) _selectTrail(t, fromCarousel: true);
+    });
+  }
 
   // أثناء ما الـ carousel يتحرك بالكود، نتجاهل الصفحات اللي يمر عليها
   bool _carouselAnimating = false;
@@ -127,6 +181,8 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
   // لما الصفحة تنقفل: نوقف الساعة عشان ما تضل شغّالة
   @override
   void dispose() {
+    _swipeDebounce?.cancel();
+    _camAnim.dispose();
     _trackTimer?.cancel();
     _positionSub?.cancel(); // يوقف القناة لما تنقفل الصفحة
     super.dispose();
@@ -181,6 +237,15 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
       }
     }
 
+    // المرحلة 1: الكاميرا تنزلق لبداية المسار فوراً (بدون ما ننتظر الخط)
+    if (trail.startLat != null && trail.startLng != null) {
+      _animateCameraTo(
+        LatLng(trail.startLat!, trail.startLng!),
+        _mapController.camera.zoom,
+        ms: 500,
+      );
+    }
+
     try {
       final full =
           await context.read<ExploreViewModel>().loadTrailDetails(trail.id);
@@ -191,13 +256,9 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
       setState(() => _routePoints = full.routePoints);
 
       // نقرّب الخريطة على المسار كامل
+      // المرحلة 2: لما يوصل الخط، نقرّب بسلاسة لين يبان كامل
       if (full.routePoints.length > 1) {
-        _mapController.fitCamera(
-          CameraFit.coordinates(
-            coordinates: full.routePoints,
-            padding: const EdgeInsets.fromLTRB(40, 120, 40, 280),
-          ),
-        );
+        _animateToFit(full.routePoints);
       }
     } catch (_) {
       // لو فشل الجلب، يبقى الكرت والعلامة بدون خط
@@ -233,7 +294,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
 
     // لو البحث فاضي: نرجع للمملكة كلها
     if (value.trim().isEmpty) {
-      _mapController.move(_saudiCenter, _saudiZoom);
+      _animateCameraTo(_saudiCenter, _saudiZoom);
       return;
     }
 
@@ -246,7 +307,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     // لو مسار واحد بس: نقرّب عليه
     if (matches.length == 1) {
       final trail = matches.first;
-      _mapController.move(LatLng(trail.startLat!, trail.startLng!), 11);
+      _animateCameraTo(LatLng(trail.startLat!, trail.startLng!), 11);
     }
   }
 
@@ -272,7 +333,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     // نحفظ الموقع، ولو مو تحديث هادي نقرّب عليه
     final here = LatLng(position.latitude, position.longitude);
     setState(() => _myLocation = here);
-    if (!silent && move) _mapController.move(here, 13);
+    if (!silent && move) _animateCameraTo(here, 13);
     return true;
   }
 
@@ -307,7 +368,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
       _following = true;
       _secondsAgo = 0;
     });
-    _mapController.move(_myLocation!, 17);
+    _animateCameraTo(_myLocation!, 17);
 
     // 6) الموقع المستمر: كل ما يتحرك المستخدم نحدّث
     _positionSub?.cancel();
@@ -342,7 +403,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     });
 
     // الكاميرا تتبعه (ما نصغّر التكبير لو كان مقرّب)
-    if (_following) {
+    if (_following && !_camAnim.isAnimating) {
       _mapController.move(
         here,
         math.max(_mapController.camera.zoom, 16),
@@ -413,6 +474,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
               initialZoom: _saudiZoom, // نشوف المملكة كلها
               // لو حرّك الخريطة بيده وإحنا نتتبعه: نوقف التتبّع ونطلع زر "تتبّعني"
               onPositionChanged: (camera, hasGesture) {
+                if (hasGesture) _camAnim.stop(); // اللمس يوقف الحركة التلقائية
                 if (hasGesture && _onTrail && _following) {
                   setState(() => _following = false);
                 }
@@ -555,7 +617,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
                 onPressed: () {
                   setState(() => _following = true);
                   if (_myLocation != null) {
-                    _mapController.move(_myLocation!, 17);
+                    _animateCameraTo(_myLocation!, 17);
                   }
                 },
                 icon: const Icon(Icons.navigation),
@@ -586,12 +648,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
                 // وإحنا على المسار: يختفي زر "ابدأ المسار"
                 isOnTrail: _onTrail,
                 // لما يلف المستخدم: نختار المسار ونجيب خطه ونحرّك الكاميرا
-                onTrailChanged: (t) {
-                  if (_carouselAnimating) return;
-                  if (_selected?.id != t.id) {
-                    _selectTrail(t, fromCarousel: true);
-                  }
-                },
+                onTrailChanged: _onCarouselChanged,
                 // X: نسكّر الكرت ونرجّع العلامة خضراء
                 onClose: () => setState(() {
                   _selected = null;

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 // ../../../../ = نطلع 4 مجلدات (widgets ← views ← trails ← features) لين نوصل lib
@@ -26,12 +28,55 @@ class MapTrailCard extends StatelessWidget {
     required this.onDetails,
   });
 
+  // ---------- الأرقام الثابتة (الكرت والـ carousel يستخدمونها مع بعض) ----------
+  static const double _titleFontSize = 16;
+  static const double _smallFontSize = 12;
+  static const double _chipFontSize = 11;
+  static const double _lineHeight = 1.4; // ارتفاع السطر لكل النصوص
+  static const double _coverSize = 80;
+  static const double _closeButtonSize = 40; // حجم زر X (compact)
+  static const double _buttonsHeight = 44; // ارتفاع صف الأزرار
+  static const double _cardPadding = 14;
+  static const double _cardMarginV = 10;
+  static const double _gapBeforeButtons = 14;
+
+  // ارتفاع الكرت الكامل حسب تكبير الخط في الجهاز
+  // الـ carousel ينادي هذي الدالة عشان يعرف كم يحجز له
+  static double heightOf(BuildContext context) {
+    final scaler = MediaQuery.textScalerOf(context);
+
+    final title = scaler.scale(_titleFontSize) * _lineHeight * 2; // سطرين دايماً
+    final region = scaler.scale(_smallFontSize) * _lineHeight;
+    final chip = math.max(
+      scaler.scale(_chipFontSize) * _lineHeight + 6, // +6 = padding الشارة
+      scaler.scale(_smallFontSize) * _lineHeight,
+    );
+    final info = title + 2 + region + 8 + chip;
+    final topRow = math.max(math.max(_coverSize, info), _closeButtonSize);
+
+    return _cardMarginV * 2 +
+        _cardPadding * 2 +
+        topRow +
+        _gapBeforeButtons +
+        _buttonsHeight +
+        4; // هامش أمان صغير
+  }
+
   @override
   Widget build(BuildContext context) {
+    // ارتفاع سطرين بالضبط، مع احترام تكبير الخط في الجهاز
+    final titleBoxHeight =
+        MediaQuery.textScalerOf(context).scale(_titleFontSize) *
+            _lineHeight *
+            2;
+
     return Container(
       // أفقي صغير عشان الفراغ بين الكروت في الـ carousel ما يكبر
-      margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
-      padding: const EdgeInsets.all(14), // مسافة داخل الكرت
+      margin: const EdgeInsets.symmetric(
+        horizontal: 6,
+        vertical: _cardMarginV,
+      ),
+      padding: const EdgeInsets.all(_cardPadding), // مسافة داخل الكرت
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -58,21 +103,36 @@ class MapTrailCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // اسم المسار
-                    Text(
-                      trail.name,
-                      maxLines: 2, // سطرين بالكثير
-                      overflow: TextOverflow.ellipsis, // لو أطول نحط ...
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    // اسم المسار: نحجز له سطرين دايماً عشان الكروت كلها تتساوى
+                    SizedBox(
+                      height: titleBoxHeight,
+                      child: Text(
+                        trail.name,
+                        maxLines: 2, // سطرين بالكثير
+                        overflow: TextOverflow.ellipsis, // لو أطول نحط ...
+                        strutStyle: const StrutStyle(
+                          fontSize: _titleFontSize,
+                          height: _lineHeight,
+                          forceStrutHeight: true,
+                        ),
+                        style: const TextStyle(
+                          fontSize: _titleFontSize,
+                          height: _lineHeight,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 2),
                     // المنطقة
                     Text(
                       trail.region,
-                      style: const TextStyle(fontSize: 12, color: AppColors.grey),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: _smallFontSize,
+                        height: _lineHeight,
+                        color: AppColors.grey,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     // الصعوبة + المسافة والمدة
@@ -82,19 +142,24 @@ class MapTrailCard extends StatelessWidget {
                           difficulty: trail.difficulty,
                           label: difficultyLabel(context, trail.difficulty),
                         ),
-                        const SizedBox(width: 8),
-                        // Flexible: النص ياخذ المكان الباقي بس، ولو طويل يقص
+                        const SizedBox(width: 6),
+                        // Flexible + FittedBox: النص يصغّر لين يتسع بدل ما يتقص بـ ...
                         Flexible(
-                          child: Text(
-                            context.l10n.mapDistanceAndDuration(
-                              trail.distanceText,
-                              trail.estimatedDuration,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.grey,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown, // يصغّر بس، ما يكبّر
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Text(
+                              context.l10n.mapDistanceAndDuration(
+                                trail.distanceText,
+                                trail.estimatedDuration,
+                              ),
+                              maxLines: 1,
+                              softWrap: false,
+                              style: const TextStyle(
+                                fontSize: _smallFontSize,
+                                height: _lineHeight,
+                                color: AppColors.grey,
+                              ),
                             ),
                           ),
                         ),
@@ -112,54 +177,59 @@ class MapTrailCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: _gapBeforeButtons),
 
           // ---------- الجزء الثاني: الأزرار ----------
-          Row(
-            children: [
-              // الاتجاهات (أخضر فاتح)
-              Expanded(
-                child: FilledButton.icon(
-                  onPressed: onDirections,
-                  icon: const Icon(Icons.near_me_outlined, size: 16),
-                  label: _ButtonText(context.l10n.mapDirections),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primaryLight,
-                    foregroundColor: AppColors.primary,
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                  ),
-                ),
-              ),
-
-              // ابدأ المسار (أخضر غامق) — يختفي لو المستخدم بدأ
-              if (!isOnTrail) ...[
-                const SizedBox(width: 6),
+          // ارتفاع ثابت، والأزرار تتمدد تملأه
+          SizedBox(
+            height: _buttonsHeight,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // الاتجاهات (أخضر فاتح)
                 Expanded(
                   child: FilledButton.icon(
-                    onPressed: onStart,
-                    icon: const Icon(Icons.play_arrow, size: 16),
-                    label: _ButtonText(context.l10n.mapStartTrail),
+                    onPressed: onDirections,
+                    icon: const Icon(Icons.near_me_outlined, size: 16),
+                    label: _ButtonText(context.l10n.mapDirections),
                     style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                      backgroundColor: AppColors.primaryLight,
+                      foregroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                     ),
                   ),
                 ),
-              ],
-              const SizedBox(width: 6),
 
-              // عرض التفاصيل (أبيض بإطار)
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: onDetails,
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                // ابدأ المسار (أخضر غامق) — يختفي لو المستخدم بدأ
+                if (!isOnTrail) ...[
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: onStart,
+                      icon: const Icon(Icons.play_arrow, size: 16),
+                      label: _ButtonText(context.l10n.mapStartTrail),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                      ),
+                    ),
                   ),
-                  child: _ButtonText(context.l10n.mapViewDetails),
+                ],
+                const SizedBox(width: 6),
+
+                // عرض التفاصيل (أبيض بإطار)
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: onDetails,
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                    ),
+                    child: _ButtonText(context.l10n.mapViewDetails),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -168,10 +238,9 @@ class MapTrailCard extends StatelessWidget {
 
   // صورة المسار، ولو ما فيه صورة نحط أيقونة جبل
   Widget _cover() {
-    const size = 80.0;
     final placeholder = Container(
-      width: size,
-      height: size,
+      width: _coverSize,
+      height: _coverSize,
       color: AppColors.primaryLight,
       child: const Icon(Icons.landscape, color: AppColors.primary),
     );
@@ -180,8 +249,8 @@ class MapTrailCard extends StatelessWidget {
 
     return Image.network(
       trail.coverImage!,
-      width: size,
-      height: size,
+      width: _coverSize,
+      height: _coverSize,
       fit: BoxFit.cover,
       // لو الصورة ما فتحت (مثلاً النت فصل) نطلع الأيقونة
       errorBuilder: (context, error, stack) => placeholder,
@@ -246,6 +315,7 @@ class _DifficultyChip extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 11,
+              height: 1.4,
               fontWeight: FontWeight.bold,
               color: color,
             ),
@@ -307,23 +377,37 @@ class MapTrailCarouselState extends State<MapTrailCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 210, // لو لسا فيه overflow زِدها شوي
-      child: PageView.builder(
-        controller: _controller,
-        itemCount: widget.trails.length,
-        onPageChanged: (i) => widget.onTrailChanged(widget.trails[i]),
-        itemBuilder: (context, i) {
-          final t = widget.trails[i];
-          return Align(
-            alignment: Alignment.bottomCenter,
-            child: MapTrailCard(
-              trail: t,
-              isOnTrail: widget.isOnTrail,
-              onClose: widget.onClose,
-              onDirections: () => widget.onDirections(t),
-              onStart: () => widget.onStart(t),
-              onDetails: () => widget.onDetails(t),
+    final mq = MediaQuery.of(context);
+
+    // نحدد أقصى تكبير للخط (1.3) عشان التصميم ما ينفلت
+    return MediaQuery(
+      data: mq.copyWith(
+        textScaler: mq.textScaler.clamp(maxScaleFactor: 1.3),
+      ),
+      // Builder: عشان heightOf يقرأ الـ MediaQuery الجديد (المحدود)
+      child: Builder(
+        builder: (context) {
+          return SizedBox(
+            // الارتفاع يتحسب تلقائياً من حجم الخط، بدون رقم ثابت
+            height: MapTrailCard.heightOf(context),
+            child: PageView.builder(
+              controller: _controller,
+              itemCount: widget.trails.length,
+              onPageChanged: (i) => widget.onTrailChanged(widget.trails[i]),
+              itemBuilder: (context, i) {
+                final t = widget.trails[i];
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: MapTrailCard(
+                    trail: t,
+                    isOnTrail: widget.isOnTrail,
+                    onClose: widget.onClose,
+                    onDirections: () => widget.onDirections(t),
+                    onStart: () => widget.onStart(t),
+                    onDetails: () => widget.onDetails(t),
+                  ),
+                );
+              },
             ),
           );
         },
