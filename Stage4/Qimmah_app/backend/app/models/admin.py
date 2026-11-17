@@ -20,7 +20,7 @@ class Admin(User):
     # ---------- Helpers ----------
     @staticmethod
     def _get_trail(trail_id):
-    """Return the trail or raise 404."""
+        """Return the trail or raise 404."""
         trail = db.session.get(Trail, trail_id)
         if trail is None:
             raise APIError("Trail not found", 404)
