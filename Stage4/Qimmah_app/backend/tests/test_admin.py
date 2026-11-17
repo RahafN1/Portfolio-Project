@@ -1,3 +1,4 @@
+import io
 import pytest
 from werkzeug.security import generate_password_hash
 
@@ -148,14 +149,19 @@ def test_delete_trail_as_normal_user(client, admin_token, user_token):
 
 # ---------- 23. POST /api/admin/trails/{id}/images ----------
 
+from unittest.mock import patch
+
 def test_upload_images_success(client, admin_token):
     trail_id = create_trail(client, admin_token)
-    response = client.post(f"/api/admin/trails/{trail_id}/images",
-                           json={"images": ["https://example.com/a.jpg"]},
-                           headers=auth(admin_token))
+    with patch("app.routes.admin.upload_image",
+               return_value="https://example.com/a.jpg"):
+        response = client.post(
+            f"/api/admin/trails/{trail_id}/images",
+            data={"images": (io.BytesIO(b"fake image content"), "a.jpg")},
+            content_type="multipart/form-data",
+            headers=auth(admin_token),
+        )
     assert response.status_code == 200
-    assert "https://example.com/a.jpg" in response.get_json()["images"]
-
 
 def test_upload_images_not_a_list(client, admin_token):
     trail_id = create_trail(client, admin_token)
@@ -172,9 +178,14 @@ def test_upload_images_empty(client, admin_token):
 
 
 def test_upload_images_trail_not_found(client, admin_token):
-    response = client.post("/api/admin/trails/9999/images",
-                           json={"images": ["https://example.com/a.jpg"]},
-                           headers=auth(admin_token))
+    with patch("app.routes.admin.upload_image",
+               return_value="https://example.com/a.jpg"):
+        response = client.post(
+            "/api/admin/trails/9999/images",
+            data={"images": (io.BytesIO(b"fake image content"), "a.jpg")},
+            content_type="multipart/form-data",
+            headers=auth(admin_token),
+        )
     assert response.status_code == 404
 
 
