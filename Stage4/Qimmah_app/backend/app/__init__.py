@@ -3,6 +3,8 @@ from flask_cors import CORS
 
 from app.config import Config
 from app.extensions import db, migrate, jwt
+from app.blocklist import BLOCKLIST
+
 from flasgger import Swagger
 
 
@@ -28,6 +30,10 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     jwt.init_app(app)
     CORS(app)
+
+    @jwt.token_in_blocklist_loader
+    def check_if_token_revoked(jwt_header, jwt_payload):
+        return jwt_payload["jti"] in BLOCKLIST
 
     from app.errors import register_error_handlers
     register_error_handlers(app)

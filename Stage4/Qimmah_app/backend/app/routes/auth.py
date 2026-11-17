@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
+from app.blocklist import BLOCKLIST
 from app.models.user import User
 
 auth_bp = Blueprint("auth", __name__)
@@ -40,7 +41,22 @@ def login():
     return jsonify({"token": token, "user": user.to_dict()}), 200
 
 
+
 @auth_bp.post("/logout")
 @jwt_required()
 def logout():
+    """
+    Log out the current user
+    ---
+    tags:
+      - Auth
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: Logged out successfully
+      401:
+        description: Missing, invalid or revoked token
+    """
+    BLOCKLIST.add(get_jwt()["jti"])
     return jsonify({"message": "Logged out successfully"}), 200
