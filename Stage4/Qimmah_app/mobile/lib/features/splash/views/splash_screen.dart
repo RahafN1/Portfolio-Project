@@ -31,14 +31,14 @@ class _SplashScreenState extends State<SplashScreen>
     // وتتحرك لين توصل كتابة "اكتشف مسارات السعودية" (يسار)، وترجع
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 9),
+      duration: const Duration(seconds: 4),
     );
 
     _pan = TweenSequence<Alignment>([
       // وقفة عند الرجل
       TweenSequenceItem(
         tween: ConstantTween(Alignment.centerRight),
-        weight: 20,
+        weight: 10,
       ),
       // الحركة من اليمين لليسار
       TweenSequenceItem(
@@ -46,12 +46,12 @@ class _SplashScreenState extends State<SplashScreen>
           begin: Alignment.centerRight,
           end: Alignment.centerLeft,
         ).chain(CurveTween(curve: Curves.easeInOutSine)),
-        weight: 60,
+        weight: 80,
       ),
       // وقفة عند الكتابة
       TweenSequenceItem(
         tween: ConstantTween(Alignment.centerLeft),
-        weight: 20,
+        weight: 10,
       ),
     ]).animate(_controller);
   }
