@@ -20,6 +20,7 @@ class Admin(User):
     # ---------- Helpers ----------
     @staticmethod
     def _get_trail(trail_id):
+    """Return the trail or raise 404."""
         trail = db.session.get(Trail, trail_id)
         if trail is None:
             raise APIError("Trail not found", 404)
@@ -36,9 +37,11 @@ class Admin(User):
                 raise APIError("Invalid GeoJSON", 400)
         if not isinstance(route, dict) or route.get("type") != "FeatureCollection":
             raise APIError("Invalid GeoJSON: expected a FeatureCollection", 400)
+        """ Validate each feature in the FeatureCollection """
         for feature in route.get("features") or []:
             geometry = (feature or {}).get("geometry") or {}
             coords = geometry.get("coordinates")
+            """ Check if the geometry is a LineString and has at least 2 points(start , end) """
             if geometry.get("type") == "LineString" and coords and len(coords) >= 2:
                 return route, coords
         raise APIError("Invalid GeoJSON: the route must contain a LineString", 400)
