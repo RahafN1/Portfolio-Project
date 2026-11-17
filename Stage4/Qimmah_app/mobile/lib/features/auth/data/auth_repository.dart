@@ -60,8 +60,15 @@ class AuthRepository {
     return User.fromJson(jsonDecode(userJson));
   }
 
-  Future<void> logout() async {
-    await storage.clear();
+    Future<void> logout() async {
+    try {
+      // نلغي التوكن في الباكند (ApiClient يرسل التوكن في الـ headers)
+      await api.post(ApiEndpoints.logout, {});
+    } catch (_) {
+      // حتى لو فشل الطلب (نت ضعيف أو توكن منتهي) نطلع المستخدم محلياً
+    } finally {
+      await storage.clear();
+    }
   }
 
   // الرد شكله: { "token": "...", "user": {...} }
