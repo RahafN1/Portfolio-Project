@@ -171,7 +171,7 @@ class ProfileScreen extends StatelessWidget {
               leading: const Icon(Icons.edit_outlined),
               title:  Text(AppLocalizations.of(context)!.editProfile
 ),
-              trailing: const Icon(Icons.chevron_left),
+              trailing: const Icon(Icons.chevron_right),
               onTap: () => _editSheet(context, user.name, user.email),
             ),
 
