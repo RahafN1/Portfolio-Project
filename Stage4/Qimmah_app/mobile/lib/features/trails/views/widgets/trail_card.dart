@@ -5,6 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
 import 'package:mobile/core/utils/difficulty_label.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../core/storage/image_cache.dart';  
 
 // كرت المسار: صورة + اسم + تقييم + منطقة + صعوبة
 // width = عرض ثابت للكروت الأفقية (المختارة)، وبدونه ياخذ العرض كامل
@@ -129,12 +130,13 @@ class TrailCard extends StatelessWidget {
           width: double.infinity,
           child: trail.coverImage != null
             ? CachedNetworkImage(
-    imageUrl: trail.coverImage!,
-    fit: BoxFit.cover,
-    memCacheWidth: 800,
-    placeholder: (_, __) => _placeholder(),
-    errorWidget: (_, __, ___) => _placeholder(),
-  )
+                imageUrl: trail.coverImage!,
+                fit: BoxFit.cover,
+                memCacheWidth: 800,
+                cacheManager: AppImageCache.instance,
+                placeholder: (_, __) => _placeholder(),
+                errorWidget: (_, __, ___) => _placeholder(),
+              )
               : _placeholder(),
         ),
         // شارة "معتمد" (يمين)

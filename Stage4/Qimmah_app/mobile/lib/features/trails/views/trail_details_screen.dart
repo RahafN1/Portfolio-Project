@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:latlong2/latlong.dart';
-
+import '../../../core/storage/image_cache.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/guest_login_sheet.dart';
 import '../../auth/viewmodels/auth_viewmodel.dart';
@@ -25,6 +25,7 @@ import '../../reviews/views/widgets/reviews_section.dart';
 import 'widgets/photo_viewer.dart';
 import 'trail_map_screen.dart';
 import '../../../l10n/l10n.dart';
+
 
 // مؤقت للرسالة، عشان تطلع مرة وحدة بعد ما يسكت المستخدم
 
@@ -373,6 +374,7 @@ class _PhotoStrip extends StatelessWidget {
               fit: BoxFit.cover,
               // نصغّر الصورة بالذاكرة (٣ أضعاف العرض) عشان ما تاكل رام
               memCacheWidth: (_width * 3).toInt(),
+              cacheManager: AppImageCache.instance,
               placeholder: (_, __) => Container(
                 color: AppColors.primaryLight,
                 child: const Center(

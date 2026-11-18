@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/api_endpoints.dart';
 import '../storage/token_storage.dart';
@@ -11,6 +12,49 @@ import '../../l10n/l10n.dart';
 class ApiClient {
   final TokenStorage tokenStorage;
   final http.Client _client = http.Client(); // اتصال واحد يُعاد استخدامه
+
+  // ---------- الكاش ----------
+  // طبقتين: الذاكرة (سريعة) + الجهاز (تبقى بعد إغلاق التطبيق).
+  // بدون مدة: تبقى لين يصير تعديل، أو دخول/خروج، أو سحب للتحديث.
+  final Map<String, Map<String, dynamic>> _cache = {};
+  static const String _diskPrefix = 'api_cache|';
+  Future<void> _diskClearing = Future.value(); // آخر مسح للجهاز
+
+  // يمسح الذاكرة والجهاز (عند أي تعديل أو دخول أو خروج أو سحب للتحديث)
+  void clearCache() {
+    _cache.clear();
+    _diskClearing = _clearDisk();
+  }
+
+  Future<void> _clearDisk() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final keys =
+          prefs.getKeys().where((k) => k.startsWith(_diskPrefix)).toList();
+      for (final k in keys) {
+        await prefs.remove(k);
+      }
+    } catch (_) {}
+  }
+
+  Future<Map<String, dynamic>?> _readDisk(String key) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final raw = prefs.getString('$_diskPrefix$key');
+      if (raw == null) return null;
+      return Map<String, dynamic>.from(jsonDecode(raw) as Map);
+    } catch (_) {
+      return null; // كاش تالف: نجيب من السيرفر
+    }
+  }
+
+  Future<void> _writeDisk(String key, Map<String, dynamic> data) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('$_diskPrefix$key', jsonEncode(data));
+    } catch (_) {}
+  }
+
   static const Duration _timeout = Duration(seconds: 20);
   static const Duration _uploadTimeout = Duration(seconds: 60);
 
@@ -42,8 +86,31 @@ class ApiClient {
     });
   }
 
-  Future<Map<String, dynamic>> get(String path) =>
-      _send(path, (h) => _client.get(_uri(path), headers: h));
+  Future<Map<String, dynamic>> get(String path) async {
+    final key = '${L10n.languageCode}|$path'; // اللغة جزء من المفتاح
+
+    // ١) الذاكرة
+    final inMemory = _cache[key];
+    if (inMemory != null) return inMemory;
+
+    // ٢) الجهاز (ننتظر أي مسح جاري عشان ما نقرأ نسخة قديمة)
+    await _diskClearing;
+    final onDisk = await _readDisk(key);
+    if (onDisk != null) {
+      _cache[key] = onDisk;
+      return onDisk;
+    }
+
+    // ٣) السيرفر
+    final data = await _send(
+      path,
+      (h) => _client.get(_uri(path), headers: h),
+      mutates: false,
+    );
+    _cache[key] = data;
+    unawaited(_writeDisk(key, data)); // ما نوقف الشاشة عشان الحفظ
+    return data;
+  }
 
   Future<Map<String, dynamic>> post(String path, Map<String, dynamic> body) =>
       _send(path,
@@ -66,17 +133,20 @@ class ApiClient {
   // كل الطلبات تمر من هنا: نفس التايم أوت ونفس معالجة الخطأ
   Future<Map<String, dynamic>> _send(
     String path,
-    Future<http.Response> Function(Map<String, String> headers) request,
-  ) async {
+    Future<http.Response> Function(Map<String, String> headers) request, {
+    bool mutates = true, // الطلب يعدّل بيانات؟ (غير GET)
+  }) async {
     // نقرأ الهيدر مرة وحدة، ونعرف منه هل الطلب انرسل بتوكن
     final headers = await _headers();
     try {
       final response = await request(headers).timeout(_timeout);
-      return await _handleResponse(
+      final result = await _handleResponse(
         response,
         path: path,
         auth: headers['Authorization'],
       );
+      if (mutates) clearCache(); // أي تعديل يمسح الكاش
+      return result;
     } on TimeoutException {
       throw ApiException(L10n.tr.coreRequestTimeout, 408);
     }
@@ -111,7 +181,9 @@ class ApiClient {
       final streamed = await request.send().timeout(_uploadTimeout);
       final response =
           await http.Response.fromStream(streamed).timeout(_uploadTimeout);
-      return await _handleResponse(response, path: path, auth: auth);
+      final result = await _handleResponse(response, path: path, auth: auth);
+      clearCache(); // رفع الصور تعديل
+      return result;
     } on TimeoutException {
       throw ApiException(L10n.tr.coreRequestTimeout, 408);
     }
@@ -122,6 +194,7 @@ class ApiClient {
     if (_expiredAuth == auth) return;
     _expiredAuth = auth;
     await tokenStorage.clear(); // ننتظر المسح قبل ما نبلّغ التطبيق
+    clearCache(); // بيانات الجلسة المنتهية ما تنعرض لأحد
     onSessionExpired?.call();
   }
 

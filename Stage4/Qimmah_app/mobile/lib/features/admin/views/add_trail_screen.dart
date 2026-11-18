@@ -3,7 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../core/storage/image_cache.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../l10n/l10n.dart';
 import '../../trails/models/trail.dart';
@@ -317,7 +318,10 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
                 // الصور الحالية (من السيرفر)
                 for (int i = 0; i < _existingImages.length; i++)
                   _ImageThumb(
-                    image: NetworkImage(_existingImages[i]),
+                    image: CachedNetworkImageProvider(
+  _existingImages[i],
+  cacheManager: AppImageCache.instance,
+),
                     onRemove: () =>
                         setState(() => _existingImages.removeAt(i)),
                   ),

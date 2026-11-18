@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-
+import '../../../../core/storage/image_cache.dart';
 
 // يفتح الصور بملء الشاشة على الصورة اللي انضغطت
 void showPhotoViewer(
@@ -150,11 +150,12 @@ class _PhotoViewerState extends State<PhotoViewer> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.images[i],
-                            fit: BoxFit.cover,
-                            memCacheWidth: 200,
-                          ),
+ child: CachedNetworkImage(
+  imageUrl: widget.images[i],
+  cacheManager: AppImageCache.instance,
+  fit: BoxFit.cover,
+  memCacheWidth: 200,
+),
                         ),
                       ),
                     ),

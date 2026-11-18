@@ -17,6 +17,8 @@ import '../../../core/widgets/shimmer_box.dart';
 import 'widgets/trail_card_skeleton.dart';
 import 'widgets/openable_trail_card.dart';
 import '../../../l10n/l10n.dart';
+import '../data/trails_repository.dart';
+import '../data/trails_repository.dart';
 
 // الرئيسية: ترحيب + بحث + فلاتر + المسارات
 class ExploreScreen extends StatefulWidget {
@@ -96,7 +98,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
     return SafeArea(
       child: RefreshIndicator(
-        onRefresh: explore.loadTrails,
+        onRefresh: () {
+  context.read<TrailsRepository>().api.clearCache();
+  return explore.loadTrails();
+},
         child: ListView(
           controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
@@ -154,7 +159,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
               children: [
                 Text(explore.errorMessage!),
                 TextButton(
-                  onPressed: explore.loadTrails,
+                onPressed: () {
+  context.read<TrailsRepository>().api.clearCache();
+  explore.loadTrails();
+},
                   child: Text(context.l10n.trailsRetry),
                 ),
               ],
