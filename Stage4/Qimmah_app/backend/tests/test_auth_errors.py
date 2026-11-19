@@ -26,6 +26,7 @@ def mock_send():
 def register(client, mock_send):
     """Register USER and return the code that was 'sent'."""
     client.post("/api/auth/register", json=USER)
+
     return mock_send.call_args.args[1]
 
 
@@ -82,7 +83,34 @@ def test_register_when_email_fails(client, mock_send):
     assert response.status_code == 502
     assert get_user() is not None
 
+def test_register_password_missing_uppercase(client, mock_send):
+    response = client.post("/api/auth/register", json={**USER, "password": "password123"})
+    assert response.status_code == 400
+    assert "error" in response.get_json()
+    mock_send.assert_not_called()
 
+
+def test_register_password_missing_lowercase(client, mock_send):
+    response = client.post("/api/auth/register", json={**USER, "password": "PASSWORD123"})
+    assert response.status_code == 400
+    assert "error" in response.get_json()
+    mock_send.assert_not_called()
+
+
+def test_register_password_missing_digit(client, mock_send):
+    response = client.post("/api/auth/register", json={**USER, "password": "PasswordABC"})
+    assert response.status_code == 400
+    assert "error" in response.get_json()
+    mock_send.assert_not_called()
+
+
+def test_register_password_too_long(client, mock_send):
+    too_long = "A1a" + ("b" * 127)
+    response = client.post("/api/auth/register", json={**USER, "password": too_long})
+    assert response.status_code == 400
+    assert "error" in response.get_json()
+    mock_send.assert_not_called()
+    
 # ---------- Verify email ----------
 
 def test_verify_wrong_code(client, mock_send):
