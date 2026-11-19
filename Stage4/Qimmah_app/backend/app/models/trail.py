@@ -80,22 +80,31 @@ class Trail(db.Model):
         return self.safety_tips
 
     def get_summary(self, lang="ar", average_rating=_NOT_GIVEN):
-        """Short version for trail lists (endpoint 14) — no full route.
-
-        average_rating: lists pass the rating they already computed for all
-        trails in ONE query (TrailService.average_ratings). If it is not given
-        (a single trail), we fall back to one query for this trail.
-        """
+        """Short version for trail lists (endpoint 14) — no full route."""
         images = self.image_list
         if average_rating is _NOT_GIVEN:
             average_rating = self.get_average_rating()
+
+        name_ar = self.name
+        name_en = self.name_en or self.name
+        region_ar = self.region
+        region_en = self.region_en or self.region
+        duration_ar = self.estimated_duration
+        duration_en = self.estimated_duration_en or self.estimated_duration
+
         return {
             "id": self.id,
-            "name": self._pick(self.name, self.name_en, lang),
-            "region": self._pick(self.region, self.region_en, lang),
+            "name": self._pick(name_ar, name_en, lang),
+            "name_ar": name_ar,
+            "name_en": name_en,
+            "region": self._pick(region_ar, region_en, lang),
+            "region_ar": region_ar,
+            "region_en": region_en,
             "difficulty": self.difficulty,
             "distance": float(self.distance),
-            "estimated_duration": self._pick(self.estimated_duration, self.estimated_duration_en, lang),
+            "estimated_duration": self._pick(duration_ar, duration_en, lang),
+            "estimated_duration_ar": duration_ar,
+            "estimated_duration_en": duration_en,
             "average_rating": average_rating,
             "cover_image": images[0] if images else None,
             "start_point": self.get_location()["start_point"],
@@ -103,18 +112,40 @@ class Trail(db.Model):
 
     def get_details(self, lang="ar"):
         """UML: getDetails() — full details for the trail page (endpoint 15)."""
+        name_ar = self.name
+        name_en = self.name_en or self.name
+        desc_ar = self.description
+        desc_en = self.description_en or self.description
+        region_ar = self.region
+        region_en = self.region_en or self.region
+        duration_ar = self.estimated_duration
+        duration_en = self.estimated_duration_en or self.estimated_duration
+        tips_raw = self.get_safety_tips()
+        tips_ar = tips_raw
+        tips_en = self.safety_tips_en or tips_raw
+
         return {
             "id": self.id,
-            "name": self._pick(self.name, self.name_en, lang),
-            "description": self._pick(self.description, self.description_en, lang),
-            "region": self._pick(self.region, self.region_en, lang),
+            "name": self._pick(name_ar, name_en, lang),
+            "name_ar": name_ar,
+            "name_en": name_en,
+            "description": self._pick(desc_ar, desc_en, lang),
+            "description_ar": desc_ar,
+            "description_en": desc_en,
+            "region": self._pick(region_ar, region_en, lang),
+            "region_ar": region_ar,
+            "region_en": region_en,
             "difficulty": self.difficulty,
             "distance": float(self.distance),
-            "estimated_duration": self._pick(self.estimated_duration, self.estimated_duration_en, lang),
+            "estimated_duration": self._pick(duration_ar, duration_en, lang),
+            "estimated_duration_ar": duration_ar,
+            "estimated_duration_en": duration_en,
             "images": self.image_list,
             **self.get_location(),
             "route_coordinates": self.get_route(),
-            "safety_tips": self._pick(self.get_safety_tips(), self.safety_tips_en, lang),
+            "safety_tips": self._pick(tips_ar, tips_en, lang),
+            "safety_tips_ar": tips_ar,
+            "safety_tips_en": tips_en,
             "average_rating": self.get_average_rating(),
             "created_at": self.created_at.isoformat() + "Z" if self.created_at else None,
         }
