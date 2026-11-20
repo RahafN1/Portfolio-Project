@@ -45,6 +45,20 @@ class ReviewsSection extends StatelessWidget {
     }
   }
 
+  // يفتح ورقة التعديل ومعها التقييم القديم
+  Future<void> _onEdit(BuildContext context, Review review) async {
+    final vm = context.read<ReviewsViewModel>();
+    final edited = await showWriteReviewSheet(
+      context,
+      vm: vm,
+      trailName: trailName,
+      existingReview: review,
+    );
+    if (edited == true && context.mounted) {
+      _toast(context, context.l10n.reviewsPosted);
+    }
+  }
+
   Future<void> _onDelete(BuildContext context, Review review) async {
     final confirmed = await showDeleteReviewDialog(context);
     if (!confirmed || !context.mounted) return;
@@ -117,6 +131,7 @@ class ReviewsSection extends StatelessWidget {
             ReviewTile(
               review: mine,
               isMine: true,
+              onEdit: () => _onEdit(context, mine),
               onDelete: () => _onDelete(context, mine),
             ),
           for (final review in vm.reviews)

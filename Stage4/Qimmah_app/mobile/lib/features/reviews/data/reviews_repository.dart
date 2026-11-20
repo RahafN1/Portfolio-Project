@@ -41,8 +41,16 @@ class ReviewsRepository {
     });
   }
 
-  // السيرفر يسمح بس لصاحب التقييم
+    // السيرفر يسمح بس لصاحب التقييم
   Future<void> deleteReview(int reviewId) async {
     await api.delete(ApiEndpoints.review(reviewId));
+  }
+
+  // يعدّل تقييمي. السيرفر يسمح بس لصاحب التقييم
+  Future<void> updateReview(int reviewId, int rating, String comment) async {
+    await api.put(ApiEndpoints.review(reviewId), {
+      'rating': rating,
+      'comment': comment.trim(),
+    });
   }
 }

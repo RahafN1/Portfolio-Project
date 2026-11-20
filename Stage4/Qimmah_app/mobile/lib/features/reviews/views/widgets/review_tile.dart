@@ -5,17 +5,19 @@ import '../../../../l10n/l10n.dart';
 import '../../models/review.dart';
 import 'star_rating.dart';
 
-// كرت تقييم واحد. زر الحذف يطلع بس لو التقييم تقييمي
+// كرت تقييم واحد. زر التعديل والحذف يطلعون بس لو التقييم تقييمي
 class ReviewTile extends StatelessWidget {
   final Review review;
   final bool isMine;
   final VoidCallback? onDelete;
+  final VoidCallback? onEdit;
 
   const ReviewTile({
     super.key,
     required this.review,
     this.isMine = false,
     this.onDelete,
+    this.onEdit,
   });
 
   @override
@@ -77,6 +79,12 @@ class ReviewTile extends StatelessWidget {
                   ],
                 ),
               ),
+              if (isMine && onEdit != null)
+                IconButton(
+                  onPressed: onEdit,
+                  icon: const Icon(Icons.edit_outlined,
+                      color: AppColors.primary),
+                ),
               if (isMine && onDelete != null)
                 IconButton(
                   onPressed: onDelete,

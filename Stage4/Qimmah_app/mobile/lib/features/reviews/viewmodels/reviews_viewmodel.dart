@@ -5,7 +5,7 @@ import '../../../l10n/l10n.dart';
 import '../data/reviews_repository.dart';
 import '../models/review.dart';
 
-// تقييمات مسار واحد: نجيبها، ننشر، ونحذف
+// تقييمات مسار واحد: نجيبها، ننشر، نعدّل، ونحذف
 class ReviewsViewModel extends ChangeNotifier {
   final ReviewsRepository repository;
   final int trailId;
@@ -65,6 +65,24 @@ class ReviewsViewModel extends ChangeNotifier {
     return null;
   }
 
+  // يعدّل تقييمي. يرجّع null لو نجح، أو رسالة الخطأ لو فشل
+  Future<String?> updateReview({
+    required Review review,
+    required int rating,
+    required String comment,
+  }) async {
+    try {
+      await repository.updateReview(review.id, rating, comment);
+    } on ApiException catch (e) {
+      if (e.statusCode == 401) return L10n.tr.reviewsSessionExpired;
+      return e.message;
+    } catch (_) {
+      return L10n.tr.reviewsPublishFailed;
+    }
+    await load(); // نحدّث القائمة والمتوسط
+    return null;
+  }
+
   // يرجّع true لو انحذف
   Future<bool> deleteReview(Review review) async {
     try {
@@ -76,8 +94,3 @@ class ReviewsViewModel extends ChangeNotifier {
     return true;
   }
 }
-/*
-بعد النشر والحذف نعيد جلب التقييمات من السيرفر
-، فالقائمة والمتوسط دايماً صح. وmyReview 
-يعرف تقييمك من مقارنة رقم المستخدم.
-*/
