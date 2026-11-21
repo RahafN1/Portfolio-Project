@@ -875,5 +875,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get trailsLogoAr => 'قمّة';
 
   @override
+  String get authForgotPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get authForgotSubtitle =>
+      'اكتب إيميلك ونرسل لك رمز تعيدين فيه كلمة المرور.';
+
+  @override
+  String get authSendResetCode => 'إرسال الرمز';
+
+  @override
+  String get authEnterEmail => 'اكتب إيميلك';
+
+  @override
   String get trailsLogoEn => 'Qimmah';
 }

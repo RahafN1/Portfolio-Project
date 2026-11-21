@@ -1664,6 +1664,30 @@ abstract class AppLocalizations {
   /// **'قمّة'**
   String get trailsLogoAr;
 
+  /// No description provided for @authForgotPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسيت كلمة المرور؟'**
+  String get authForgotPassword;
+
+  /// No description provided for @authForgotSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب إيميلك ونرسل لك رمز تعيدين فيه كلمة المرور.'**
+  String get authForgotSubtitle;
+
+  /// No description provided for @authSendResetCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الرمز'**
+  String get authSendResetCode;
+
+  /// No description provided for @authEnterEmail.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب إيميلك'**
+  String get authEnterEmail;
+
   /// No description provided for @trailsLogoEn.
   ///
   /// In ar, this message translates to:

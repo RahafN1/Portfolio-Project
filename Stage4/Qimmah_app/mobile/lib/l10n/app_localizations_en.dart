@@ -903,5 +903,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trailsLogoAr => 'قمّة';
 
   @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authForgotSubtitle =>
+      'Enter your email and we\'ll send you a code to reset your password.';
+
+  @override
+  String get authSendResetCode => 'Send code';
+
+  @override
+  String get authEnterEmail => 'Enter your email';
+
+  @override
   String get trailsLogoEn => 'Qimmah';
 }

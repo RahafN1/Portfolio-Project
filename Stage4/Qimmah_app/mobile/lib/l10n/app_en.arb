@@ -448,5 +448,9 @@
   "trailsDistance": "Distance",
   "trailsEstimatedDuration": "Estimated time",
   "trailsLogoAr": "قمّة",
+  "authForgotPassword": "Forgot password?",
+  "authForgotSubtitle": "Enter your email and we'll send you a code to reset your password.",
+  "authSendResetCode": "Send code",
+  "authEnterEmail": "Enter your email",
   "trailsLogoEn": "Qimmah"
 }

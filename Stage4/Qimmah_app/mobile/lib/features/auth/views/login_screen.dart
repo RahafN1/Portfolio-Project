@@ -116,8 +116,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
 
+              // رابط نسيت كلمة المرور
+              Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: TextButton(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, AppRouter.forgotPassword),
+                  child: Text(
+                    context.l10n.authForgotPassword,
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
               PrimaryButton(
                 text: context.l10n.login,
                 isLoading: viewModel.isLoading,

@@ -462,5 +462,9 @@
   "trailsDistance": "المسافة",
   "trailsEstimatedDuration": "المدة المتوقعة",
   "trailsLogoAr": "قمّة",
+  "authForgotPassword": "نسيت كلمة المرور؟",
+  "authForgotSubtitle": "اكتب إيميلك ونرسل لك رمز تعيدين فيه كلمة المرور.",
+  "authSendResetCode": "إرسال الرمز",
+  "authEnterEmail": "اكتب إيميلك",
   "trailsLogoEn": "Qimmah"
 }
