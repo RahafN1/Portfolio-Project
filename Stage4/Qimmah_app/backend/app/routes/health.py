@@ -1,5 +1,3 @@
-"""وحدة فحص الصحة (Health Check) للتأكد من أن الـ API يعمل."""
-
 from flask import Blueprint, jsonify
 
 health_bp = Blueprint("health", __name__)
@@ -7,21 +5,20 @@ health_bp = Blueprint("health", __name__)
 
 @health_bp.get("/health")
 def health():
-    """Check that the API is running.
-
-    Endpoint خفيف يُستخدم في المراقبة (monitoring) وأدوات الـ
-    load balancer وفحوصات الـ container للتأكد من أن التطبيق
-    يعمل ويستجيب للطلبات.
-
-    Returns:
-        tuple: استجابة JSON بصيغة ``{"status": "ok"}`` مع
-        رمز الحالة 200.
-
-    Example:
-        GET /health
-
-        Response (200 OK)::
-
-            {"status": "ok"}
+    """Health check
+    ---
+    tags:
+      - Health
+    summary: Check that the API is running
+    description: Lightweight endpoint for monitoring and load balancers.
+    responses:
+      200:
+        description: The API is up
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: ok
     """
     return jsonify({"status": "ok"})
