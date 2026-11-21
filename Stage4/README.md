@@ -38,10 +38,11 @@ This README is organised by feature to give a clear overview of the project's st
 | --- | --- |
 | Sprint planning | [Sprint 1](Qimmah_app/docs/project-management/sprint-01/planning.md) · [Sprint 2](Qimmah_app/docs/project-management/sprint-02/planning.md) · [Sprint 3](Qimmah_app/docs/project-management/sprint-03/planning.md) |
 | Sprint reviews | [Sprint 1](Qimmah_app/docs/project-management/sprint-01/review.md) · [Sprint 2](Qimmah_app/docs/project-management/sprint-02/review.md) · [Sprint 3](Qimmah_app/docs/project-management/sprint-03/review.md) |
-| Retrospectives | [Sprint 1](Qimmah_app/docs/project-management/sprint-01/retrospective.md) · [Sprint 2](Qimmah_app/docs/project-management/sprint-02/retrospective.md) · [Sprint 3](Qimmah_app/docs/project-management/sprint-03/retrospective.md) |                                                                 | Source repository | [Portfolio-Project](https://github.com/RahafN1/Portfolio-Project) · [Pull requests](https://github.com/RahafN1/Portfolio-Project/pulls) · [Develop history](https://github.com/RahafN1/Portfolio-Project/commits/develop) |
-| Bug tracking | TODO add bug process link · TODO add GitHub Issues link |
-| Testing evidence and results | [Test plan](https://github.com/RahafN1/Portfolio-Project/blob/develop/Stage4/Qimmah_app/docs/STAGE4_TEST_PLAN.md) · [Backend automated tests](#backend-automated-tests-pytest) · [Swagger checks](#api-testing-with-swagger) · TODO add GitHub Actions link |
-| Production environment | [API health](https://portfolio-project-production-d5d7.up.railway.app/api/health) · [Swagger](https://portfolio-project-production-d5d7.up.railway.app/apidocs/) · TODO add frontend link 
+| Retrospectives | [Sprint 1](Qimmah_app/docs/project-management/sprint-01/retrospective.md) · [Sprint 2](Qimmah_app/docs/project-management/sprint-02/retrospective.md) · [Sprint 3](Qimmah_app/docs/project-management/sprint-03/retrospective.md) | 
+| Source repository | [Portfolio-Project](https://github.com/RahafN1/Portfolio-Project) · [Pull requests](https://github.com/RahafN1/Portfolio-Project/pulls) · [Develop history](https://github.com/RahafN1/Portfolio-Project/commits/develop) |
+| Bug tracking | [Bug process](Qimmah_app/docs/STAGE4_TEST_PLAN.md) · [GitHub Issues](https://github.com/RahafN1/Portfolio-Project/issues) |
+| Testing evidence and results | [Test plan](https://github.com/RahafN1/Portfolio-Project/blob/develop/Stage4/Qimmah_app/docs/STAGE4_TEST_PLAN.md) · [Backend automated tests](#backend-automated-tests-pytest) · [Swagger checks](#api-testing-with-swagger) |
+| Production environment | [API health](https://portfolio-project-production-d5d7.up.railway.app/api/health) · [Swagger](https://portfolio-project-production-d5d7.up.railway.app/apidocs/) | · TODO add frontend link 
 ## Tech Stack
 
 | Layer | Technology |
@@ -748,11 +749,10 @@ Sign-up, email verification, resend code, login, and change password are not lis
 | Resource | Link |
 |---|---|
 | GitHub repository | [Portfolio-Project](https://github.com/RahafN1/Portfolio-Project) |
-| Pull requests | [TODO add link](https://github.com/RahafN1/Portfolio-Project/pulls
-) |
-| Issues |https://github.com/RahafN1/Portfolio-Project/issues |
-| Bug tracker | TODO add link |
-| Project board | TODO add link |
+| Pull requests | (https://github.com/RahafN1/Portfolio-Project/pulls) |
+| Issues | (https://github.com/RahafN1/Portfolio-Project/issues) |
+| Bug tracker | [GitHub Issues](https://github.com/RahafN1/Portfolio-Project/issues) |
+| Project board |[Trello Board](https://trello.com/b/r5Y44lqR) |
 
 Sprint documentation:
 
