@@ -4,28 +4,28 @@
 
 - **Status:** Completed
 - **Duration:** Weeks 5–6
-- **Sprint Goal:** Set up the development environment, establish the Git/GitHub workflow and project architecture, and implement core user authentication, guest browsing, and trail listing features.
+- **Sprint Goal:** Set up the development environment and project structure, configure Git workflows, and implement core user authentication, navigation, trail seed data, and trail listing/details views.
 
 ## Planned Work
 
 | Owner | Task | Branch | Acceptance Criteria |
 |---|---|---|---|
-| Team | Set up the development environment and project structure | Initial setup | Flutter/Dart environment, backend/database setup, and Git branching workflow (`main`, `develop`, `feature/*`) are configured |
-| Frontend / Backend Owner | **US-01:** New User Registration | `feature/us01-user-registration` | New users can register an account with valid credentials and validation feedback |
-| Frontend / Backend Owner | **US-02:** Registered User Login | `feature/us02-user-login` | Registered users can log in securely and maintain an authenticated session |
-| Frontend Owner | **US-03:** Guest Browsing Mode | `feature/us03-guest-browsing` | Visitors can browse public trail content without creating an account |
-| Frontend / Backend Owner | **US-04:** Trail Listing Display | `feature/us04-trail-listing` | Available hiking trails are fetched and displayed cleanly in the main trail list |
-| Team | Review, test, and merge Sprint 1 features | Pull Request | All Sprint 1 User Stories pass acceptance checks and merge into `develop` |
+| Team | Set up project structure, environment, and Git branching workflow | `feature/project-structure` | Folder architecture, dependencies, and `main`/`develop` workflow are established |
+| Frontend / Backend Owner | Build home navigation bar and language switcher | `feature/home-navbar`, `feature/language-switch` | Users can navigate core screens and switch app language smoothly |
+| Frontend / Backend Owner | **US-01 & US-02:** User Registration (OTP), Login, and Password Recovery | `feature/signup-otp`, `feature/forgot-password-and-frontend-tests` | Users can register with OTP verification, log in, and reset forgotten passwords |
+| Backend Owner | Prepare initial trail seed data and trail details API endpoint | `feature/trails-seed-data`, `feature/trail-details-endpoint` | Trail records are seeded in the database and accessible via API endpoints |
+| Frontend / Backend Owner | **US-03 & US-04:** Guest Browsing, Trail List, Trail Details & Images | `feature/trails-list`, `feature/trail-details-page`, `feature/trail-moredetails`, `feature/trail-images-cloudinary` | Guests and users can browse trails, view full trail details, and load Cloudinary-hosted trail images |
+| Team | Review and merge Sprint 1 features | Pull Request -> `develop` | All Sprint 1 branches are reviewed and merged into `develop` |
 
 ## Dependencies and Risks
 
-- Consistent Flutter SDK, dependencies, and environment configurations across all team members' devices.
-- Authentication endpoints and database schemas had to be finalized early to support `US-01` and `US-02`.
-- Ensuring clear access boundaries between authenticated users and guest users (`US-03`).
+- Consistent environment setup and Cloudinary image configuration across team members' machines.
+- Backend seed data (`feature/trails-seed-data`) and endpoints (`feature/trail-details-endpoint`) had to be ready before binding the trail list and details UI.
+- Ensuring smooth navigation for both guest visitors (`US-03`) and authenticated users (`US-01`, `US-02`).
 
 ## Definition of Done
 
-- Development environment and repository structure are fully operational for all team members.
-- User registration (`US-01`), user login (`US-02`), guest browsing (`US-03`), and trail listing (`US-04`) are implemented and verified.
-- Code is reviewed via Pull Requests and merged into `develop`.
+- Project structure, environment, and Git workflow (`develop` & feature branches) are operational.
+- Registration (`US-01`), login (`US-02`), guest browsing (`US-03`), trail listing (`US-04`), and trail details pages are implemented.
+- All Sprint 1 feature branches are reviewed via Pull Requests and merged into `develop`.
 - Sprint 1 Retrospective (`Sprint 1 Retro`) is documented.
