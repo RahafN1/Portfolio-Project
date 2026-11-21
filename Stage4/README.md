@@ -585,17 +585,14 @@ Query parameters of `GET /api/trails` (all optional):
 | Document | Purpose |
 |---|---|
 | [Test plan](https://github.com/RahafN1/Portfolio-Project/blob/develop/Stage4/Qimmah_app/docs/STAGE4_TEST_PLAN.md) | Overall testing approach and coverage |
-| Backend automated tests | 130 pytest tests in `backend/tests/` with Resend and Cloudinary mocked |
-| Swagger API documentation | Interactive page used to try and verify endpoints manually |
-| Manual end-to-end tests | Testing the Flutter app together with the API and the database |
-| GitHub Actions runs | TODO add link, CI execution evidence for automated tests |
-| Sprint 1 results | TODO add link |
-| Sprint 2 results | TODO add link |
-| Bug tracking | TODO add GitHub Issues link |
+| [Backend automated tests](https://github.com/RahafN1/Portfolio-Project/tree/develop/Stage4/Qimmah_app/backend/tests) | 130 pytest tests in `backend/tests/` with Resend and Cloudinary mocked |
+| [Swagger API documentation](https://portfolio-project-production-d5d7.up.railway.app/apidocs/) | Interactive page used to try and verify endpoints manually |
+| [Manual end-to-end tests](#manual-end-to-end-tests-flutter-app--api--database) | Testing the Flutter app together with the API and the database |
+| [Bug tracking](https://github.com/RahafN1/Portfolio-Project/issues) | GitHub Issues |
 
 ### Backend automated tests (pytest)
 
-Latest run: **130 passed**.
+Latest run: 130 passed.
 
 | File | Tests | Covers |
 |---|---|---|
@@ -628,49 +625,70 @@ We used Swagger to verify the production API manually.
 How to test an endpoint:
 
 1. Open the Swagger page.
-2. For protected endpoints, click the Authorize button and paste a valid user token.
+2. For protected endpoints, log in to get a token, click the Authorize button, and enter `Bearer` followed by a space and the token.
 3. Choose an endpoint and click Try it out.
 4. Fill in the request body or parameters, then click Execute.
 5. Check the status code and the response body against the expected result.
 
-Swagger test results on production (fill in the Status column after testing: Pass or Fail):
+Swagger test results on production:
 
 | Area | Test | Expected Result | Status |
 |---|---|---|---|
-| Health | `GET /api/health` | `{"status": "ok"}` returned | TODO |
-| Auth | Sign up and verify a new account on production | Account created | TODO |
-| Auth | `POST /api/auth/login` with a valid account | JWT returned | TODO |
-| Trails | `GET /api/trails` as a guest | Trails list returned | TODO |
-| Trails | `GET /api/trails?search=...` | Trails matching the name returned | TODO |
-| Trails | `GET /api/trails?region=...` | Only trails from that region returned | TODO |
-| Trails | `GET /api/trails?lang=en` | Trail data returned in English | TODO |
-| Trails | `GET /api/trails/{trail_id}` as a guest | Full trail details returned | TODO |
-| Favorites | Save, list, and remove a favorite | Each request succeeds | TODO |
-| Completed trails | Mark, list, and remove a completed trail | Each request succeeds | TODO |
-| Reviews | Add, read, edit, and delete a review | Each request succeeds | TODO |
-| Admin | `POST /api/admin/trails/{trail_id}/images` as admin | Images uploaded to Cloudinary | TODO |
-| Admin | `GET /api/admin/stats` as admin | Statistics returned | TODO |
-| Admin | Call an admin endpoint as a normal user | Request blocked | TODO |
+| Health | `GET /api/health` | `{"status": "ok"}` returned | Pass |
+| Auth | `POST /api/auth/logout` with a valid token | User logged out and the token is revoked | Pass |
+| Trails | `GET /api/trails` as a guest | Trails list returned | Pass |
+| Trails | `GET /api/trails?search=...` | Trails matching the name returned | Pass |
+| Trails | `GET /api/trails?region=...` | Only trails from that region returned | Pass |
+| Trails | `GET /api/trails?difficulty=...` | Only trails with that difficulty returned | Pass |
+| Trails | `GET /api/trails?page=...&limit=...` | Correct page returned | Pass |
+| Trails | `GET /api/trails?lang=en` | Trail data returned in English | Pass |
+| Trails | `GET /api/trails/{trail_id}` as a guest | Full trail details returned | Pass |
+| Users | `GET /api/users/me` | My profile returned | Pass |
+| Users | `PUT /api/users/me` with a new name | Name updated | Pass |
+| Favorites | `POST /api/users/me/favorites` | Trail saved | Pass |
+| Favorites | `GET /api/users/me/favorites` | Saved trails returned | Pass |
+| Favorites | `DELETE /api/users/me/favorites/{trail_id}` | Trail removed | Pass |
+| Completed trails | `POST /api/users/me/completed-trails` | Trail marked as completed | Pass |
+| Completed trails | `GET /api/users/me/completed-trails` | Completed trails returned | Pass |
+| Completed trails | `DELETE /api/users/me/completed-trails/{trail_id}` | Trail removed from the list | Pass |
+| Reviews | `POST /api/trails/{trail_id}/reviews` | Review saved | Pass |
+| Reviews | `GET /api/trails/{trail_id}/reviews` | Reviews returned with the average rating | Pass |
+| Reviews | `PUT /api/reviews/{review_id}` on my own review | Review updated | Pass |
+| Reviews | `DELETE /api/reviews/{review_id}` on my own review | Review deleted | Pass |
+| Reviews | `GET /api/users/me/reviews` | My reviews returned | Pass |
+| Admin | `POST /api/admin/trails` as admin | Trail created | Pass |
+| Admin | `PUT /api/admin/trails/{trail_id}` as admin | Trail updated | Pass |
+| Admin | `DELETE /api/admin/trails/{trail_id}` as admin | Trail deleted | Pass |
+| Admin | `POST /api/admin/trails/{trail_id}/images` as admin | Images uploaded to Cloudinary | Pass |
+| Admin | `PUT /api/admin/trails/{trail_id}/route` as admin | Route updated | Pass |
+| Admin | `DELETE /api/admin/reviews/{review_id}` as admin | Review deleted | Pass |
+| Admin | `PATCH /api/admin/users/{user_id}/suspend` as admin | User suspended | Pass |
+| Admin | `PATCH /api/admin/users/{user_id}/unsuspend` as admin | User unsuspended | Pass |
+| Admin | `GET /api/admin/stats` as admin | Statistics returned | Pass |
+| Admin | `GET /api/admin/users` as admin | Users returned with page and total | Pass |
+| Admin | `GET /api/admin/reviews` as admin | Reviews returned with page and total | Pass |
+| Admin | Call any admin endpoint as a normal user | Request blocked | Pass |
+
+Sign-up, email verification, resend code, login, and change password are not listed on the Swagger page. They are covered by the pytest tests and by the manual end-to-end tests below.
 
 ### Manual end-to-end tests (Flutter app + API + database)
 
 | Test | Expected Result | Status |
 |---|---|---|
-| Open the app as a guest and browse trails | Trails list and details open | TODO |
-| Guest taps save or complete | Sign-in sheet appears | TODO |
-| Sign up and enter the OTP code | Account created, then the login page opens | TODO |
-| Log in as a user | Explore page opens | TODO |
-| Search for a trail | Matching trails appear | TODO |
-| Save a trail to favorites | Trail appears in My Trails (saved) | TODO |
-| Mark a trail as completed | Trail appears in My Trails (completed) | TODO |
-| Add a review | Review appears on the trail page | TODO |
-| Open the map | Trail markers and location permission sheet appear | TODO |
-| Edit profile data | Changes are saved | TODO |
-| Switch language between Arabic and English | UI and trail data change language | TODO |
-| Log in with the admin email | Admin page opens | TODO |
-| Admin adds a trail with images | Trail appears in the app with its images | TODO |
-| Log out | Returns to the guest state | TODO |
-
+| Open the app as a guest and browse trails | Trails list and details open | Pass |
+| Guest taps save or complete | Sign-in sheet appears | Pass |
+| Sign up and enter the OTP code | Account created, then the login page opens | Pass |
+| Log in as a user | Explore page opens | Pass |
+| Search for a trail | Matching trails appear | Pass |
+| Save a trail to favorites | Trail appears in My Trails (saved) | Pass |
+| Mark a trail as completed | Trail appears in My Trails (completed) | Pass |
+| Add a review | Review appears on the trail page | Pass |
+| Open the map | Trail markers and location permission sheet appear | Pass |
+| Edit profile data | Changes are saved | Pass |
+| Switch language between Arabic and English | UI and trail data change language | Pass |
+| Log in with the admin email | Admin page opens | Pass |
+| Admin adds a trail with images | Trail appears in the app with its images | Pass |
+| Log out | Returns to the guest state | Pass |
 ## Project Management Links
 
 | Resource | Link |
