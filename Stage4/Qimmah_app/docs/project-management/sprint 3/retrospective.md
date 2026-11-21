@@ -13,7 +13,7 @@
 
 ## Lessons Learned
 
-- Device-dependent features, such as GPS location tracking and sharing via the native share sheet, should be tested early on physical devices rather than waiting until the final week.
+- Device-dependent features, such as  location tracking and sharing via the native share sheet, should be tested early on physical devices rather than waiting until the final week.
 - Dedicating a separate `fix` branch alongside automated frontend tests (`feature/frontend-tests`) helps reduce the risk of introducing new bugs or repeating past issues before final deployment.
 - Creating a clear test plan that defines test levels, tools, and functional verification scenarios is essential to ensure core project requirements are covered.
 
