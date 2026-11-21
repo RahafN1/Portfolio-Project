@@ -26,7 +26,7 @@ Set up the project foundation and Git workflow, and build and demonstrate core u
 ## Incomplete or Deferred Work
 
 - Trail filtering, keyword search with result counts, reviews, ratings, favorites, and admin moderation were scheduled for Sprint 2.
-- User profile editing, completed trails tracking, safety tips, link sharing, live map GPS location, and user suspension were scheduled for Sprint 3.
+- User profile editing, completed trails tracking, safety tips, link sharing, live map  location, and user suspension were scheduled for Sprint 3.
 
 ## Feedback
 
