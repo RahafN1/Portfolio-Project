@@ -243,3 +243,65 @@ def test_me_suspended_after_login(client, mock_send):
     response = client.get("/api/users/me",
                           headers={"Authorization": f"Bearer {token}"})
     assert response.status_code == 403
+
+def _auth_headers(client, mock_send):
+    register_and_verify(client, mock_send)
+    login_res = client.post("/api/auth/login", json={
+        "email": USER["email"],
+        "password": USER["password"],
+    })
+    token = login_res.get_json()["token"]
+    return {"Authorization": f"Bearer {token}"}
+
+
+def test_change_password_without_token(client):
+    response = client.post("/api/auth/change-password", json={
+        "current_password": USER["password"],
+        "new_password": "NewPass456!",
+    })
+    assert response.status_code == 401
+
+
+def test_change_password_wrong_current_password(client, mock_send):
+    headers = _auth_headers(client, mock_send)
+    response = client.post(
+        "/api/auth/change-password",
+        json={
+            "current_password": "WrongPassword1!",
+            "new_password": "NewPass456!",
+        },
+        headers=headers,
+    )
+    assert response.status_code == 400
+
+
+@pytest.mark.parametrize("weak_password", [
+    "short1A",
+    "alllowercase1",
+    "ALLUPPERCASE1",
+    "NoDigitsHere!",
+])
+def test_change_password_weak_new_password(client, mock_send, weak_password):
+    headers = _auth_headers(client, mock_send)
+    response = client.post(
+        "/api/auth/change-password",
+        json={
+            "current_password": USER["password"],
+            "new_password": weak_password,
+        },
+        headers=headers,
+    )
+    assert response.status_code == 400
+
+
+def test_change_password_same_as_current(client, mock_send):
+    headers = _auth_headers(client, mock_send)
+    response = client.post(
+        "/api/auth/change-password",
+        json={
+            "current_password": USER["password"],
+            "new_password": USER["password"],
+        },
+        headers=headers,
+    )
+    assert response.status_code == 400

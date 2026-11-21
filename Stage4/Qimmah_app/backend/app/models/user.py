@@ -207,3 +207,22 @@ class User(db.Model):
             raise APIError("Password must contain at least one lowercase letter", 400)
         if not any(c.isdigit() for c in password):
             raise APIError("Password must contain at least one number", 400)
+
+    def change_password(self, current_password, new_password):
+        """Change password for an authenticated user after verifying current password."""
+        current_password = _text(current_password)
+        new_password = _text(new_password)
+
+        if not current_password or not new_password:
+            raise APIError("Current password and new password are required", 400)
+
+        if not check_password_hash(self.password, current_password):
+            raise APIError("Current password is incorrect", 400)
+
+        User._validate_password(new_password)
+
+        if check_password_hash(self.password, new_password):
+            raise APIError("New password must be different from current password", 400)
+
+        self.password = generate_password_hash(new_password)
+        db.session.commit()        
