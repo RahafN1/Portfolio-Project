@@ -271,3 +271,98 @@ def test_suspended_user_is_blocked(client, admin_token, user_token):
     client.patch(f"/api/admin/users/{user_id}/suspend", headers=auth(admin_token))
     response = client.get("/api/users/me", headers=auth(user_token))
     assert response.status_code == 403
+
+# ---------- PATCH /api/admin/users/{id}/unsuspend ----------
+
+def test_unsuspend_user_success(client, admin_token, user_token):
+    user_id = get_user_id("user@example.com")
+    client.patch(f"/api/admin/users/{user_id}/suspend", headers=auth(admin_token))
+
+    response = client.patch(f"/api/admin/users/{user_id}/unsuspend",
+                            headers=auth(admin_token))
+    assert response.status_code == 200
+    db.session.expire_all()
+    assert db.session.get(User, user_id).is_suspended is False
+
+
+def test_unsuspended_user_can_access_again(client, admin_token, user_token):
+    """After unsuspend, the user's token works again."""
+    user_id = get_user_id("user@example.com")
+    client.patch(f"/api/admin/users/{user_id}/suspend", headers=auth(admin_token))
+    client.patch(f"/api/admin/users/{user_id}/unsuspend", headers=auth(admin_token))
+
+    response = client.get("/api/users/me", headers=auth(user_token))
+    assert response.status_code == 200
+
+
+def test_unsuspend_user_not_found(client, admin_token):
+    response = client.patch("/api/admin/users/9999/unsuspend",
+                            headers=auth(admin_token))
+    assert response.status_code == 404
+
+
+def test_unsuspend_as_normal_user(client, admin_token, user_token):
+    user_id = get_user_id("user@example.com")
+    response = client.patch(f"/api/admin/users/{user_id}/unsuspend",
+                            headers=auth(user_token))
+    assert response.status_code == 403
+
+
+# ---------- GET /api/admin/stats ----------
+
+def test_stats_success(client, admin_token):
+    response = client.get("/api/admin/stats", headers=auth(admin_token))
+    assert response.status_code == 200
+    assert isinstance(response.get_json(), dict)
+
+
+def test_stats_without_token(client):
+    response = client.get("/api/admin/stats")
+    assert response.status_code == 401
+
+
+def test_stats_as_normal_user(client, user_token):
+    response = client.get("/api/admin/stats", headers=auth(user_token))
+    assert response.status_code == 403
+
+
+# ---------- GET /api/admin/users ----------
+
+def test_list_users_success(client, admin_token, user_token):
+    response = client.get("/api/admin/users", headers=auth(admin_token))
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "total" in data and "page" in data
+
+
+def test_list_users_pagination(client, admin_token, user_token):
+    response = client.get("/api/admin/users?page=1&limit=1",
+                          headers=auth(admin_token))
+    assert response.status_code == 200
+    assert response.get_json()["page"] == 1
+
+
+def test_list_users_as_normal_user(client, user_token):
+    response = client.get("/api/admin/users", headers=auth(user_token))
+    assert response.status_code == 403
+
+
+# ---------- GET /api/admin/reviews ----------
+
+def test_list_reviews_success(client, admin_token, user_token):
+    trail_id = create_trail(client, admin_token)
+    user_id = get_user_id("user@example.com")
+    db.session.add(Review(user_id=user_id, trail_id=trail_id, rating=4,
+                          comment="Nice"))
+    db.session.commit()
+
+    response = client.get("/api/admin/reviews", headers=auth(admin_token))
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "total" in data and "page" in data
+    assert data["total"] == 1
+
+
+def test_list_reviews_as_normal_user(client, user_token):
+    response = client.get("/api/admin/reviews", headers=auth(user_token))
+    assert response.status_code == 403
