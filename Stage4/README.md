@@ -42,7 +42,7 @@ This README is organised by feature to give a clear overview of the project's st
 | Source repository | [Portfolio-Project](https://github.com/RahafN1/Portfolio-Project) · [Pull requests](https://github.com/RahafN1/Portfolio-Project/pulls) · [Develop history](https://github.com/RahafN1/Portfolio-Project/commits/develop) |
 | Bug tracking | [Bug process](Qimmah_app/docs/STAGE4_TEST_PLAN.md) · [GitHub Issues](https://github.com/RahafN1/Portfolio-Project/issues) |
 | Testing evidence and results | [Test plan](https://github.com/RahafN1/Portfolio-Project/blob/develop/Stage4/Qimmah_app/docs/STAGE4_TEST_PLAN.md) · [Backend automated tests](#backend-automated-tests-pytest) · [Swagger checks](#api-testing-with-swagger) |
-| Production environment | [API health](https://portfolio-project-production-d5d7.up.railway.app/api/health) · [Swagger](https://portfolio-project-production-d5d7.up.railway.app/apidocs/) | · TODO add frontend link 
+| Production environment | [API health](https://portfolio-project-production-d5d7.up.railway.app/api/health) · [Swagger](https://portfolio-project-production-d5d7.up.railway.app/apidocs/) | 
 ## Tech Stack
 
 | Layer | Technology |
@@ -54,7 +54,7 @@ This README is organised by feature to give a clear overview of the project's st
 | Uploads | Cloudinary |
 | Testing | pytest (Resend and Cloudinary mocked), Swagger for manual API testing, manual end-to-end testing |
 | Dev tools | Docker, Git (main / develop / feature branches), GitHub |
-| Hosting | Backend on Railway, database on Aiven, Flutter web on Vercel |
+| Hosting | Backend on Railway, database on Aiven; Flutter mobile app installed on team devices |
 
 ## Production Environment
 
@@ -62,7 +62,7 @@ This README is organised by feature to give a clear overview of the project's st
 |---|---|
 | Backend API (base URL) | Railway: https://portfolio-project-production-d5d7.up.railway.app (no page at the root; use the Swagger page or the health check below) |
 | Database | MySQL hosted on Aiven |
-| Frontend (Flutter web) | Vercel: TODO add link |
+| Frontend (Flutter mobile) | Installed and running on team mobile devices (connected to production API) |
 | API documentation (Swagger) | https://portfolio-project-production-d5d7.up.railway.app/apidocs/ |
 | API health check | https://portfolio-project-production-d5d7.up.railway.app/api/health |
 
