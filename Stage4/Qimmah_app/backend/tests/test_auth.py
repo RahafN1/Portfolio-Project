@@ -104,3 +104,41 @@ def test_change_password_success(client):
         })
         assert new_login.status_code == 200
         assert "token" in new_login.get_json()
+
+def test_forgot_and_reset_password_success(client):
+    with patch("app.models.user.send_otp_email") as mock_send:
+        client.post("/api/auth/register", json=USER)
+        reg_code = mock_send.call_args.args[1]
+
+        verify_res = client.post("/api/auth/verify-email", json={
+            "email": USER["email"],
+            "code": reg_code,
+        })
+        assert verify_res.status_code == 200
+
+        forgot_res = client.post("/api/auth/forgot-password", json={
+            "email": USER["email"],
+        })
+        assert forgot_res.status_code == 200
+        reset_code = mock_send.call_args.args[1]
+
+        new_password = "ResetPass789!"
+        reset_res = client.post("/api/auth/reset-password", json={
+            "email": USER["email"],
+            "code": reset_code,
+            "new_password": new_password,
+        })
+        assert reset_res.status_code == 200
+
+        old_login = client.post("/api/auth/login", json={
+            "email": USER["email"],
+            "password": USER["password"],
+        })
+        assert old_login.status_code == 401
+
+        new_login = client.post("/api/auth/login", json={
+            "email": USER["email"],
+            "password": new_password,
+        })
+        assert new_login.status_code == 200
+        assert "token" in new_login.get_json()

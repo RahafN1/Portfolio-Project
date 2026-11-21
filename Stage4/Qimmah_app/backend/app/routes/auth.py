@@ -79,3 +79,20 @@ def change_password():
 
     user.change_password(data.get("current_password"), data.get("new_password"))
     return jsonify({"message": "Password changed successfully"}), 200
+
+@auth_bp.post("/forgot-password")
+def forgot_password():
+    data = _body()
+    User.request_password_reset(data.get("email"))
+    return jsonify({"message": "If that email is registered, a verification code was sent"}), 200
+
+
+@auth_bp.post("/reset-password")
+def reset_password():
+    data = _body()
+    User.reset_password(
+        data.get("email"),
+        data.get("code"),
+        data.get("new_password"),
+    )
+    return jsonify({"message": "Password reset successfully"}), 200

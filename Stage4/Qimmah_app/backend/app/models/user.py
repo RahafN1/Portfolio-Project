@@ -225,4 +225,52 @@ class User(db.Model):
             raise APIError("New password must be different from current password", 400)
 
         self.password = generate_password_hash(new_password)
-        db.session.commit()        
+        db.session.commit()   
+
+    @classmethod
+    def request_password_reset(cls, email):
+        """Send a password-reset OTP if email exists, without revealing account existence."""
+        user = User.query.filter_by(email=cls._clean_email(email)).first()
+        if user is None:
+            return None
+
+        if user.is_suspended:
+            raise APIError("Account suspended", 403)
+
+        if user.otp_expires_at:
+            sent_at = user.otp_expires_at - OTP_LIFETIME
+            if _now() < sent_at + RESEND_WAIT:
+                raise APIError("Please wait a minute before requesting a new code", 429)
+
+        code = user._new_otp()
+        db.session.commit()
+        send_otp_email(user.email, code)
+        return user
+
+    @classmethod
+    def reset_password(cls, email, code, new_password):
+        """Verify OTP code and set a new password meeting strength rules."""
+        user = cls._get_by_email(email)
+        if user.is_suspended:
+            raise APIError("Account suspended", 403)
+
+        if user.otp_attempts >= OTP_MAX_ATTEMPTS:
+            raise APIError("Too many wrong attempts, request a new code", 429)
+
+        if not user.otp_code_hash or not user.otp_expires_at or _now() > user.otp_expires_at:
+            raise APIError("Code expired, request a new code", 400)
+
+        if not check_password_hash(user.otp_code_hash, _text(code).strip()):
+            user.otp_attempts += 1
+            db.session.commit()
+            raise APIError("Wrong verification code", 400)
+
+        new_password = _text(new_password)
+        User._validate_password(new_password)
+
+        user.password = generate_password_hash(new_password)
+        user.otp_code_hash = None
+        user.otp_expires_at = None
+        user.otp_attempts = 0
+        db.session.commit()
+        return user     

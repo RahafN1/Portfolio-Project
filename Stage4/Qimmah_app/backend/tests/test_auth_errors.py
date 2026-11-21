@@ -305,3 +305,55 @@ def test_change_password_same_as_current(client, mock_send):
         headers=headers,
     )
     assert response.status_code == 400
+
+def test_reset_password_wrong_code(client, mock_send):
+    register_and_verify(client, mock_send)
+    client.post("/api/auth/forgot-password", json={"email": USER["email"]})
+
+    response = client.post("/api/auth/reset-password", json={
+        "email": USER["email"],
+        "code": "000000",
+        "new_password": "ResetPass789!",
+    })
+    assert response.status_code == 400
+
+
+def test_reset_password_expired_code(client, mock_send, app):
+    register_and_verify(client, mock_send)
+    client.post("/api/auth/forgot-password", json={"email": USER["email"]})
+    reset_code = mock_send.call_args.args[1]
+
+    with app.app_context():
+        from datetime import timedelta
+        from app.extensions import db
+        from app.models.user import User, _now
+
+        user = User.query.filter_by(email=USER["email"]).first()
+        user.otp_expires_at = _now() - timedelta(minutes=1)
+        db.session.commit()
+
+    response = client.post("/api/auth/reset-password", json={
+        "email": USER["email"],
+        "code": reset_code,
+        "new_password": "ResetPass789!",
+    })
+    assert response.status_code == 400
+
+
+@pytest.mark.parametrize("weak_password", [
+    "short1A",
+    "alllowercase1",
+    "ALLUPPERCASE1",
+    "NoDigitsHere!",
+])
+def test_reset_password_weak_password(client, mock_send, weak_password):
+    register_and_verify(client, mock_send)
+    client.post("/api/auth/forgot-password", json={"email": USER["email"]})
+    reset_code = mock_send.call_args.args[1]
+
+    response = client.post("/api/auth/reset-password", json={
+        "email": USER["email"],
+        "code": reset_code,
+        "new_password": weak_password,
+    })
+    assert response.status_code == 400
