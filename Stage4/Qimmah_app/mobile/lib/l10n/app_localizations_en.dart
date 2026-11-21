@@ -916,5 +916,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authEnterEmail => 'Enter your email';
 
   @override
+  String get authResetTitle => 'Reset password';
+
+  @override
+  String get authNewPassword => 'New password';
+
+  @override
+  String get authPasswordRules =>
+      'At least 8 characters, with an uppercase letter, a lowercase letter and a number';
+
+  @override
+  String get authResetButton => 'Reset password';
+
+  @override
+  String get authResetSuccess =>
+      'Your password was changed. Log in with your new password.';
+
+  @override
   String get trailsLogoEn => 'Qimmah';
 }

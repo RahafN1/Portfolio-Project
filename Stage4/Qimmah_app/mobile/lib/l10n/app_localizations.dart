@@ -1688,6 +1688,36 @@ abstract class AppLocalizations {
   /// **'اكتب إيميلك'**
   String get authEnterEmail;
 
+  /// No description provided for @authResetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة تعيين كلمة المرور'**
+  String get authResetTitle;
+
+  /// No description provided for @authNewPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور الجديدة'**
+  String get authNewPassword;
+
+  /// No description provided for @authPasswordRules.
+  ///
+  /// In ar, this message translates to:
+  /// **'8 أحرف على الأقل، مع حرف إنجليزي كبير وحرف صغير ورقم'**
+  String get authPasswordRules;
+
+  /// No description provided for @authResetButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعيين كلمة المرور'**
+  String get authResetButton;
+
+  /// No description provided for @authResetSuccess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تغيير كلمة المرور. سجّل دخولك بكلمة المرور الجديدة.'**
+  String get authResetSuccess;
+
   /// No description provided for @trailsLogoEn.
   ///
   /// In ar, this message translates to:

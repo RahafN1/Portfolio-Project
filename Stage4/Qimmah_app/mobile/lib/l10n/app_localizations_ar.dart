@@ -888,5 +888,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authEnterEmail => 'اكتب إيميلك';
 
   @override
+  String get authResetTitle => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get authNewPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get authPasswordRules =>
+      '8 أحرف على الأقل، مع حرف إنجليزي كبير وحرف صغير ورقم';
+
+  @override
+  String get authResetButton => 'تعيين كلمة المرور';
+
+  @override
+  String get authResetSuccess =>
+      'تم تغيير كلمة المرور. سجّل دخولك بكلمة المرور الجديدة.';
+
+  @override
   String get trailsLogoEn => 'Qimmah';
 }

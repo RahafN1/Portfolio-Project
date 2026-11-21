@@ -51,7 +51,20 @@ class AuthRepository {
     await storage.saveUser(jsonEncode(user.toJson())); // نحفظ الاسم الجديد محلياً
     return user;
   }
+  // نسيت كلمة المرور ← السيرفر يرسل رمز للإيميل
+  Future<void> forgotPassword(String email) async {
+    await api.post(ApiEndpoints.forgotPassword, {'email': email});
+  }
 
+  // إعادة التعيين بالرمز وكلمة المرور الجديدة
+  Future<void> resetPassword(
+      String email, String code, String newPassword) async {
+    await api.post(ApiEndpoints.resetPassword, {
+      'email': email,
+      'code': code,
+      'new_password': newPassword,
+    });
+  }
   // نجيب المستخدم المحفوظ (لو سجل دخول قبل)
   Future<User?> getSavedUser() async {
     final token = await storage.getToken();

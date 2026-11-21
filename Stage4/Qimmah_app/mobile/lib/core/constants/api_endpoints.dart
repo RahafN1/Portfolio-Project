@@ -3,6 +3,8 @@ class ApiEndpoints {
   static const String baseUrl = 'https://portfolio-project-production-d5d7.up.railway.app';
 
   static const String register = '/api/auth/register';
+  static const String forgotPassword = '/api/auth/forgot-password';
+  static const String resetPassword = '/api/auth/reset-password';
   static const String verifyEmail = '/api/auth/verify-email';
   static const String resendCode = '/api/auth/resend-code';
   static const String login = '/api/auth/login';

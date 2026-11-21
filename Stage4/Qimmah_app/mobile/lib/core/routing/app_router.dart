@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../features/admin/views/admin_dashboard_screen.dart';
+import '../../features/auth/views/forgot_password_screen.dart';
 import '../../features/auth/views/login_screen.dart';
 import '../../features/auth/views/otp_screen.dart';
+import '../../features/auth/views/reset_password_screen.dart';
 import '../../features/auth/views/signup_screen.dart';
+import '../../features/splash/views/intro_splash_screen.dart';
 import '../../features/splash/views/splash_screen.dart';
 import 'main_shell.dart';
-import '../../features/splash/views/intro_splash_screen.dart';
-import '../../features/auth/views/forgot_password_screen.dart';
 
 class AppRouter {
   static const String splash = '/'; // أول شاشة: الجبل يترسم
@@ -16,6 +17,7 @@ class AppRouter {
   static const String signup = '/signup';
   static const String otp = '/otp';
   static const String forgotPassword = '/forgot-password';
+  static const String resetPassword = '/reset-password';
   static const String signupSuccess = '/signup-success';
   static const String explore = '/explore';
   static const String admin = '/admin';
@@ -33,5 +35,6 @@ class AppRouter {
     // لوحة تحكم الأدمن (بدون شريط التنقل السفلي)
     admin: (context) => const AdminDashboardScreen(),
     forgotPassword: (context) => const ForgotPasswordScreen(),
+    resetPassword: (context) => const ResetPasswordScreen(),
   };
 }

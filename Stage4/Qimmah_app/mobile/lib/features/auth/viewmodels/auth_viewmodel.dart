@@ -15,7 +15,7 @@ class AuthViewModel extends ChangeNotifier {
   bool isLoading = false;
   String? errorMessage;
   String? emailToVerify; // نحتاجه في شاشة الرمز
-
+  String? emailToReset; // الإيميل في مسار نسيت كلمة المرور
   // نرجع true إذا اليوزر ضيف أو ما سجّل دخول أصلاً
   bool get isGuest => user == null || user!.role == 'guest';
   // هل المستخدم أدمن؟ (من الدور اللي يرجعه السيرفر، مو من الإيميل)
@@ -63,7 +63,31 @@ class AuthViewModel extends ChangeNotifier {
       return false;
     }
   }
+  Future<bool> forgotPassword(String email) async {
+    _startLoading();
+    try {
+      await repository.forgotPassword(email);
+      emailToReset = email;
+      _stopLoading();
+      return true;
+    } catch (e) {
+      _showError(e);
+      return false;
+    }
+  }
 
+  Future<bool> resetPassword(String code, String newPassword) async {
+    _startLoading();
+    try {
+      await repository.resetPassword(emailToReset!, code, newPassword);
+      emailToReset = null;
+      _stopLoading();
+      return true;
+    } catch (e) {
+      _showError(e);
+      return false;
+    }
+  }
   Future<bool> login(String email, String password) async {
     _startLoading();
     try {
