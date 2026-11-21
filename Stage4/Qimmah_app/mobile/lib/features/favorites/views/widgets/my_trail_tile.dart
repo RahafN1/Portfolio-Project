@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:mobile/core/utils/difficulty_label.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../../core/storage/image_cache.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../trails/models/trail.dart';
-import 'package:mobile/core/utils/difficulty_label.dart';
-
 // كرت أفقي صغير: صورة + اسم + منطقة + صعوبة + نص إضافي + عنصر بالنهاية
 // (علامة حفظ في المحفوظة، علامة صح في المكتملة)
 class MyTrailTile extends StatelessWidget {
@@ -103,13 +103,14 @@ class _Thumb extends StatelessWidget {
         width: 88,
         height: 88,
         child: url != null
-            ? Image.network(
-                url!,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const _Placeholder(),
-                loadingBuilder: (context, child, progress) =>
-                    progress == null ? child : const _Placeholder(),
-              )
+? CachedNetworkImage(
+    imageUrl: url!,
+    fit: BoxFit.cover,
+    memCacheWidth: 300,
+    cacheManager: AppImageCache.instance,
+    placeholder: (_, __) => const _Placeholder(),
+    errorWidget: (_, __, ___) => const _Placeholder(),
+  )
             : const _Placeholder(),
       ),
     );

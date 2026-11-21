@@ -68,11 +68,13 @@ class AuthRepository {
       // حتى لو فشل الطلب (نت ضعيف أو توكن منتهي) نطلع المستخدم محلياً
     } finally {
       await storage.clear();
+      api.clearCache();
     }
   }
 
   // الرد شكله: { "token": "...", "user": {...} }
   Future<User> _saveLogin(Map<String, dynamic> data) async {
+    api.clearCache(); 
     final user = User.fromJson(data['user']);
     await storage.saveToken(data['token']);
     await storage.saveUser(jsonEncode(user.toJson()));

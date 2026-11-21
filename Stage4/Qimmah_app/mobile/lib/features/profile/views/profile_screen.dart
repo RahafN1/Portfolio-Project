@@ -23,25 +23,46 @@ class ProfileScreen extends StatelessWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title:  Text(AppLocalizations.of(context)!.logout),
+        title: Text(context.l10n.logout),
         content: Text(context.l10n.profileLogoutMessage),
         actions: [
-          // الزرين جنب بعض بنفس العرض
+          // الزرين جنب بعض، وزر الخروج أعرض لأن كلمته أطول
           Row(
             children: [
               Expanded(
+                flex: 1,
                 child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                  ),
                   onPressed: () => Navigator.pop(ctx, false),
-                  child: Text(context.l10n.profileCancel),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      context.l10n.profileCancel,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
+                flex: 1,
                 child: FilledButton(
                   style: FilledButton.styleFrom(
-                      backgroundColor: Colors.red.shade700),
+                    backgroundColor: Colors.red.shade700,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                  ),
                   onPressed: () => Navigator.pop(ctx, true),
-                  child:  Text(AppLocalizations.of(context)!.logout),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      context.l10n.logout,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
                 ),
               ),
             ],

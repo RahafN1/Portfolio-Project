@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
+import '../../../core/storage/image_cache.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../l10n/l10n.dart';
 import '../../trails/models/trail.dart';
@@ -9,7 +11,6 @@ import '../viewmodels/admin_viewmodel.dart';
 import 'add_trail_screen.dart';
 import 'widgets/admin_helpers.dart';
 import 'package:mobile/core/utils/difficulty_label.dart';
-
 // تبويب المسارات: قائمة مع إضافة وتعديل وحذف
 class ManageTrailsScreen extends StatelessWidget {
   const ManageTrailsScreen({super.key});
@@ -100,11 +101,14 @@ class ManageTrailsScreen extends StatelessWidget {
                           width: 56,
                           height: 56,
                           child: trail.coverImage != null
-                              ? Image.network(
-                                  trail.coverImage!,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => const _Thumb(),
-                                )
+   ? CachedNetworkImage(
+    imageUrl: trail.coverImage!,
+    fit: BoxFit.cover,
+    memCacheWidth: 200,
+    cacheManager: AppImageCache.instance,
+    placeholder: (_, __) => const _Thumb(),
+    errorWidget: (_, __, ___) => const _Thumb(),
+  )
                               : const _Thumb(),
                         ),
                       ),

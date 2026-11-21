@@ -1,7 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../../core/storage/image_cache.dart';
 // ../../../../ = نطلع 4 مجلدات (widgets ← views ← trails ← features) لين نوصل lib
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/l10n.dart';
@@ -247,14 +248,16 @@ class MapTrailCard extends StatelessWidget {
 
     if (trail.coverImage == null) return placeholder;
 
-    return Image.network(
-      trail.coverImage!,
-      width: _coverSize,
-      height: _coverSize,
-      fit: BoxFit.cover,
-      // لو الصورة ما فتحت (مثلاً النت فصل) نطلع الأيقونة
-      errorBuilder: (context, error, stack) => placeholder,
-    );
+return CachedNetworkImage(
+  imageUrl: trail.coverImage!,
+  width: _coverSize,
+  height: _coverSize,
+  fit: BoxFit.cover,
+  memCacheWidth: 300,
+  cacheManager: AppImageCache.instance,
+  placeholder: (_, __) => placeholder,
+  errorWidget: (_, __, ___) => placeholder,
+);
   }
 }
 

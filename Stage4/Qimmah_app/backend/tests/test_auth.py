@@ -63,3 +63,44 @@ def test_get_me_protected(client):
         assert response.status_code == 200
         data = response.get_json()
         assert data["user"]["email"] == USER["email"]
+
+def test_change_password_success(client):
+    with patch("app.models.user.send_otp_email") as mock_send:
+        client.post("/api/auth/register", json=USER)
+        code = mock_send.call_args.args[1]
+
+        client.post("/api/auth/verify-email", json={
+            "email": USER["email"],
+            "code": code,
+        })
+
+        login_res = client.post("/api/auth/login", json={
+            "email": USER["email"],
+            "password": USER["password"],
+        })
+        assert login_res.status_code == 200
+        token = login_res.get_json()["token"]
+
+        new_password = "NewPass456!"
+        change_res = client.post(
+            "/api/auth/change-password",
+            json={
+                "current_password": USER["password"],
+                "new_password": new_password,
+            },
+            headers={"Authorization": f"Bearer {token}"},
+        )
+        assert change_res.status_code == 200
+
+        old_login = client.post("/api/auth/login", json={
+            "email": USER["email"],
+            "password": USER["password"],
+        })
+        assert old_login.status_code == 401
+
+        new_login = client.post("/api/auth/login", json={
+            "email": USER["email"],
+            "password": new_password,
+        })
+        assert new_login.status_code == 200
+        assert "token" in new_login.get_json()

@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../models/trail.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../core/storage/image_cache.dart';   
 
 // صورة المسار الكبيرة + أزرار (رجوع / مشاركة) + شارة "معتمد"
 // SliverAppBar: لما تنزّل تتقلص الصورة، ويثبت الشريط فوق
@@ -76,6 +77,7 @@ class DetailsHero extends StatelessWidget {
                     ? CachedNetworkImage(
                         imageUrl: image,
                         fit: BoxFit.cover,
+                        cacheManager: AppImageCache.instance,
                         errorWidget: (_, __, ___) => const _Placeholder(),
                       )
                     : const _Placeholder(),

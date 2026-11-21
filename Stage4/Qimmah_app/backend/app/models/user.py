@@ -14,7 +14,7 @@ MIN_PASSWORD_LENGTH = 8
 OTP_LIFETIME = timedelta(minutes=10)
 OTP_MAX_ATTEMPTS = 5
 RESEND_WAIT = timedelta(minutes=1)
-
+MAX_PASSWORD_LENGTH = 128
 
 def _now():
     """Current UTC time without timezone info (MySQL DATETIME has none)."""
@@ -85,9 +85,7 @@ class User(db.Model):
             raise APIError("Name is required", 400)
         if not EMAIL_PATTERN.match(email):
             raise APIError("Invalid email", 400)
-        if len(password) < MIN_PASSWORD_LENGTH:
-            raise APIError(f"Password must be at least {MIN_PASSWORD_LENGTH} characters", 400)
-
+        cls._validate_password(password)
         user = User.query.filter_by(email=email).first()
         if user and user.is_verified:
             raise APIError("Email already registered", 409)
@@ -196,3 +194,35 @@ class User(db.Model):
         """UML: viewCompletedTrails()."""
         from app.models import CompletedTrail
         return CompletedTrail.get_completed_trails(self.id)
+
+    def _validate_password(password):
+        """Raise APIError(400) if password does not meet strength rules."""
+        if len(password) < MIN_PASSWORD_LENGTH:
+            raise APIError(f"Password must be at least {MIN_PASSWORD_LENGTH} characters", 400)
+        if len(password) > MAX_PASSWORD_LENGTH:
+            raise APIError(f"Password must not exceed {MAX_PASSWORD_LENGTH} characters", 400)
+        if not any(c.isupper() for c in password):
+            raise APIError("Password must contain at least one uppercase letter", 400)
+        if not any(c.islower() for c in password):
+            raise APIError("Password must contain at least one lowercase letter", 400)
+        if not any(c.isdigit() for c in password):
+            raise APIError("Password must contain at least one number", 400)
+
+    def change_password(self, current_password, new_password):
+        """Change password for an authenticated user after verifying current password."""
+        current_password = _text(current_password)
+        new_password = _text(new_password)
+
+        if not current_password or not new_password:
+            raise APIError("Current password and new password are required", 400)
+
+        if not check_password_hash(self.password, current_password):
+            raise APIError("Current password is incorrect", 400)
+
+        User._validate_password(new_password)
+
+        if check_password_hash(self.password, new_password):
+            raise APIError("New password must be different from current password", 400)
+
+        self.password = generate_password_hash(new_password)
+        db.session.commit()        

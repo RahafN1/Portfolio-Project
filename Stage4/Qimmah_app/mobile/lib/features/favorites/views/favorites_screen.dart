@@ -14,6 +14,7 @@ import 'widgets/completed_banner.dart';
 import 'widgets/my_trail_tile.dart';
 import 'widgets/my_trails_header.dart';
 import 'widgets/my_trails_tabs.dart';
+import '../../trails/data/trails_repository.dart';
 
 // مساراتي: للضيف دعوة لتسجيل الدخول، وللمسجّل تبويبين (محفوظة / مكتملة)
 class FavoritesScreen extends StatefulWidget {
@@ -69,7 +70,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     final vm = context.watch<FavoritesViewModel>();
 
     return RefreshIndicator(
-      onRefresh: vm.load,
+     onRefresh: () {
+  context.read<TrailsRepository>().api.clearCache();
+  return vm.load();
+},
       child: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         // يخلي السحب للتحديث يشتغل حتى لو القائمة قصيرة
@@ -103,7 +107,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         _Message(
           text: vm.errorMessage!,
           actionLabel: context.l10n.favoritesRetry,
-          onAction: vm.load,
+          onAction: () {
+  context.read<TrailsRepository>().api.clearCache();
+  vm.load();
+},
         ),
       ];
     }

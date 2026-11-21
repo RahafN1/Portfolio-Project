@@ -1,8 +1,22 @@
 """Tests for endpoints 14 and 15: GET /api/trails and GET /api/trails/{id} (US-03, US-04, US-06, US-07)."""
 
-SUMMARY_FIELDS = {"id", "name", "region", "difficulty", "distance",
-                  "estimated_duration", "average_rating", "cover_image",
-                  "start_point"}
+SUMMARY_FIELDS = {
+    "id",
+    "name",
+    "name_ar",
+    "name_en",
+    "region",
+    "region_ar",
+    "region_en",
+    "difficulty",
+    "distance",
+    "estimated_duration",
+    "estimated_duration_ar",
+    "estimated_duration_en",
+    "average_rating",
+    "cover_image",
+    "start_point",
+}
 
 
 def test_list_returns_trail_summaries(client):
@@ -33,13 +47,34 @@ def test_invalid_difficulty_returns_400(client):
     assert "error" in response.get_json()
 
 
-
 # ---------------- Endpoint 15: GET /api/trails/{id} ----------------
 
-DETAIL_FIELDS = {"id", "name", "description", "region", "difficulty",
-                 "distance", "estimated_duration", "images", "start_point",
-                 "end_point", "route_coordinates", "safety_tips",
-                 "average_rating", "created_at"}
+DETAIL_FIELDS = {
+    "id",
+    "name",
+    "name_ar",
+    "name_en",
+    "description",
+    "description_ar",
+    "description_en",
+    "region",
+    "region_ar",
+    "region_en",
+    "difficulty",
+    "distance",
+    "estimated_duration",
+    "estimated_duration_ar",
+    "estimated_duration_en",
+    "images",
+    "start_point",
+    "end_point",
+    "route_coordinates",
+    "safety_tips",
+    "safety_tips_ar",
+    "safety_tips_en",
+    "average_rating",
+    "created_at",
+}
 
 
 def _first_trail_id(client):

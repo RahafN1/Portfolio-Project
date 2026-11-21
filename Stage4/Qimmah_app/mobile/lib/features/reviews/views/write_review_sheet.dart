@@ -3,28 +3,40 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/primary_button.dart';
 import '../../../l10n/l10n.dart';
+import '../models/review.dart';
 import '../viewmodels/reviews_viewmodel.dart';
 import 'widgets/star_rating.dart';
 
-// يفتح ورقة "اكتب تقييمك". يرجّع true لو اننشر التقييم
+// يفتح ورقة "اكتب تقييمك". يرجّع true لو اننشر أو تعدّل التقييم
+// لو مررنا existingReview تصير الورقة ورقة تعديل
 Future<bool?> showWriteReviewSheet(
   BuildContext context, {
   required ReviewsViewModel vm,
   required String trailName,
+  Review? existingReview,
 }) {
   return showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true, // عشان الكيبورد ما يغطي الحقل
     showDragHandle: true,
-    builder: (_) => _WriteReviewSheet(vm: vm, trailName: trailName),
+    builder: (_) => _WriteReviewSheet(
+      vm: vm,
+      trailName: trailName,
+      existingReview: existingReview,
+    ),
   );
 }
 
 class _WriteReviewSheet extends StatefulWidget {
   final ReviewsViewModel vm;
   final String trailName;
+  final Review? existingReview; // null = تقييم جديد، غير كذا = تعديل
 
-  const _WriteReviewSheet({required this.vm, required this.trailName});
+  const _WriteReviewSheet({
+    required this.vm,
+    required this.trailName,
+    this.existingReview,
+  });
 
   @override
   State<_WriteReviewSheet> createState() => _WriteReviewSheetState();
@@ -36,9 +48,23 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
   bool _submitting = false;
   String? _error;
 
+  // هل نحن في وضع التعديل؟
+  bool get _isEditing => widget.existingReview != null;
+
   // الزر ينفتح لما نختار نجوم ونكتب تعليق
   bool get _canSubmit =>
       _rating > 0 && _controller.text.trim().isNotEmpty && !_submitting;
+
+  @override
+  void initState() {
+    super.initState();
+    // لو نعدّل، نعبّي النجوم والتعليق القديم
+    final old = widget.existingReview;
+    if (old != null) {
+      _rating = old.rating;
+      _controller.text = old.comment;
+    }
+  }
 
   @override
   void dispose() {
@@ -51,13 +77,22 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
       _submitting = true;
       _error = null;
     });
-    final error = await widget.vm.submit(
-      rating: _rating,
-      comment: _controller.text,
-    );
+
+    // نختار الدالة حسب الوضع: تعديل أو نشر جديد
+    final String? error = _isEditing
+        ? await widget.vm.updateReview(
+            review: widget.existingReview!,
+            rating: _rating,
+            comment: _controller.text,
+          )
+        : await widget.vm.submit(
+            rating: _rating,
+            comment: _controller.text,
+          );
+
     if (!mounted) return;
     if (error == null) {
-      Navigator.pop(context, true); // اننشر
+      Navigator.pop(context, true); // اننشر أو تعدّل
     } else {
       setState(() {
         _submitting = false;
@@ -138,7 +173,3 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
     );
   }
 }
-/*
-الورقة تنفتح فوق الصفحة،
- مو داخلها، فما تشوف الـ Provider حق الصفحة. لهذا نمرر الـ ViewModel لها يدوياً.
-*/
