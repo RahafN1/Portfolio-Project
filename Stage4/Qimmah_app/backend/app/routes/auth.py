@@ -51,9 +51,9 @@ def logout():
     Log out the current user
     ---
     tags:
-- Auth
+      - Auth
     security:
-- Bearer: []
+      - Bearer: []
     responses:
       200:
         description: Logged out successfully
