@@ -151,7 +151,62 @@ Stage4/Qimmah_app/backend
 
 ### Frontend
 
-TODO: add the Flutter folder structure (diagram and text tree) from the frontend team.
+Flutter app with an MVVM, feature-first structure. Each feature has `data` (repository), `models`, `viewmodels`, and `views` (screens and widgets).
+
+```
+Stage4/Qimmah_app/mobile/lib
+|-- core/
+|   |-- constants/
+|   |-- locale/
+|   |-- network/
+|   |-- routing/
+|   |-- services/
+|   |-- storage/
+|   |-- theme/
+|   |-- utils/
+|   `-- widgets/
+|-- features/
+|   |-- admin/
+|   |   |-- data/
+|   |   |-- models/
+|   |   |-- viewmodels/
+|   |   `-- views/
+|   |       `-- widgets/
+|   |-- auth/
+|   |   |-- data/
+|   |   |-- models/
+|   |   |-- viewmodels/
+|   |   `-- views/
+|   |       `-- widgets/
+|   |-- favorites/
+|   |   |-- data/
+|   |   |-- models/
+|   |   |-- viewmodels/
+|   |   `-- views/
+|   |       `-- widgets/
+|   |-- profile/
+|   |   |-- data/
+|   |   |-- viewmodels/
+|   |   `-- views/
+|   |-- reviews/
+|   |   |-- data/
+|   |   |-- models/
+|   |   |-- viewmodels/
+|   |   `-- views/
+|   |       `-- widgets/
+|   |-- splash/
+|   |   `-- views/
+|   `-- trails/
+|       |-- data/
+|       |-- models/
+|       |-- utils/
+|       |-- viewmodels/
+|       `-- views/
+|           `-- widgets/
+|-- l10n/
+|-- app.dart
+`-- main.dart
+```
 
 ## Feature Documentation
 
