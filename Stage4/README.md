@@ -587,7 +587,7 @@ Query parameters of `GET /api/trails` (all optional):
 | List users as a normal user | Request blocked | Pass |
 | Admin lists reviews | Reviews returned with page and total | Pass |
 | List reviews as a normal user | Request blocked | Pass |
-| Upload real images to Cloudinary from the app | Images appear on the trail | TODO |
+| Upload real images to Cloudinary from the app | Images appear on the trail | Pass |
 
 ### Seed Data and Migrations
 
@@ -749,8 +749,9 @@ Sign-up, email verification, resend code, login, and change password are not lis
 | Resource | Link |
 |---|---|
 | GitHub repository | [Portfolio-Project](https://github.com/RahafN1/Portfolio-Project) |
-| Pull requests | TODO add link |
-| Issues | TODO add link |
+| Pull requests | [TODO add link](https://github.com/RahafN1/Portfolio-Project/pulls
+) |
+| Issues |https://github.com/RahafN1/Portfolio-Project/issues |
 | Bug tracker | TODO add link |
 | Project board | TODO add link |
 
