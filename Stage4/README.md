@@ -34,10 +34,10 @@ This README is organised by feature to give a clear overview of the project's st
 ## Project Delivery Evidence
 
 | Evidence | Documentation |
-|---|---|
-| Sprint planning | TODO add links (Sprint 1, Sprint 2) |
-| Sprint reviews | TODO add links (Sprint 1, Sprint 2) |
-| Retrospectives | TODO add links (Sprint 1, Sprint 2) |
+| --- | --- |
+| Sprint planning | [Sprint 1](docs/project-management/sprint-01/planning.md) · [Sprint 2](docs/project-management/sprint-02/planning.md) · [Sprint 3](docs/project-management/sprint-03/planning.md) |
+| Sprint reviews | [Sprint 1](docs/project-management/sprint-01/review.md) · [Sprint 2](docs/project-management/sprint-02/review.md) · [Sprint 3](docs/project-management/sprint-03/review.md) |
+| Retrospectives | [Sprint 1](docs/project-management/sprint-01/retrospective.md) · [Sprint 2](docs/project-management/sprint-02/retrospective.md) · [Sprint 3](docs/project-management/sprint-03/retrospective.md) |
 | Source repository | [Portfolio-Project](https://github.com/RahafN1/Portfolio-Project) · TODO add pull requests link · TODO add develop history link |
 | Bug tracking | TODO add bug process link · TODO add GitHub Issues link |
 | Testing evidence and results | [Test plan](https://github.com/RahafN1/Portfolio-Project/blob/develop/Stage4/Qimmah_app/docs/STAGE4_TEST_PLAN.md) · [Backend automated tests](#backend-automated-tests-pytest) · [Swagger checks](#api-testing-with-swagger) · TODO add GitHub Actions link |
