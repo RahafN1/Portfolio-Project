@@ -452,5 +452,10 @@
   "authForgotSubtitle": "Enter your email and we'll send you a code to reset your password.",
   "authSendResetCode": "Send code",
   "authEnterEmail": "Enter your email",
+  "authResetTitle": "Reset password",
+  "authNewPassword": "New password",
+  "authPasswordRules": "At least 8 characters, with an uppercase letter, a lowercase letter and a number",
+  "authResetButton": "Reset password",
+  "authResetSuccess": "Your password was changed. Log in with your new password.",
   "trailsLogoEn": "Qimmah"
 }

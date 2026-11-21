@@ -363,9 +363,9 @@ class MapTrailCarouselState extends State<MapTrailCarousel> {
   );
 
   // تناديها من برّا لما المستخدم يضغط مؤشر في الخريطة
-  void goTo(int index) {
+  Future<void> goTo(int index) async {
     if (!_controller.hasClients) return;
-    _controller.animateToPage(
+    await _controller.animateToPage(
       index,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,

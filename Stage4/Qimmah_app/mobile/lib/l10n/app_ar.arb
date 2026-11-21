@@ -466,5 +466,10 @@
   "authForgotSubtitle": "اكتب إيميلك ونرسل لك رمز تعيدين فيه كلمة المرور.",
   "authSendResetCode": "إرسال الرمز",
   "authEnterEmail": "اكتب إيميلك",
+  "authResetTitle": "إعادة تعيين كلمة المرور",
+  "authNewPassword": "كلمة المرور الجديدة",
+  "authPasswordRules": "8 أحرف على الأقل، مع حرف إنجليزي كبير وحرف صغير ورقم",
+  "authResetButton": "تعيين كلمة المرور",
+  "authResetSuccess": "تم تغيير كلمة المرور. سجّل دخولك بكلمة المرور الجديدة.",
   "trailsLogoEn": "Qimmah"
 }

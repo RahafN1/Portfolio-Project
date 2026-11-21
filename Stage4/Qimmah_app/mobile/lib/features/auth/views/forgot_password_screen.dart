@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/primary_button.dart';
 import '../../../l10n/l10n.dart';
+import '../viewmodels/auth_viewmodel.dart';
 import 'widgets/auth_header.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -21,7 +24,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.dispose();
   }
 
-  void _send() {
+  Future<void> _send() async {
     final email = emailController.text.trim();
 
     if (email.isEmpty) {
@@ -29,8 +32,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       return;
     }
 
-    // مؤقت: لما نجهز الباك إند نستبدله بإرسال الرمز الفعلي
-    _showMessage(email);
+    final viewModel = context.read<AuthViewModel>();
+    final success = await viewModel.forgotPassword(email);
+    if (!mounted) return;
+
+    if (success) {
+      Navigator.pushNamed(context, AppRouter.resetPassword);
+    } else {
+      _showMessage(viewModel.errorMessage!);
+    }
   }
 
   void _showMessage(String text) {
@@ -39,6 +49,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<AuthViewModel>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -82,6 +94,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               PrimaryButton(
                 text: context.l10n.authSendResetCode,
+                isLoading: viewModel.isLoading,
                 onPressed: _send,
               ),
             ],
