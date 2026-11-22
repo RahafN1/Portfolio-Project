@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart'; // عناصر الواجهة
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart'; // نقرأ الـ ViewModels
 
 import '../../../core/routing/app_router.dart'; // أسماء الصفحات
@@ -167,8 +166,8 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: 16),
 
           Text(
-            AppLocalizations.of(context)!.tabProfile,
-            style: TextStyle(
+            AppLocalizations.of(context).tabProfile,
+            style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
               color: AppColors.primary,
@@ -181,8 +180,8 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 12),
             _stats(context), // الإحصائيات
             const SizedBox(height: 20),
-             Text( AppLocalizations.of(context)!.account,
-                style: TextStyle(fontSize: 13, color: AppColors.grey)),
+             Text( AppLocalizations.of(context).account,
+                style: const TextStyle(fontSize: 13, color: AppColors.grey)),
             const SizedBox(height: 8),
             ListTile(
               shape: RoundedRectangleBorder(
@@ -190,7 +189,7 @@ class ProfileScreen extends StatelessWidget {
                 side: const BorderSide(color: AppColors.border),
               ),
               leading: const Icon(Icons.edit_outlined),
-              title:  Text(AppLocalizations.of(context)!.editProfile
+              title:  Text(AppLocalizations.of(context).editProfile
 ),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => _editSheet(context, user.name, user.email),
@@ -206,7 +205,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               onPressed: () => _confirmLogout(context),
               icon: const Icon(Icons.logout),
-              label:  Text(AppLocalizations.of(context)!.logout),
+              label:  Text(AppLocalizations.of(context).logout),
             ),
           ] else
             _guestCard(context),
@@ -284,11 +283,11 @@ class ProfileScreen extends StatelessWidget {
         );
     return Row(
       children: [
-        item('${fav.saved.length}', AppLocalizations.of(context)!.statSaved),
+        item('${fav.saved.length}', AppLocalizations.of(context).statSaved),
         const SizedBox(width: 8),
-        item('${fav.completed.length}', AppLocalizations.of(context)!.statCompleted),
+        item('${fav.completed.length}', AppLocalizations.of(context).statCompleted),
         const SizedBox(width: 8),
-        item(fav.completedDistance.toStringAsFixed(1), AppLocalizations.of(context)!.statKmWalked),
+        item(fav.completedDistance.toStringAsFixed(1), AppLocalizations.of(context).statKmWalked),
       ],
     );
   }

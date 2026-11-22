@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Text(
                 context.l10n.authLoginSubtitle,
-                style: TextStyle(color: AppColors.grey),
+                style: const TextStyle(color: AppColors.grey),
               ),
 
               _label(context.l10n.email),

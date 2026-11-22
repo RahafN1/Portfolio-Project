@@ -321,7 +321,7 @@ class _TrailMapScreenState extends State<TrailMapScreen>
     final opened = await launchUrl(url, mode: LaunchMode.externalApplication);
 
     // لو ما انفتح، نطلع رسالة تحت
-    if (!opened) _showMessage(context.l10n.mapDirectionsError);
+  if (!opened && mounted) _showMessage(context.l10n.mapDirectionsError);
   }
 
   // فتح صفحة التفاصيل

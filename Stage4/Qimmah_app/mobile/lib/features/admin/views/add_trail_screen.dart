@@ -238,7 +238,7 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
                 children: [
                   Text(
                     context.l10n.adminBrandLatin,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
                       color: AppColors.primary,
@@ -252,7 +252,7 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
                   ),
                   Text(
                     context.l10n.adminBrandArabic,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
                       color: AppColors.primary,
@@ -355,7 +355,7 @@ class _AddTrailScreenState extends State<AddTrailScreen> {
           // المنطقة
           _FieldLabel(context.l10n.region),
           DropdownButtonFormField<String>(
-            value: _region,
+            initialValue: _region,
             hint: Text(context.l10n.adminSelectRegionHint),
             items: regionItems
                 .map((r) => DropdownMenuItem(
@@ -640,7 +640,7 @@ class _DifficultyOption extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: selected ? color.withOpacity(0.12) : Colors.transparent,
+          color: selected ? color.withValues(alpha: 0.12) : Colors.transparent,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: selected ? color : AppColors.border,

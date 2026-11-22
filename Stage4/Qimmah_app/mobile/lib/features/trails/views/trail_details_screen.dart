@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -137,7 +136,7 @@ class _DetailsView extends StatelessWidget {
       );
     } catch (_) {}
     if (!opened && context.mounted) {
-      _toast(context, AppLocalizations.of(context)!.loadTrailsError);
+      _toast(context, AppLocalizations.of(context).loadTrailsError);
     }
   }
 
@@ -313,7 +312,7 @@ class _About extends StatelessWidget {
         style: TextStyle(
           fontSize: 15,
           height: 1.8,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.85),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.85),
         ),
       );
     }

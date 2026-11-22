@@ -59,7 +59,7 @@ void showGuestLoginSheet(
                 },
                 child: Text(
                   context.l10n.login,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

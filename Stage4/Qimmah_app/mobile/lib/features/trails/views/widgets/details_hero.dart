@@ -85,7 +85,7 @@ class DetailsHero extends StatelessWidget {
 
               // لون الخلفية يغطي الصورة تدريجياً لما الشريط يتقلص
               Positioned.fill(
-                child: ColoredBox(color: background.withOpacity(1 - t)),
+                child: ColoredBox(color: background.withValues(alpha: 1 - t)),
               ),
 
               // الحافة الدائرية أسفل الصورة
