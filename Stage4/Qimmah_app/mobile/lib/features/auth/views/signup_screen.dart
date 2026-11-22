@@ -91,7 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               Text(
                 context.l10n.authSignupSubtitle,
-                style: TextStyle(color: AppColors.grey),
+                style: const TextStyle(color: AppColors.grey),
               ),
 
               // الاسم الأول واسم العائلة جنب بعض

@@ -19,7 +19,7 @@ class RegionTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inactive = Theme.of(context).colorScheme.onSurface.withOpacity(0.6);
+    final inactive = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6);
 
     return Container(
       margin: const EdgeInsets.only(top: 12),

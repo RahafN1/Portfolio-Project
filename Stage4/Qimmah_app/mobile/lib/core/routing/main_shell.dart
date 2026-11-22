@@ -69,7 +69,7 @@ class _BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final inactive = cs.onSurface.withOpacity(0.55);
+    final inactive = cs.onSurface.withValues(alpha: 0.55);
 
     return Container(
       decoration: BoxDecoration(
@@ -115,18 +115,5 @@ class _BottomBar extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// مكان مؤقت للصفحات اللي ما انبنت للحين
-class _ComingSoon extends StatelessWidget {
-  final String title;
-
-  const _ComingSoon({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(child: Center(child:
-    Text(context.l10n.coreComingSoon(title))));
   }
 }

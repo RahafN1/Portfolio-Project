@@ -94,7 +94,7 @@ class _StatCard extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 12,
-              color: fg?.withOpacity(0.8) ?? AppColors.grey,
+              color: fg?.withValues(alpha: 0.8) ?? AppColors.grey,
             ),
           ),
         ],

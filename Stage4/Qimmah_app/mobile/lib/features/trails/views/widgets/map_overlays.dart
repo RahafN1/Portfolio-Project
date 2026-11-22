@@ -36,16 +36,16 @@ class EndPin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return const Stack(
       alignment: Alignment.topCenter,
       children: [
         // ظل خفيف عشان الدبوس الأبيض يبان على الخريطة
-        const Icon(Icons.location_on, size: 44, color: Colors.black38),
+        Icon(Icons.location_on, size: 44, color: Colors.black38),
         // الدبوس الأبيض
-        const Icon(Icons.location_on, size: 42, color: Colors.white),
+        Icon(Icons.location_on, size: 42, color: Colors.white),
         // علم أخضر داخل الدبوس
         Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: EdgeInsets.only(top: 8),
           child: Icon(Icons.flag, size: 16, color: AppColors.primary),
         ),
       ],
