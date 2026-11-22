@@ -87,7 +87,7 @@ class StartPointCard extends StatelessWidget {
                   ],
                 ),
                 // ذكر مصدر الخريطة (شرط من OpenStreetMap)
-              RichAttributionWidget(
+              const RichAttributionWidget(
   attributions: [
     TextSourceAttribution('OpenStreetMap contributors'),
   ],

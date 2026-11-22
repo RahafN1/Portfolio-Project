@@ -1,44 +1,58 @@
 import 'dart:convert';
 
 import 'package:latlong2/latlong.dart';
-import '../../../../core/utils/difficulty_label.dart';
+import '../../../l10n/l10n.dart'; // جديد: عشان نعرف اللغة الحالية
 
 class Trail {
   final int id;
-  final String name;
-  final String region;
   final String difficulty; // easy أو moderate أو hard
   final double distance;
-  final String estimatedDuration; // مثل: "3 ساعات"
   final double? averageRating; // null لين تنضاف التقييمات
   final bool isCertified; // مسار معتمد
   final String? coverImage;
 
+  // النصوص بلغتين (الباك إند يرجّعهم مع بعض)
+  final String nameAr, nameEn;
+  final String regionAr, regionEn;
+  final String durationAr, durationEn; // مثل: "3 ساعات"
+  final String descriptionAr, descriptionEn;
+  final List<String> tipsAr, tipsEn;
+
   // تفاصيل المسار (تجي كاملة من صفحة التفاصيل بس)
-  final String description;
   final List<String> images;
   final double? startLat;
   final double? startLng;
-  final List<String> safetyTips;
   final List<LatLng> routePoints; // نقاط خط المسار (من GeoJSON)
 
   Trail({
     required this.id,
-    required this.name,
-    required this.region,
+    required this.nameAr,
+    required this.nameEn,
+    required this.regionAr,
+    required this.regionEn,
     required this.difficulty,
     required this.distance,
-    this.estimatedDuration = '',
+    this.durationAr = '',
+    this.durationEn = '',
     this.averageRating,
     this.isCertified = false,
     this.coverImage,
-    this.description = '',
+    this.descriptionAr = '',
+    this.descriptionEn = '',
     this.images = const [],
     this.startLat,
     this.startLng,
-    this.safetyTips = const [],
+    this.tipsAr = const [],
+    this.tipsEn = const [],
     this.routePoints = const [],
   });
+
+  // ---------- تختار حسب اللغة الحالية (الشاشات تستخدم هذي) ----------
+  String get name => L10n.isEnglish ? nameEn : nameAr;
+  String get region => L10n.isEnglish ? regionEn : regionAr;
+  String get estimatedDuration => L10n.isEnglish ? durationEn : durationAr;
+  String get description => L10n.isEnglish ? descriptionEn : descriptionAr;
+  List<String> get safetyTips => L10n.isEnglish ? tipsEn : tipsAr;
 
   factory Trail.fromJson(Map<String, dynamic> json) {
     final images = (json['images'] as List?)?.map((e) => e.toString()).toList() ??
@@ -47,21 +61,28 @@ class Trail {
 
     return Trail(
       id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      region: json['region'] ?? '',
+      nameAr: json['name_ar'] ?? json['name'] ?? '',
+      nameEn: json['name_en'] ?? json['name'] ?? '',
+      regionAr: json['region_ar'] ?? json['region'] ?? '',
+      regionEn: json['region_en'] ?? json['region'] ?? '',
       difficulty: json['difficulty'] ?? '',
       // double.tryParse لأن DECIMAL ممكن يوصل كنص
       distance: double.tryParse(json['distance'].toString()) ?? 0,
-      estimatedDuration: json['estimated_duration'] ?? '',
+      durationAr:
+          json['estimated_duration_ar'] ?? json['estimated_duration'] ?? '',
+      durationEn:
+          json['estimated_duration_en'] ?? json['estimated_duration'] ?? '',
       averageRating: double.tryParse(json['average_rating'].toString()),
       isCertified: json['is_certified'] == true,
       coverImage:
           json['cover_image'] ?? (images.isNotEmpty ? images.first : null),
-      description: json['description'] ?? '',
+      descriptionAr: json['description_ar'] ?? json['description'] ?? '',
+      descriptionEn: json['description_en'] ?? json['description'] ?? '',
       images: images,
       startLat: start is Map ? (start['lat'] as num?)?.toDouble() : null,
       startLng: start is Map ? (start['lng'] as num?)?.toDouble() : null,
-      safetyTips: _parseTips(json['safety_tips']),
+      tipsAr: _parseTips(json['safety_tips_ar'] ?? json['safety_tips']),
+      tipsEn: _parseTips(json['safety_tips_en'] ?? json['safety_tips']),
       routePoints: _parseRoute(json['route_coordinates']),
     );
   }
@@ -102,22 +123,28 @@ class Trail {
   Trail copyWith({bool? isCertified}) {
     return Trail(
       id: id,
-      name: name,
-      region: region,
+      nameAr: nameAr,
+      nameEn: nameEn,
+      regionAr: regionAr,
+      regionEn: regionEn,
       difficulty: difficulty,
       distance: distance,
-      estimatedDuration: estimatedDuration,
+      durationAr: durationAr,
+      durationEn: durationEn,
       averageRating: averageRating,
       isCertified: isCertified ?? this.isCertified,
       coverImage: coverImage,
-      description: description,
+      descriptionAr: descriptionAr,
+      descriptionEn: descriptionEn,
       images: images,
       startLat: startLat,
       startLng: startLng,
-      safetyTips: safetyTips,
+      tipsAr: tipsAr,
+      tipsEn: tipsEn,
       routePoints: routePoints,
     );
   }
+
   // المسافة بدون ".0" لو رقم صحيح (9.0 تصير 9)
   String get distanceText =>
       distance % 1 == 0 ? distance.toStringAsFixed(0) : distance.toString();

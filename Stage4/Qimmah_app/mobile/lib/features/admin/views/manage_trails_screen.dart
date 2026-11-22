@@ -209,7 +209,7 @@ class _SquareIconButton extends StatelessWidget {
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.12),
+            color: color.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, size: 18, color: color),
@@ -245,7 +245,7 @@ class _DifficultyBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: _color.withOpacity(0.12),
+        color: _color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(

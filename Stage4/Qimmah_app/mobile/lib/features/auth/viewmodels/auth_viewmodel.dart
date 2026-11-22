@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 import '../../../core/network/api_exception.dart';
 import '../../../l10n/l10n.dart';

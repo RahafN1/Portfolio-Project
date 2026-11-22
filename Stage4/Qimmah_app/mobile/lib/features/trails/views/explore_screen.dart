@@ -6,18 +6,15 @@ import '../../../core/widgets/guest_login_sheet.dart';
 import '../../auth/viewmodels/auth_viewmodel.dart';
 import '../models/trail.dart';
 import '../viewmodels/explore_viewmodel.dart';
-import 'trail_details_screen.dart';
 import 'widgets/difficulty_chips.dart';
 import 'widgets/explore_header.dart';
 import 'widgets/filter_sheet.dart';
 import 'widgets/region_tabs.dart';
-import 'widgets/trail_card.dart';
 import '../../favorites/viewmodels/favorites_viewmodel.dart';
 import '../../../core/widgets/shimmer_box.dart';
 import 'widgets/trail_card_skeleton.dart';
 import 'widgets/openable_trail_card.dart';
 import '../../../l10n/l10n.dart';
-import '../data/trails_repository.dart';
 import '../data/trails_repository.dart';
 
 // الرئيسية: ترحيب + بحث + فلاتر + المسارات
@@ -76,17 +73,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
       );
     }
   }
-
-  // يفتح صفحة تفاصيل المسار
-  void _openDetails(Trail trail) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TrailDetailsScreen(trail: trail),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthViewModel>().user;
@@ -180,7 +166,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(AppLocalizations.of(context)!.noTrailsMatch),
+                Text(AppLocalizations.of(context).noTrailsMatch),
                 if (explore.hasActiveFilters || explore.searchQuery.isNotEmpty)
   TextButton(
     onPressed: explore.resetFilters,
@@ -227,7 +213,7 @@ class _SectionTitle extends StatelessWidget {
   final String title;
   final String? subtitle;
 
-  const _SectionTitle({required this.title, this.subtitle});
+  const _SectionTitle({required this.title}) : subtitle = null;
 
   @override
   Widget build(BuildContext context) {
