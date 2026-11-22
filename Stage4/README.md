@@ -327,10 +327,10 @@ Query parameters of `GET /api/trails` (all optional):
 | Filter by an invalid difficulty | 400 error returned | Pass |
 | Open trail details | Full details, start point, and route returned | Pass |
 | Open a trail id that does not exist | 404 error returned | Pass |
-| Search by trail name (`?search=...`) | Trails matching the name returned | TODO |
-| Filter by region (`?region=...`) | Only trails from that region returned | TODO |
-| Pagination (`?page=...&limit=...`) | Correct page returned | TODO |
-| Language switch (`?lang=en`) | Trail data returned in English | TODO |
+| Search by trail name (`?search=...`) | Trails matching the name returned | Pass |
+| Filter by region (`?region=...`) | Only trails from that region returned | Pass |
+| Pagination (`?page=...&limit=...`) | Correct page returned | Pass |
+| Language switch (`?lang=en`) | Trail data returned in English | Pass |
 
 ### Favorites
 
@@ -605,9 +605,9 @@ Query parameters of `GET /api/trails` (all optional):
 
 | Test | Expected Result | Status |
 |---|---|---|
-| Run `flask db upgrade` on an empty database | All tables created | TODO |
-| Load the seed data | Trails and routes inserted | TODO |
-| Open the app after seeding | Seeded trails appear in the Explore page | TODO |
+| Run `flask db upgrade` on an empty database | All tables created | Pass |
+| Load the seed data | Trails and routes inserted | Pass |
+| Open the app after seeding | Seeded trails appear in the Explore page | Pass |
 
 ### Health and Error Handling
 
@@ -632,8 +632,8 @@ Query parameters of `GET /api/trails` (all optional):
 | Test | Expected Result | Status |
 |---|---|---|
 | Call `/api/health` | `{"status": "ok"}` returned | Pass |
-| Open a route that does not exist | Not found error returned | TODO |
-| Open `/api/health` on the production URL | `{"status": "ok"}` returned | TODO |
+| Open a route that does not exist | Not found error returned | Pass |
+| Open `/api/health` on the production URL | `{"status": "ok"}` returned | Pass |
 
 ## Testing and Quality
 
