@@ -156,3 +156,58 @@ WHERE id = 12;
 UPDATE trails
 SET images = '["https://res.cloudinary.com/ptn3plua/image/upload/v1792505350/Al_Makhadah_Trail_1.jpg", "https://res.cloudinary.com/ptn3plua/image/upload/v1792505347/Al_Makhadah_Trail_2.jpg", "https://res.cloudinary.com/ptn3plua/image/upload/v1792505345/Al_Makhadah_Trail_3.jpg", "https://res.cloudinary.com/ptn3plua/image/upload/v1792505342/Al_Makhadah_Trail_4.jpg", "https://res.cloudinary.com/ptn3plua/image/upload/v1792505340/Al_Makhadah_Trail_5.jpg", "https://res.cloudinary.com/ptn3plua/image/upload/v1792505338/Al_Makhadah_Trail_6.jpg"]'
 WHERE id = 13;
+
+INSERT INTO trails (id, name, description, region, difficulty, distance, estimatedDuration, images, safetyTips) VALUES (14, 'مسار الماردية', 'يقع مسار الماردية في منطقة حائل. مسار صعب بطول 3.43 كم، ويبلغ مجموع الصعود فيه نحو 167 م، ويستغرق قطعه قرابة ساعتين ونصف.', 'حائل', 'hard', 3.43, 'ساعتان ونصف', '["https://res.cloudinary.com/ptn3plua/image/upload/v1794819382/El_Mardiah_Trail_1.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794819378/El_Mardiah_Trail_2.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794819376/El_Mardiah_Trail_3.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794819376/El_Mardiah_Trail_4.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794819375/El_Mardiah_Trail_5.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794819517/El_Mardiah_Trail_6.jpg"]', '• احرص على ارتداء أحذية مناسبة للمشي الجبلي.
+• احمل كمية كافية من الماء.
+• تجنب المسارات خلال سوء الأحوال الجوية.
+• اتبع اللوحات الإرشادية ولا تترك النفايات خلفك.
+• احترم البيئة والنباتات ولا تقطف أو تعبث بالحياة الفطرية.
+• استخدم وسائل الحماية من الشمس (قبعة، واقي شمسي).');
+INSERT INTO trails (id, name, description, region, difficulty, distance, estimatedDuration, images, safetyTips) VALUES (15, 'مسار جبل الشعبة', 'يقع مسار جبل الشعبة في الأحساء بالمنطقة الشرقية. مسار سهل بطول 2.35 كم، ويبلغ مجموع الصعود فيه نحو 240 م، ويستغرق قطعه قرابة ساعة.', 'الأحساء', 'easy', 2.35, 'ساعة', '["https://res.cloudinary.com/ptn3plua/image/upload/v1794820007/Al_Shubah_Mont_Trail_1.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820005/Al_Shubah_Mont_Trail_2.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820003/Al_Shubah_Mont_Trail_3.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820000/Al_Shubah_Mont_Trail_4.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794819999/Al_Shubah_Mont_Trail_5.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794819998/Al_Shubah_Mont_Trail_6.jpg"]', '• احرص على ارتداء أحذية مناسبة للمشي الجبلي.
+• احمل كمية كافية من الماء.
+• تجنب المسارات خلال سوء الأحوال الجوية.
+• اتبع اللوحات الإرشادية ولا تترك النفايات خلفك.
+• احترم البيئة والنباتات ولا تقطف أو تعبث بالحياة الفطرية.
+• استخدم وسائل الحماية من الشمس (قبعة، واقي شمسي).');
+INSERT INTO trails (id, name, description, region, difficulty, distance, estimatedDuration, images, safetyTips) VALUES (16, 'مسار القليبة', 'يقع مسار القليبة في منطقة تبوك. مسار سهل بطول 5.2 كم، ويبلغ مجموع الصعود فيه نحو 20 م، ويستغرق قطعه قرابة ساعتين.', 'تبوك', 'easy', 5.20, 'ساعتان', '["https://res.cloudinary.com/ptn3plua/image/upload/v1794820308/Al_Qulaybah_Trail_1.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820306/Al_Qulaybah_Trail_2.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820304/Al_Qulaybah_Trail_3.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820301/Al_Qulaybah_Trail_4.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820299/Al_Qulaybah_Trail_5.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820298/Al_Qulaybah_Trail_6.jpg"]', '• احرص على ارتداء أحذية مناسبة للمشي الجبلي.
+• احمل كمية كافية من الماء.
+• تجنب المسارات خلال سوء الأحوال الجوية.
+• اتبع اللوحات الإرشادية ولا تترك النفايات خلفك.
+• احترم البيئة والنباتات ولا تقطف أو تعبث بالحياة الفطرية.
+• استخدم وسائل الحماية من الشمس (قبعة، واقي شمسي).');
+INSERT INTO trails (id, name, description, region, difficulty, distance, estimatedDuration, images, safetyTips) VALUES (17, 'مسار توارن', 'يقع مسار توارن في منطقة حائل. مسار متوسط الصعوبة بطول 2.95 كم، ويبلغ مجموع الصعود فيه نحو 50 م، ويستغرق قطعه قرابة ساعتين.', 'حائل', 'moderate', 2.95, 'ساعتان', '["https://res.cloudinary.com/ptn3plua/image/upload/v1794820670/tawaren-trail-01.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820667/tawaren-trail-02.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820664/tawaren-trail-03.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820662/tawaren-trail-04.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820659/tawaren-trail-05.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794820658/tawaren-trail-06.jpg"]', '• احرص على ارتداء أحذية مناسبة للمشي الجبلي.
+• احمل كمية كافية من الماء.
+• تجنب المسارات خلال سوء الأحوال الجوية.
+• اتبع اللوحات الإرشادية ولا تترك النفايات خلفك.
+• احترم البيئة والنباتات ولا تقطف أو تعبث بالحياة الفطرية.
+• استخدم وسائل الحماية من الشمس (قبعة، واقي شمسي).');
+INSERT INTO trails (id, name, description, region, difficulty, distance, estimatedDuration, images, safetyTips) VALUES (18, 'مسار صيحان', 'يقع مسار صيحان في منطقة حائل. مسار سهل بطول 5.2 كم، ويبلغ مجموع الصعود فيه نحو 20 م، ويستغرق قطعه قرابة ساعتين.', 'حائل', 'easy', 5.20, 'ساعتان', '["https://res.cloudinary.com/ptn3plua/image/upload/v1794821287/saihan-trail-01.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821268/saihan-trail-02.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821158/saihan-trail-03.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821138/saihan-trail-04.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821135/saihan-trail-05.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821134/saihan-trail-06.jpg"]', '• احرص على ارتداء أحذية مناسبة للمشي الجبلي.
+• احمل كمية كافية من الماء.
+• تجنب المسارات خلال سوء الأحوال الجوية.
+• اتبع اللوحات الإرشادية ولا تترك النفايات خلفك.
+• احترم البيئة والنباتات ولا تقطف أو تعبث بالحياة الفطرية.
+• استخدم وسائل الحماية من الشمس (قبعة، واقي شمسي).');
+INSERT INTO trails (id, name, description, region, difficulty, distance, estimatedDuration, images, safetyTips) VALUES (19, 'مسار وادي الفجر', 'يقع مسار وادي الفجر في منطقة تبوك. مسار متوسط الصعوبة بطول 15.4 كم، ويبلغ مجموع الصعود فيه نحو 117 م، ويستغرق قطعه قرابة 5 ساعات.', 'تبوك', 'moderate', 15.40, '5 ساعات', '["https://res.cloudinary.com/ptn3plua/image/upload/v1794821622/fajr-trail-01.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821619/fajr-trail-02.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821613/fajr-trail-03.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821616/fajr-trail-04.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821609/fajr-trail-05.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794821608/fajr-trail-06.jpg"]', '• احرص على ارتداء أحذية مناسبة للمشي الجبلي.
+• احمل كمية كافية من الماء.
+• تجنب المسارات خلال سوء الأحوال الجوية.
+• اتبع اللوحات الإرشادية ولا تترك النفايات خلفك.
+• احترم البيئة والنباتات ولا تقطف أو تعبث بالحياة الفطرية.
+• استخدم وسائل الحماية من الشمس (قبعة، واقي شمسي).');
+INSERT INTO trails (id, name, description, region, difficulty, distance, estimatedDuration, images, safetyTips) VALUES (20, 'مسار أبو الهول', 'يقع مسار أبو الهول في منطقة حائل. مسار متوسط الصعوبة بطول 5.12 كم، ويبلغ مجموع الصعود فيه نحو 75 م، ويستغرق قطعه قرابة 3 ساعات.', 'حائل', 'moderate', 5.12, '3 ساعات', '["https://res.cloudinary.com/ptn3plua/image/upload/v1794822214/abu-al-houl-trail-01.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822210/abu-al-houl-trail-02.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822206/abu-al-houl-trail-03.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822203/abu-al-houl-trail-04.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822157/abu-al-houl-trail-05.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822064/abu-al-houl-trail-06.jpg"]', '• احرص على ارتداء أحذية مناسبة للمشي الجبلي.
+• احمل كمية كافية من الماء.
+• تجنب المسارات خلال سوء الأحوال الجوية.
+• اتبع اللوحات الإرشادية ولا تترك النفايات خلفك.
+• احترم البيئة والنباتات ولا تقطف أو تعبث بالحياة الفطرية.
+• استخدم وسائل الحماية من الشمس (قبعة، واقي شمسي).');
+INSERT INTO trails (id, name, description, region, difficulty, distance, estimatedDuration, images, safetyTips) VALUES (21, 'مسار الضاحكية', 'يقع مسار الضاحكية في منطقة تبوك. مسار متوسط الصعوبة بطول 6.87 كم، ويبلغ مجموع الصعود فيه نحو 60 م، ويستغرق قطعه قرابة 5 ساعات.', 'تبوك', 'moderate', 6.87, '5 ساعات', '["https://res.cloudinary.com/ptn3plua/image/upload/v1794822494/al-dahakiyyah-trail-01.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822490/al-dahakiyyah-trail-02.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822403/al-dahakiyyah-trail-03.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822288/al-dahakiyyah-trail-04.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822285/al-dahakiyyah-trail-05.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822281/al-dahakiyyah-trail-06.jpg"]', '• احرص على ارتداء أحذية مناسبة للمشي الجبلي.
+• احمل كمية كافية من الماء.
+• تجنب المسارات خلال سوء الأحوال الجوية.
+• اتبع اللوحات الإرشادية ولا تترك النفايات خلفك.
+• احترم البيئة والنباتات ولا تقطف أو تعبث بالحياة الفطرية.
+• استخدم وسائل الحماية من الشمس (قبعة، واقي شمسي).');
+INSERT INTO trails (id, name, description, region, difficulty, distance, estimatedDuration, images, safetyTips) VALUES (22, 'مسار عقدة', 'يقع مسار عقدة في منطقة حائل. مسار متوسط الصعوبة بطول 5.34 كم، ويبلغ مجموع الصعود فيه نحو 289 م، ويستغرق قطعه قرابة 4 ساعات.', 'حائل', 'moderate', 5.34, '4 ساعات', '["https://res.cloudinary.com/ptn3plua/image/upload/v1794822561/uqda-trail-01.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822557/uqda-trail-02.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822553/uqda-trail-03.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822549/uqda-trail-04.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822546/uqda-trail-05.jpg","https://res.cloudinary.com/ptn3plua/image/upload/v1794822542/uqda-trail-06.jpg"]', '• احرص على ارتداء أحذية مناسبة للمشي الجبلي.
+• احمل كمية كافية من الماء.
+• تجنب المسارات خلال سوء الأحوال الجوية.
+• اتبع اللوحات الإرشادية ولا تترك النفايات خلفك.
+• احترم البيئة والنباتات ولا تقطف أو تعبث بالحياة الفطرية.
+• استخدم وسائل الحماية من الشمس (قبعة، واقي شمسي).');
