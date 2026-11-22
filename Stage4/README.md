@@ -47,7 +47,7 @@ This README is organised by feature to give a clear overview of the project's st
 
 | Layer | Technology |
 |---|---|
-| Frontend | Flutter (MVVM, feature-first folder structure), Google Maps SDK, geolocator, pinput |
+| Frontend | Flutter (MVVM, feature-first folder structure), flutter_map, geolocator, pinput |
 | Backend | Python, Flask, JWT |
 | Database | MySQL, SQLAlchemy, Flask-Migrate |
 | Email | Resend (OTP emails, sent from the team domain) |
