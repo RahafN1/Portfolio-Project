@@ -1,0 +1,151 @@
+import json
+
+from app.extensions import db
+
+# علامة تعني "ما أعطيناك التقييم، احسبه بنفسك" (None معناها: ما فيه تقييمات)
+_NOT_GIVEN = object()
+
+class Trail(db.Model):
+    """A hiking trail (UML: Trail)."""
+    __tablename__ = "trails"
+
+    # ---------- Attributes ----------
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), nullable=False, index=True)
+    description = db.Column(db.Text)
+    region = db.Column(db.String(50), nullable=False, index=True)
+    difficulty = db.Column(db.Enum("easy", "moderate", "hard"), nullable=False, index=True)
+    distance = db.Column(db.Numeric(5, 2), nullable=False)
+    estimated_duration = db.Column("estimatedDuration", db.String(50), nullable=False)
+    images = db.Column(db.Text)
+    start_latitude = db.Column("startLatitude", db.Numeric(9, 6))
+    start_longitude = db.Column("startLongitude", db.Numeric(9, 6))
+    end_latitude = db.Column("endLatitude", db.Numeric(9, 6))
+    end_longitude = db.Column("endLongitude", db.Numeric(9, 6))
+    route_coordinates = db.Column("routeCoordinates", db.JSON)
+    safety_tips = db.Column("safetyTips", db.Text)
+    created_at = db.Column("createdAt", db.DateTime, server_default=db.func.now())
+
+    # ---------- English versions of the text fields ----------
+    name_en = db.Column(db.String(150))
+    description_en = db.Column(db.Text)
+    region_en = db.Column(db.String(50))
+    estimated_duration_en = db.Column("estimatedDuration_en", db.String(50))
+    safety_tips_en = db.Column("safetyTips_en", db.Text)
+
+    # ---------- Helpers ----------
+    @property
+    def image_list(self):
+        """The images column holds a JSON list as text; return it as a list."""
+        return json.loads(self.images) if self.images else []
+
+    @staticmethod
+    def _point(lat, lng):
+        """Build {"lat", "lng"} or None when the point is not set yet."""
+        if lat is None or lng is None:
+            return None
+        return {"lat": float(lat), "lng": float(lng)}
+    
+    @staticmethod
+    def _pick(arabic, english, lang):
+        """Return the English text when lang is 'en' and it exists, otherwise Arabic."""
+        if lang == "en" and english:
+            return english
+        return arabic
+
+    def get_average_rating(self):
+        """Average of this trail's reviews (1 decimal), or None if no reviews."""
+        # import هنا (مو فوق) عشان ما يصير استيراد دائري مع review.py
+        from app.models.review import Review
+
+        avg = (db.session.query(db.func.avg(Review.rating))
+               .filter(Review.trail_id == self.id)
+               .scalar())
+        return round(float(avg), 1) if avg is not None else None
+
+    # ---------- Methods (UML) ----------
+    def get_location(self):
+        """UML: getLocation() — the trail's start and end points."""
+        return {
+            "start_point": self._point(self.start_latitude, self.start_longitude),
+            "end_point": self._point(self.end_latitude, self.end_longitude),
+        }
+
+    def get_route(self):
+        """UML: getRoute() — the GeoJSON route, or None if not added yet."""
+        return self.route_coordinates
+
+    def get_safety_tips(self):
+        """UML: getSafetyTips()."""
+        return self.safety_tips
+
+    def get_summary(self, lang="ar", average_rating=_NOT_GIVEN):
+        """Short version for trail lists (endpoint 14) — no full route."""
+        images = self.image_list
+        if average_rating is _NOT_GIVEN:
+            average_rating = self.get_average_rating()
+
+        name_ar = self.name
+        name_en = self.name_en or self.name
+        region_ar = self.region
+        region_en = self.region_en or self.region
+        duration_ar = self.estimated_duration
+        duration_en = self.estimated_duration_en or self.estimated_duration
+
+        return {
+            "id": self.id,
+            "name": self._pick(name_ar, name_en, lang),
+            "name_ar": name_ar,
+            "name_en": name_en,
+            "region": self._pick(region_ar, region_en, lang),
+            "region_ar": region_ar,
+            "region_en": region_en,
+            "difficulty": self.difficulty,
+            "distance": float(self.distance),
+            "estimated_duration": self._pick(duration_ar, duration_en, lang),
+            "estimated_duration_ar": duration_ar,
+            "estimated_duration_en": duration_en,
+            "average_rating": average_rating,
+            "cover_image": images[0] if images else None,
+            "start_point": self.get_location()["start_point"],
+        }
+
+    def get_details(self, lang="ar"):
+        """UML: getDetails() — full details for the trail page (endpoint 15)."""
+        name_ar = self.name
+        name_en = self.name_en or self.name
+        desc_ar = self.description
+        desc_en = self.description_en or self.description
+        region_ar = self.region
+        region_en = self.region_en or self.region
+        duration_ar = self.estimated_duration
+        duration_en = self.estimated_duration_en or self.estimated_duration
+        tips_raw = self.get_safety_tips()
+        tips_ar = tips_raw
+        tips_en = self.safety_tips_en or tips_raw
+
+        return {
+            "id": self.id,
+            "name": self._pick(name_ar, name_en, lang),
+            "name_ar": name_ar,
+            "name_en": name_en,
+            "description": self._pick(desc_ar, desc_en, lang),
+            "description_ar": desc_ar,
+            "description_en": desc_en,
+            "region": self._pick(region_ar, region_en, lang),
+            "region_ar": region_ar,
+            "region_en": region_en,
+            "difficulty": self.difficulty,
+            "distance": float(self.distance),
+            "estimated_duration": self._pick(duration_ar, duration_en, lang),
+            "estimated_duration_ar": duration_ar,
+            "estimated_duration_en": duration_en,
+            "images": self.image_list,
+            **self.get_location(),
+            "route_coordinates": self.get_route(),
+            "safety_tips": self._pick(tips_ar, tips_en, lang),
+            "safety_tips_ar": tips_ar,
+            "safety_tips_en": tips_en,
+            "average_rating": self.get_average_rating(),
+            "created_at": self.created_at.isoformat() + "Z" if self.created_at else None,
+        }

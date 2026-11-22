@@ -1,0 +1,256 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../core/routing/app_router.dart';
+import '../../../core/widgets/guest_login_sheet.dart';
+import '../../auth/viewmodels/auth_viewmodel.dart';
+import '../models/trail.dart';
+import '../viewmodels/explore_viewmodel.dart';
+import 'trail_details_screen.dart';
+import 'widgets/difficulty_chips.dart';
+import 'widgets/explore_header.dart';
+import 'widgets/filter_sheet.dart';
+import 'widgets/region_tabs.dart';
+import 'widgets/trail_card.dart';
+import '../../favorites/viewmodels/favorites_viewmodel.dart';
+import '../../../core/widgets/shimmer_box.dart';
+import 'widgets/trail_card_skeleton.dart';
+import 'widgets/openable_trail_card.dart';
+import '../../../l10n/l10n.dart';
+import '../data/trails_repository.dart';
+import '../data/trails_repository.dart';
+
+// الرئيسية: ترحيب + بحث + فلاتر + المسارات
+class ExploreScreen extends StatefulWidget {
+  const ExploreScreen({super.key});
+
+  @override
+  State<ExploreScreen> createState() => _ExploreScreenState();
+}
+
+class _ExploreScreenState extends State<ExploreScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+    // أول ما تفتح الشاشة نجيب المسارات
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ExploreViewModel>().loadTrails();
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  // لما نقرب من آخر القائمة (٣٠٠ بكسل) نجيب الصفحة اللي بعدها
+  void _onScroll() {
+    final position = _scrollController.position;
+    if (position.pixels >= position.maxScrollExtent - 300) {
+      context.read<ExploreViewModel>().loadMore();
+    }
+  }
+
+  Future<void> _logout() async {
+    await context.read<AuthViewModel>().logout();
+    if (!mounted) return;
+    Navigator.pushNamedAndRemoveUntil(
+        context, AppRouter.login, (route) => false);
+  }
+
+  // لما اليوزر يضغط زر الحفظ
+  Future<void> _onSaveTap(Trail trail) async {
+    // إذا ضيف، نطلع له تنبيه تسجيل الدخول
+    if (context.read<AuthViewModel>().isGuest) {
+      showGuestLoginSheet(context);
+      return; // نوقف هنا وما نحفظ
+    }
+    final ok = await context.read<FavoritesViewModel>().toggleSaved(trail);
+    if (!ok && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.trailsSaveFailed)),
+      );
+    }
+  }
+
+  // يفتح صفحة تفاصيل المسار
+  void _openDetails(Trail trail) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TrailDetailsScreen(trail: trail),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final user = context.watch<AuthViewModel>().user;
+    final explore = context.watch<ExploreViewModel>();
+    final isGuest = user?.isGuest == true;
+    final name = (isGuest || (user?.name ?? '').isEmpty)
+    ? context.l10n.trailsExplorerName
+    : user!.name.trim().split(' ').first;
+
+    return SafeArea(
+      child: RefreshIndicator(
+        onRefresh: () {
+  context.read<TrailsRepository>().api.clearCache();
+  return explore.loadTrails();
+},
+        child: ListView(
+          controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.only(bottom: 24),
+          children: [
+            ExploreHeader(
+              userName: name,
+              isGuest: context.watch<AuthViewModel>().isGuest,
+              onProfileTap: _logout,
+            ),
+            ExploreSearchBar(
+              onChanged: explore.setSearch,
+              onFilterTap: () => showFilterSheet(context),
+              filterActive: explore.hasActiveFilters,
+            ),
+            DifficultyChips(
+              selected: explore.selectedDifficulty,
+              onSelected: explore.setDifficulty,
+            ),
+            RegionTabs(
+              regions: explore.regions,
+              selected: explore.selectedRegion,
+              onSelected: explore.setRegion,
+            ),
+            ..._buildContent(explore),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildContent(ExploreViewModel explore) {
+      if (explore.isLoading) {
+      return const [
+        // Shimmer واحد يلف الكروت كلها عشان اللمعان يمشي عليها مع بعض
+        Shimmer(
+          child: Column(
+            children: [
+              TrailCardSkeleton(),
+              TrailCardSkeleton(),
+              TrailCardSkeleton(),
+            ],
+          ),
+        ),
+      ];
+    }
+
+    if (explore.errorMessage != null) {
+      return [
+        SizedBox(
+          height: 260,
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(explore.errorMessage!),
+                TextButton(
+                onPressed: () {
+  context.read<TrailsRepository>().api.clearCache();
+  explore.loadTrails();
+},
+                  child: Text(context.l10n.trailsRetry),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ];
+    }
+
+    if (explore.trails.isEmpty) {   // ← صارت: explore.trails.isEmpty 
+      return [
+        SizedBox(
+          height: 260,
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(AppLocalizations.of(context)!.noTrailsMatch),
+                if (explore.hasActiveFilters || explore.searchQuery.isNotEmpty)
+  TextButton(
+    onPressed: explore.resetFilters,
+    child: Text(AppLocalizations.of(context).resetFilters),
+  ),
+                
+              ],
+            ),
+          ),
+        ),
+      ];
+    }
+
+    final trails = explore.trails;   // ← صارت: explore.trails
+
+    return [
+      // كل المسارات (عمودي)
+      _SectionTitle(title: AppLocalizations.of(context).trailsSection),
+      for (final trail in trails)
+        Padding(
+          key: ValueKey(trail.id), // عشان الأنيميشن ما يختلط لو تغيّرت القائمة بالفلتر
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+          child: OpenableTrailCard(
+            trail: trail,
+            isSaved: context.watch<FavoritesViewModel>().isSaved(trail.id),
+            onSaveTap: () => _onSaveTap(trail),
+          ),
+        ),
+        //تحميل الزياده بعد شمر
+      if (explore.isLoadingMore)
+        const Shimmer(child: TrailCardSkeleton())
+      else if (explore.loadMoreError != null)
+        Center(
+          child: TextButton(
+            onPressed: explore.loadMore,
+            child: Text(context.l10n.trailsLoadMoreRetry(explore.loadMoreError!)),
+          ),
+        ),
+    ];
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  final String title;
+  final String? subtitle;
+
+  const _SectionTitle({required this.title, this.subtitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (subtitle != null)
+            Text(
+              subtitle!,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Color(0xFFC97B47),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+}

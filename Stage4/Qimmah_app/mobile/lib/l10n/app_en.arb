@@ -1,0 +1,461 @@
+{
+  "@@locale": "en",
+  "appName": "Qimmah",
+  "tagline": "Always at the summit",
+  "startExploring": "Start exploring",
+  "haveAccount": "Already have an account?",
+  "loginLink": "Log in",
+  "searchHint": "Search for a trail...",
+  "allRegions": "All regions",
+  "language": "Language",
+  "difficultyEasy": "Easy",
+  "difficultyModerate": "Moderate",
+  "difficultyHard": "Hard",
+  "loadTrailsError": "Couldn't load trails",
+  "welcomeUser": "Welcome, {name}",
+  "reviewsCount": "{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}",
+  "tabExplore": "Explore",
+  "tabMap": "Map",
+  "tabMyTrails": "My trails",
+  "tabProfile": "Profile",
+  "profileTitle": "Profile",
+  "accountSection": "Account",
+  "editProfile": "Edit profile",
+  "logout": "Log out",
+  "statSaved": "Saved",
+  "statCompleted": "Completed",
+  "statKmWalked": "km walked",
+  "all": "All",
+  "filterTrails": "Filter trails",
+  "resetShort": "Reset",
+  "difficulty": "Difficulty",
+  "region": "Region",
+  "showTrails": "Show {count} trails",
+  "@showTrails": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "firstName": "First name",
+  "lastName": "Last name",
+  "email": "Email",
+  "emailCannotChange": "Email can't be changed",
+  "saveChanges": "Save changes",
+  "account": "Account",
+  "changesSaved": "Changes saved",
+  "saveFailed": "Couldn't save",
+  "guestTitle": "You're browsing as a guest",
+  "guestMessage": "Log in to save your trails, rate them, and track your achievements.",
+  "login": "Log in",
+  "trailsSection": "Trails",
+  "noTrailsMatch": "No trails match your search",
+  "resetFilters": "Reset filters",
+  "loadMoreFailed": "Couldn't load more",
+  "appSlogan": "Your trail... to the summit",
+  "adminBrandLatin": "Qimmah",
+  "adminBrandArabic": "قمّة",
+  "adminEditTrailTitle": "Edit trail",
+  "adminAddTrailTitle": "Add trail",
+  "adminTrailImages": "Trail photos",
+  "adminTrailNameAr": "Trail name (Arabic)",
+  "adminTrailNameArHint": "مسار وادي لجب",
+  "adminTrailNameEn": "Trail name (English)",
+  "adminSelectRegionHint": "Select a region",
+  "adminDistanceKm": "Distance (km)",
+  "adminDurationHours": "Estimated duration (hours)",
+  "adminTrailAbout": "About the trail",
+  "adminTrailAboutHint": "A short description of the trail and its terrain...",
+  "adminPublishTrail": "Publish trail",
+  "adminCancel": "Cancel",
+  "adminAddImage": "Add photo",
+  "adminEnterNameAr": "Enter the trail name in Arabic",
+  "adminChooseRegion": "Choose a region",
+  "adminEnterDistance": "Enter the distance as a valid number",
+  "adminEnterDuration": "Enter the estimated duration",
+  "adminEnterAbout": "Write a short description of the trail",
+  "adminTrailPublished": "Trail published",
+  "adminSaveTrailFailed": "Couldn't save the trail, please try again",
+  "adminRegionRiyadh": "Riyadh",
+  "adminRegionMakkah": "Makkah",
+  "adminRegionMadinah": "Madinah",
+  "adminRegionQassim": "Al-Qassim",
+  "adminRegionEastern": "Eastern Province",
+  "adminRegionAsir": "Asir",
+  "adminRegionTabuk": "Tabuk",
+  "adminRegionHail": "Hail",
+  "adminRegionNorthernBorders": "Northern Borders",
+  "adminRegionJazan": "Jazan",
+  "adminRegionNajran": "Najran",
+  "adminRegionBaha": "Al-Baha",
+  "adminRegionJawf": "Al-Jawf",
+  "adminLogoutConfirmTitle": "Log out?",
+  "adminLogoutConfirmMessage": "You'll go back to the start page.",
+  "adminLogoutConfirmButton": "Log out",
+  "adminDashboardTitle": "Dashboard",
+  "adminRetry": "Try again",
+  "adminStatTrails": "Trails",
+  "adminStatReviews": "Reviews",
+  "adminStatUsers": "Users",
+  "adminTabReviews": "Reviews",
+  "adminTabUsers": "Users",
+  "adminDeleteReviewTitle": "Delete this review?",
+  "adminDeleteReviewMessage": "The review will be deleted for violating the content policy, and its author won't be able to restore it.",
+  "adminDelete": "Delete",
+  "adminReviewDeleted": "Review deleted",
+  "adminDeleteReviewFailed": "Couldn't delete the review, please try again",
+  "adminNoReviews": "No reviews",
+  "adminDeleteReviewButton": "Delete review",
+  "adminSuspendUserTitle": "Suspend this user?",
+  "adminSuspendUserMessage": "They won't be able to log in or write reviews until you lift the suspension.",
+  "adminSuspend": "Suspend",
+  "adminUnsuspend": "Unsuspend",
+  "adminGenericError": "Something went wrong, please try again",
+  "adminUserSuspended": "{name} has been suspended",
+  "@adminUserSuspended": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminUserUnsuspended": "{name} has been unsuspended",
+  "@adminUserUnsuspended": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminNoUsers": "No users",
+  "adminUserReviewsCount": "{count, plural, =1{1 review} other{{count} reviews}}",
+  "@adminUserReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminStatusSuspended": "Suspended",
+  "adminStatusActive": "Active",
+  "adminDeleteTrailTitle": "Delete this trail?",
+  "adminDeleteTrailMessage": "\"{name}\" will be permanently deleted along with all its reviews and favorites.",
+  "@adminDeleteTrailMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminTrailDeleted": "Trail deleted",
+  "adminDeleteTrailFailed": "Couldn't delete the trail, please try again",
+  "adminNoTrails": "No trails",
+  "adminEditTrailTooltip": "Edit trail",
+  "adminDeleteTrailTooltip": "Delete trail",
+  "adminLoadError": "Couldn't load the dashboard data",
+  "adminTimeAgoMonths": "{count, plural, =1{1 month ago} other{{count} months ago}}",
+  "@adminTimeAgoMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminTimeAgoDays": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@adminTimeAgoDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminTimeAgoHours": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@adminTimeAgoHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminTimeAgoMinutes": "A few minutes ago",
+  "reviewsDeleteTitle": "Delete your review?",
+  "reviewsDeleteMessage": "Your rating and comment on this trail will be permanently deleted.",
+  "reviewsCancel": "Cancel",
+  "reviewsDelete": "Delete",
+  "reviewsWriteTitle": "Write your review",
+  "reviewsYourRating": "Your rating for the trail",
+  "reviewsYourComment": "Your comment",
+  "reviewsCommentHint": "Share your experience on the trail...",
+  "reviewsPublish": "Post review",
+  "reviewsAnonymousUser": "User",
+  "reviewsNameYou": "{name} (You)",
+  "@reviewsNameYou": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewsDeleteYours": "Delete your review",
+  "reviewsGuestLoginToRate": "Log in to rate this trail",
+  "reviewsPosted": "Your review is posted, thank you!",
+  "reviewsDeleted": "Your review was deleted",
+  "reviewsDeleteFailed": "Couldn't delete the review, please try again",
+  "reviewsTitle": "Reviews",
+  "reviewsTitleWithCount": "Reviews ({count})",
+  "@reviewsTitleWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewsRetry": "Try again",
+  "reviewsEmpty": "No reviews yet. Be the first to review this trail.",
+  "reviewsLoadError": "Couldn't load reviews",
+  "reviewsSessionExpired": "Your session expired, please log in again",
+  "reviewsPublishFailed": "Couldn't post your review, please try again",
+  "coreRequestTimeout": "Connection timed out, please try again",
+  "coreGenericError": "Something went wrong, please try again",
+  "coreComingSoon": "{title} — coming soon",
+  "@coreComingSoon": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "coreGuestSheetTitle": "Log in to save this trail",
+  "coreGuestSheetBody": "Saving, rating and logging completed trails are available to registered users.",
+  "coreNotNow": "Not now",
+  "authGuestName": "Guest",
+  "authCheckConnection": "Check your internet connection",
+  "authFillEmailPassword": "Enter your email and password",
+  "authLoginTitle": "Welcome back",
+  "authLoginSubtitle": "Log in to save your trails and rate them.",
+  "authPassword": "Password",
+  "authNoAccount": "Don't have an account?",
+  "authCreateAccount": "Create a new account",
+  "authOr": "or",
+  "authBrowseAsGuest": "Browse as a guest",
+  "authFillAllFields": "Fill in all fields",
+  "authPasswordMinLength": "Password must be at least 8 characters",
+  "authSignupTitle": "Create your account",
+  "authSignupSubtitle": "One account to keep your trails and achievements.",
+  "authPasswordHint": "At least 8 characters",
+  "authCreateAccountButton": "Sign up",
+  "authNewCodeSent": "We've sent you a new code",
+  "authOtpTitle": "Check your email",
+  "authOtpSentTo": "We've sent a 6-digit code to",
+  "authOtpLabel": "Verification code",
+  "authOtpConfirm": "Confirm",
+  "authOtpNotReceived": "Didn't get the code?",
+  "authOtpResendIn": "Resend in {seconds}s",
+  "@authOtpResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authOtpResend": "Resend",
+  "authChangeEmail": "Change email",
+  "authAccountCreatedTitle": "Your account is ready",
+  "authAccountCreatedSubtitle": "Everything's set, let's head to the summit.",
+  "authContinue": "Continue",
+  "authBackToForm": "Back to the form",
+  "splashLightMode": "Light mode",
+  "splashDarkMode": "Dark mode",
+  "mapTapHint": "Tap a marker to view the trail",
+  "mapDirections": "Directions",
+  "mapStartTrail": "Start trail",
+  "mapViewDetails": "View details",
+  "mapDirectionsError": "We couldn't open Maps",
+  "mapLocationTitle": "We need your location",
+  "mapLocationBody": "So we can show where you are on the map and make sure you're on the right trail. We never share your location with anyone.",
+  "mapLocationAllow": "Allow location access",
+  "mapLocationNotNow": "Not now",
+  "mapLocationError": "We couldn't find your location. Make sure location is turned on and allowed.",
+  "mapOnTrailTitle": "You're on the trail",
+  "mapOnTrailEnd": "End",
+  "mapNoRoute": "This trail doesn't have a route on the map yet",
+  "mapRecenter": "Follow me",
+  "mapOnTrailOffRoute": "You've moved off the trail",
+  "mapOnTrailFinished": "You've reached the end of the trail 🎉",
+  "mapStartPointTitle": "Starting point",
+  "mapStartPointSubtitle": "Open the location in your maps app",
+  "mapDistanceAndDuration": "{distance} km · {duration}",
+  "@mapDistanceAndDuration": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "mapDistanceMeters": "{meters} m",
+  "@mapDistanceMeters": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  },
+  "mapDistanceKm": "{km} km",
+  "@mapDistanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "mapOnTrailRemaining": "Remaining: {distance}",
+  "@mapOnTrailRemaining": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "mapOnTrailUpdatedAgo": "Last updated: {seconds}s ago",
+  "@mapOnTrailUpdatedAgo": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "profileInitialFallback": "?",
+  "profileLogoutMessage": "Your account will go back to guest mode, and your trails stay saved in your account.",
+  "profileCancel": "Cancel",
+  "profileLightMode": "Light mode",
+  "profileDarkMode": "Dark mode",
+  "favoritesUnsaveFailed": "Couldn't unsave the trail, please try again",
+  "favoritesRetry": "Try again",
+  "favoritesNoSaved": "You haven't saved any trails yet",
+  "favoritesNoCompleted": "You haven't completed any trails yet",
+  "favoritesUnsave": "Unsave",
+  "favoritesDistanceKm": "{distance} km",
+  "@favoritesDistanceKm": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesCompleted": "Completed",
+  "favoritesCompletedOn": "Completed on {date}",
+  "@favoritesCompletedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesGuestTitle": "All your trails in one place",
+  "favoritesGuestMessage": "Log in to save trails and track your achievements.",
+  "favoritesCompletedBanner": "You completed {count, plural, =1{1 trail} other{{count} trails}} · {distance} km walked",
+  "@favoritesCompletedBanner": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesTabSaved": "Saved ({count})",
+  "@favoritesTabSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesTabCompleted": "Completed ({count})",
+  "@favoritesTabCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesLoadError": "We couldn't load your trails",
+  "favoritesDate": "{month} {day}, {year}",
+  "@favoritesDate": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "month": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesMonthJan": "January",
+  "favoritesMonthFeb": "February",
+  "favoritesMonthMar": "March",
+  "favoritesMonthApr": "April",
+  "favoritesMonthMay": "May",
+  "favoritesMonthJun": "June",
+  "favoritesMonthJul": "July",
+  "favoritesMonthAug": "August",
+  "favoritesMonthSep": "September",
+  "favoritesMonthOct": "October",
+  "favoritesMonthNov": "November",
+  "favoritesMonthDec": "December",
+  "trailsSaveFailed": "Couldn't save the trail, please try again",
+  "trailsExplorerName": "Explorer",
+  "trailsRetry": "Try again",
+  "trailsLoadMoreRetry": "{error}, try again",
+  "@trailsLoadMoreRetry": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "trailsSavedToast": "Saved",
+  "trailsUnsavedToast": "Removed from saved",
+  "trailsLoginToComplete": "Log in to mark this trail as completed",
+  "trailsCompletedToast": "Congrats! Trail completed",
+  "trailsUncompletedToast": "Removed from completed",
+  "trailsKm": "{distance} km",
+  "@trailsKm": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "trailsAboutTitle": "About the trail",
+  "trailsStartPointTitle": "Starting point",
+  "trailsSafetyTipsTitle": "Safety tips",
+  "trailsNoDescription": "No description for this trail yet.",
+  "trailsDetailsLoadError": "Couldn't load trail details",
+  "trailsCertified": "Certified",
+  "trailsCompleted": "Completed",
+  "trailsMarkCompleted": "Mark as completed",
+  "trailsSavedLabel": "Saved",
+  "trailsSave": "Save",
+  "trailsDistance": "Distance",
+  "trailsEstimatedDuration": "Estimated time",
+  "trailsLogoAr": "قمّة",
+  "authForgotPassword": "Forgot password?",
+  "authForgotSubtitle": "Enter your email and we'll send you a code to reset your password.",
+  "authSendResetCode": "Send code",
+  "authEnterEmail": "Enter your email",
+  "authResetTitle": "Reset password",
+  "authNewPassword": "New password",
+  "authPasswordRules": "At least 8 characters, with an uppercase letter, a lowercase letter and a number",
+  "authResetButton": "Reset password",
+  "authResetSuccess": "Your password was changed. Log in with your new password.",
+  "trailsLogoEn": "Qimmah"
+}

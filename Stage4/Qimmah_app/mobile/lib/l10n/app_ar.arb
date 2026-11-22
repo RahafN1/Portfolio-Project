@@ -1,0 +1,475 @@
+{
+  "@@locale": "ar",
+  "appName": "قمّة",
+  "tagline": "خلك دائماً بالقمّة",
+  "startExploring": "ابدأ الاستكشاف",
+  "haveAccount": "عندك حساب؟",
+  "loginLink": "سجّل دخولك",
+  "searchHint": "ابحث عن مسار...",
+  "allRegions": "كل المناطق",
+  "language": "اللغة",
+  "difficultyEasy": "سهل",
+  "difficultyModerate": "متوسط",
+  "difficultyHard": "صعب",
+  "loadTrailsError": "ما قدرنا نجيب المسارات",
+  "welcomeUser": "أهلاً، {name}",
+  "@welcomeUser": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewsCount": "{count, plural, =0{لا توجد تقييمات} =1{تقييم واحد} =2{تقييمان} few{{count} تقييمات} many{{count} تقييماً} other{{count} تقييم}}",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "tabExplore": "استكشف",
+  "tabMap": "الخريطة",
+  "tabMyTrails": "مساراتي",
+  "tabProfile": "حسابي",
+  "profileTitle": "حسابي",
+  "accountSection": "الحساب",
+  "editProfile": "تعديل البيانات",
+  "logout": "تسجيل الخروج",
+  "statSaved": "محفوظة",
+  "statCompleted": "مكتملة",
+  "statKmWalked": "كم مشي",
+  "all": "الكل",
+  "filterTrails": "تصفية المسارات",
+  "resetShort": "إعادة ضبط",
+  "difficulty": "الصعوبة",
+  "region": "المنطقة",
+  "showTrails": "عرض {count} مسار",
+  "@showTrails": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "firstName": "الاسم الأول",
+  "lastName": "اسم العائلة",
+  "email": "البريد الإلكتروني",
+  "emailCannotChange": "البريد ما يتغير",
+  "saveChanges": "حفظ التعديلات",
+  "account": "الحساب",
+  "changesSaved": "تم حفظ التعديلات",
+  "saveFailed": "تعذر الحفظ",
+  "guestTitle": "أنت تتصفح كزائر",
+  "guestMessage": "سجّل دخولك عشان تحفظ مساراتك وتقيّمها وتتابع إنجازاتك.",
+  "login": "تسجيل الدخول",
+  "trailsSection": "المسارات",
+  "noTrailsMatch": "ما فيه مسارات تطابق بحثك",
+  "resetFilters": "إعادة ضبط الفلاتر",
+  "loadMoreFailed": "ما قدرنا نحمّل المزيد",
+  "appSlogan": "مسارك...للقمة",
+  "adminBrandLatin": "Qimmah",
+  "adminBrandArabic": "قمّة",
+  "adminEditTrailTitle": "تعديل مسار",
+  "adminAddTrailTitle": "إضافة مسار",
+  "adminTrailImages": "صور المسار",
+  "adminTrailNameAr": "اسم المسار بالعربي",
+  "adminTrailNameArHint": "مسار وادي لجب",
+  "adminTrailNameEn": "اسم المسار بالإنجليزي",
+  "adminSelectRegionHint": "اختر المنطقة",
+  "adminDistanceKm": "المسافة (كم)",
+  "adminDurationHours": "المدة المتوقعة (ساعات)",
+  "adminTrailAbout": "نبذة عن المسار",
+  "adminTrailAboutHint": "وصف مختصر للمسار وطبيعته...",
+  "adminPublishTrail": "نشر المسار",
+  "adminCancel": "إلغاء",
+  "adminAddImage": "إضافة صورة",
+  "adminEnterNameAr": "اكتبي اسم المسار بالعربي",
+  "adminChooseRegion": "اختاري المنطقة",
+  "adminEnterDistance": "اكتبي المسافة كرقم صحيح",
+  "adminEnterDuration": "اكتبي المدة المتوقعة",
+  "adminEnterAbout": "اكتبي نبذة عن المسار",
+  "adminTrailPublished": "تم نشر المسار",
+  "adminSaveTrailFailed": "ما قدرنا نحفظ المسار، حاول مرة ثانية",
+  "adminRegionRiyadh": "الرياض",
+  "adminRegionMakkah": "مكة المكرمة",
+  "adminRegionMadinah": "المدينة المنورة",
+  "adminRegionQassim": "القصيم",
+  "adminRegionEastern": "الشرقية",
+  "adminRegionAsir": "عسير",
+  "adminRegionTabuk": "تبوك",
+  "adminRegionHail": "حائل",
+  "adminRegionNorthernBorders": "الحدود الشمالية",
+  "adminRegionJazan": "جازان",
+  "adminRegionNajran": "نجران",
+  "adminRegionBaha": "الباحة",
+  "adminRegionJawf": "الجوف",
+  "adminLogoutConfirmTitle": "تسجيل الخروج؟",
+  "adminLogoutConfirmMessage": "بترجعين لصفحة البداية.",
+  "adminLogoutConfirmButton": "خروج",
+  "adminDashboardTitle": "لوحة التحكم",
+  "adminRetry": "حاول مرة ثانية",
+  "adminStatTrails": "مسارات",
+  "adminStatReviews": "تقييمات",
+  "adminStatUsers": "مستخدمين",
+  "adminTabReviews": "التقييمات",
+  "adminTabUsers": "المستخدمين",
+  "adminDeleteReviewTitle": "حذف هذا التقييم؟",
+  "adminDeleteReviewMessage": "بينحذف التقييم لأنه مخالف لسياسة المحتوى، وما يقدر صاحبه يرجعه.",
+  "adminDelete": "حذف",
+  "adminReviewDeleted": "تم حذف التقييم",
+  "adminDeleteReviewFailed": "ما قدرنا نحذف التقييم، حاول مرة ثانية",
+  "adminNoReviews": "ما فيه تقييمات",
+  "adminDeleteReviewButton": "حذف التقييم",
+  "adminSuspendUserTitle": "إيقاف المستخدم؟",
+  "adminSuspendUserMessage": "ما يقدر يسجل دخول أو يكتب تقييمات لين تلغي الإيقاف.",
+  "adminSuspend": "إيقاف",
+  "adminUnsuspend": "إلغاء الإيقاف",
+  "adminGenericError": "صار خطأ، حاول مرة ثانية",
+  "adminUserSuspended": "تم إيقاف {name}",
+  "@adminUserSuspended": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminUserUnsuspended": "تم إلغاء إيقاف {name}",
+  "@adminUserUnsuspended": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminNoUsers": "ما فيه مستخدمين",
+  "adminUserReviewsCount": "{count} تقييمات",
+  "@adminUserReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminStatusSuspended": "موقوف",
+  "adminStatusActive": "نشط",
+  "adminDeleteTrailTitle": "حذف المسار؟",
+  "adminDeleteTrailMessage": "بينحذف \"{name}\" مع كل تقييماته ومفضلاته نهائياً.",
+  "@adminDeleteTrailMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminTrailDeleted": "تم حذف المسار",
+  "adminDeleteTrailFailed": "ما قدرنا نحذف المسار، حاول مرة ثانية",
+  "adminNoTrails": "ما فيه مسارات",
+  "adminEditTrailTooltip": "تعديل المسار",
+  "adminDeleteTrailTooltip": "حذف المسار",
+  "adminLoadError": "ما قدرنا نحمّل بيانات لوحة التحكم",
+  "adminTimeAgoMonths": "قبل {count} شهر",
+  "@adminTimeAgoMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminTimeAgoDays": "قبل {count} يوم",
+  "@adminTimeAgoDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminTimeAgoHours": "قبل {count} ساعة",
+  "@adminTimeAgoHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminTimeAgoMinutes": "قبل دقائق",
+  "reviewsDeleteTitle": "حذف تقييمك؟",
+  "reviewsDeleteMessage": "بينحذف تقييمك وتعليقك على هذا المسار نهائياً.",
+  "reviewsCancel": "إلغاء",
+  "reviewsDelete": "حذف",
+  "reviewsWriteTitle": "اكتب تقييمك",
+  "reviewsYourRating": "تقييمك للمسار",
+  "reviewsYourComment": "تعليقك",
+  "reviewsCommentHint": "شاركنا تجربتك في المسار...",
+  "reviewsPublish": "نشر التقييم",
+  "reviewsAnonymousUser": "مستخدم",
+  "reviewsNameYou": "{name} (أنت)",
+  "@reviewsNameYou": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewsDeleteYours": "حذف تقييمك",
+  "reviewsGuestLoginToRate": "سجّل دخولك عشان تقيّم المسار",
+  "reviewsPosted": "تم نشر تقييمك، شكراً لك!",
+  "reviewsDeleted": "تم حذف تقييمك",
+  "reviewsDeleteFailed": "ما قدرنا نحذف التقييم، حاول مرة ثانية",
+  "reviewsTitle": "التقييمات",
+  "reviewsTitleWithCount": "التقييمات ({count})",
+  "@reviewsTitleWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewsRetry": "حاول مرة ثانية",
+  "reviewsEmpty": "ما فيه تقييمات للحين، كن أول من يقيّم هذا المسار.",
+  "reviewsLoadError": "ما قدرنا نحمّل التقييمات",
+  "reviewsSessionExpired": "انتهت جلستك، سجّل دخولك مرة ثانية",
+  "reviewsPublishFailed": "ما قدرنا ننشر التقييم، حاول مرة ثانية",
+  "coreRequestTimeout": "انتهت مهلة الاتصال، حاول مرة ثانية",
+  "coreGenericError": "صار خطأ، حاول مرة ثانية",
+  "coreComingSoon": "{title} — قريباً",
+  "@coreComingSoon": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "coreGuestSheetTitle": "سجّل دخولك عشان تحفظ المسار",
+  "coreGuestSheetBody": "الحفظ والتقييم وتسجيل المسارات المكتملة متاحة للمستخدمين المسجلين.",
+  "coreNotNow": "ليس الآن",
+  "authGuestName": "ضيف",
+  "authCheckConnection": "تأكد من اتصالك بالإنترنت",
+  "authFillEmailPassword": "عبّ الإيميل وكلمة المرور",
+  "authLoginTitle": "أهلًا من جديد",
+  "authLoginSubtitle": "سجّل دخولك عشان تحفظ مساراتك وتقيّمها.",
+  "authPassword": "كلمة المرور",
+  "authNoAccount": "ما عندك حساب؟",
+  "authCreateAccount": "أنشئ حساب جديد",
+  "authOr": "أو",
+  "authBrowseAsGuest": "تصفّح كزائر",
+  "authFillAllFields": "عبّ كل الحقول",
+  "authPasswordMinLength": "كلمة المرور 8 أحرف على الأقل",
+  "authSignupTitle": "أنشئ حسابك",
+  "authSignupSubtitle": "حساب واحد تحفظ فيه مساراتك وإنجازاتك.",
+  "authPasswordHint": "8 أحرف على الأقل",
+  "authCreateAccountButton": "إنشاء حساب",
+  "authNewCodeSent": "أرسلنا رمز جديد",
+  "authOtpTitle": "تحقق من بريدك",
+  "authOtpSentTo": "أرسلنا رمز من 6 أرقام إلى",
+  "authOtpLabel": "رمز التحقق",
+  "authOtpConfirm": "تأكيد",
+  "authOtpNotReceived": "ما وصلك الرمز؟",
+  "authOtpResendIn": "إعادة الإرسال بعد {seconds} ث",
+  "@authOtpResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authOtpResend": "إعادة الإرسال",
+  "authChangeEmail": "تغيير البريد الإلكتروني",
+  "authAccountCreatedTitle": "تم إنشاء حسابك",
+  "authAccountCreatedSubtitle": "كل شي جاهز، يلا نطلع للقمّة.",
+  "authContinue": "متابعة",
+  "authBackToForm": "رجوع للنموذج",
+  "splashLightMode": "الوضع الفاتح",
+  "splashDarkMode": "الوضع الداكن",
+  "mapTapHint": "اضغط على علامة لعرض المسار",
+  "mapDirections": "الاتجاهات",
+  "mapStartTrail": "ابدأ المسار",
+  "mapViewDetails": "عرض التفاصيل",
+  "mapDirectionsError": "ما قدرنا نفتح الخرائط",
+  "mapLocationTitle": "نحتاج نعرف موقعك",
+  "mapLocationBody": "عشان نوريك مكانك على الخريطة، ونتأكد إنك وأنت تمشي على المسار الصحيح. ما نشارك موقعك مع أحد.",
+  "mapLocationAllow": "السماح بالوصول للموقع",
+  "mapLocationNotNow": "ليس الآن",
+  "mapLocationError": "ما قدرنا نحدد موقعك. تأكد إن الموقع مفعّل ومسموح.",
+  "mapOnTrailTitle": "أنت على المسار",
+  "mapOnTrailEnd": "إنهاء",
+  "mapNoRoute": "هذا المسار ما له خط على الخريطة بعد",
+  "mapRecenter": "تتبّعني",
+  "mapOnTrailOffRoute": "ابتعدت عن المسار",
+  "mapOnTrailFinished": "وصلت نهاية المسار 🎉",
+  "mapStartPointTitle": "نقطة الانطلاق",
+  "mapStartPointSubtitle": "افتح الموقع في تطبيق الخرائط",
+  "mapDistanceAndDuration": "{distance} كم · {duration}",
+  "@mapDistanceAndDuration": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "mapDistanceMeters": "{meters} م",
+  "@mapDistanceMeters": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  },
+  "mapDistanceKm": "{km} كم",
+  "@mapDistanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "mapOnTrailRemaining": "المتبقي: {distance}",
+  "@mapOnTrailRemaining": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "mapOnTrailUpdatedAgo": "آخر تحديث: قبل {seconds} ث",
+  "@mapOnTrailUpdatedAgo": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "profileInitialFallback": "؟",
+  "profileLogoutMessage": "سيرجع حسابك كزائر، ومساراتك تبقى محفوظة في حسابك.",
+  "profileCancel": "إلغاء",
+  "profileLightMode": "الوضع الفاتح",
+  "profileDarkMode": "الوضع الداكن",
+  "favoritesUnsaveFailed": "ما قدرنا نلغي الحفظ، حاول مرة ثانية",
+  "favoritesRetry": "حاول مرة ثانية",
+  "favoritesNoSaved": "ما حفظت أي مسار للحين",
+  "favoritesNoCompleted": "ما أكملت أي مسار للحين",
+  "favoritesUnsave": "إلغاء الحفظ",
+  "favoritesDistanceKm": "{distance} كم",
+  "@favoritesDistanceKm": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesCompleted": "مكتمل",
+  "favoritesCompletedOn": "أكملته {date}",
+  "@favoritesCompletedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesGuestTitle": "مساراتك في مكان واحد",
+  "favoritesGuestMessage": "سجّل دخولك عشان تحفظ المسارات وتتابع إنجازاتك.",
+  "favoritesCompletedBanner": "أكملت {count, plural, =1{مسارًا واحدًا} =2{مسارين} few{{count} مسارات} many{{count} مسارًا} other{{count} مسارًا}} · {distance} كم مشي",
+  "@favoritesCompletedBanner": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesTabSaved": "المحفوظة ({count})",
+  "@favoritesTabSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesTabCompleted": "المكتملة ({count})",
+  "@favoritesTabCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesLoadError": "ما قدرنا نجيب مساراتك",
+  "favoritesDate": "{day} {month} {year}",
+  "@favoritesDate": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "month": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesMonthJan": "يناير",
+  "favoritesMonthFeb": "فبراير",
+  "favoritesMonthMar": "مارس",
+  "favoritesMonthApr": "أبريل",
+  "favoritesMonthMay": "مايو",
+  "favoritesMonthJun": "يونيو",
+  "favoritesMonthJul": "يوليو",
+  "favoritesMonthAug": "أغسطس",
+  "favoritesMonthSep": "سبتمبر",
+  "favoritesMonthOct": "أكتوبر",
+  "favoritesMonthNov": "نوفمبر",
+  "favoritesMonthDec": "ديسمبر",
+  "trailsSaveFailed": "ما قدرنا نحفظ المسار، حاول مرة ثانية",
+  "trailsExplorerName": "مستكشف",
+  "trailsRetry": "حاول مرة ثانية",
+  "trailsLoadMoreRetry": "{error}، حاول مرة ثانية",
+  "@trailsLoadMoreRetry": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "trailsSavedToast": "تم الحفظ",
+  "trailsUnsavedToast": "تم ازالة الحفظ",
+  "trailsLoginToComplete": "سجّل دخولك عشان تسجّل المسار",
+  "trailsCompletedToast": "مبروك! اكتمل المسار",
+  "trailsUncompletedToast": "تم ازالة المسار",
+  "trailsKm": "{distance} كم",
+  "@trailsKm": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "trailsAboutTitle": "نبذة عن المسار",
+  "trailsStartPointTitle": "نقطة البداية",
+  "trailsSafetyTipsTitle": "نصائح السلامة",
+  "trailsNoDescription": "ما فيه نبذة لهذا المسار للحين.",
+  "trailsDetailsLoadError": "ما قدرنا نحمّل تفاصيل المسار",
+  "trailsCertified": "معتمد",
+  "trailsCompleted": "مكتمل",
+  "trailsMarkCompleted": "أكملت المسار",
+  "trailsSavedLabel": "محفوظ",
+  "trailsSave": "حفظ",
+  "trailsDistance": "المسافة",
+  "trailsEstimatedDuration": "المدة المتوقعة",
+  "trailsLogoAr": "قمّة",
+  "authForgotPassword": "نسيت كلمة المرور؟",
+  "authForgotSubtitle": "اكتب إيميلك ونرسل لك رمز تعيدين فيه كلمة المرور.",
+  "authSendResetCode": "إرسال الرمز",
+  "authEnterEmail": "اكتب إيميلك",
+  "authResetTitle": "إعادة تعيين كلمة المرور",
+  "authNewPassword": "كلمة المرور الجديدة",
+  "authPasswordRules": "8 أحرف على الأقل، مع حرف إنجليزي كبير وحرف صغير ورقم",
+  "authResetButton": "تعيين كلمة المرور",
+  "authResetSuccess": "تم تغيير كلمة المرور. سجّل دخولك بكلمة المرور الجديدة.",
+  "trailsLogoEn": "Qimmah"
+}
