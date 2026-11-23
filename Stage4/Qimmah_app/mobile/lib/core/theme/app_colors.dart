@@ -10,7 +10,7 @@ class AppColors {
   static const Color accent = Color(0xFFC97B47); // البرتقالي
 
   static const Color backgroundLight = Color(0xFFF6F5F1);
-  static const Color backgroundDark = Color(0xFF111714);
+  static const Color backgroundDark = Color(0xFF1C2620);
 
   static const Color textLight = Color(0xFF2B2B2B);
   static const Color textDark = Color(0xFFE6EAE7);

@@ -54,7 +54,6 @@ class _TabInfo {
 
   const _TabInfo(this.label, this.icon, this.activeIcon);
 }
-
 class _BottomBar extends StatelessWidget {
   final List<_TabInfo> tabs;
   final int currentIndex;
@@ -68,49 +67,67 @@ class _BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final inactive = cs.onSurface.withValues(alpha: 0.55);
+final isDark = Theme.of(context).brightness == Brightness.dark;
+//عشان النافقيشن يصير يتفاعل مع الاسود والالبيض 
+   final barColor = isDark ? const Color(0xFF22382B) : const Color(0xFF0F2D1C);
+    final inactive = isDark ? const Color(0xFFA9B8AF) : const Color(0xFFC9D1CC);
 
     return Container(
-      decoration: BoxDecoration(
-        color: cs.surface,
-        border: const Border(top: BorderSide(color: AppColors.border)),
-      ),
+      color: Colors.transparent,
       child: SafeArea(
-        child: SizedBox(
-          height: 64,
-          child: Row(
-            children: [
-              for (var i = 0; i < tabs.length; i++)
-                Expanded(
-                  child: InkWell(
-                    onTap: () => onTap(i),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          i == currentIndex ? tabs[i].activeIcon : tabs[i].icon,
-                          color:
-                              i == currentIndex ? AppColors.primary : inactive,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          tabs[i].label(context),
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: i == currentIndex
-                                ? FontWeight.bold
-                                : FontWeight.normal,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+          child: Container(
+            height: 64,
+            decoration: BoxDecoration(
+              color: barColor,
+              borderRadius: BorderRadius.circular(32),
+                 border: isDark
+                  ? Border.all(color: Colors.white.withValues(alpha: 0.08))
+                  : null,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.18),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                for (var i = 0; i < tabs.length; i++)
+                  Expanded(
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(32),
+                      onTap: () => onTap(i),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            tabs[i].icon,
                             color: i == currentIndex
-                                ? AppColors.primary
+                                ? AppColors.accent
                                 : inactive,
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 4),
+                          Text(
+                            tabs[i].label(context),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: i == currentIndex
+                                  ? FontWeight.bold
+                                  : FontWeight.w500,
+                              color: i == currentIndex
+                                  ? AppColors.accent
+                                  : inactive,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
