@@ -934,4 +934,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trailsLogoEn => 'Qimmah';
+
+  @override
+  String get deleteAccount => 'Delete account';
+
+  @override
+  String get deleteAccountTitle => 'Delete your account permanently?';
+
+  @override
+  String get deleteAccountMessage =>
+      'Your account, reviews and saved trails will be permanently deleted. This can\'t be undone.';
+
+  @override
+  String get deleteAccountDone => 'Your account was deleted';
+
+  @override
+  String get deleteAccountFailed =>
+      'Couldn\'t delete your account, please try again';
+
+  @override
+  String get reportReview => 'Report review';
+
+  @override
+  String get reportReviewSubject => 'Review report';
+
+  @override
+  String get reportReviewFailed => 'Couldn\'t open the mail app';
 }

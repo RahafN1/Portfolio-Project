@@ -457,5 +457,13 @@
   "authPasswordRules": "At least 8 characters, with an uppercase letter, a lowercase letter and a number",
   "authResetButton": "Reset password",
   "authResetSuccess": "Your password was changed. Log in with your new password.",
-  "trailsLogoEn": "Qimmah"
+  "trailsLogoEn": "Qimmah",
+  "deleteAccount": "Delete account",
+  "deleteAccountTitle": "Delete your account permanently?",
+  "deleteAccountMessage": "Your account, reviews and saved trails will be permanently deleted. This can't be undone.",
+  "deleteAccountDone": "Your account was deleted",
+  "deleteAccountFailed": "Couldn't delete your account, please try again",
+  "reportReview": "Report review",
+  "reportReviewSubject": "Review report",
+  "reportReviewFailed": "Couldn't open the mail app"
 }

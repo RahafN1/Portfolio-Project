@@ -471,5 +471,13 @@
   "authPasswordRules": "8 أحرف على الأقل، مع حرف إنجليزي كبير وحرف صغير ورقم",
   "authResetButton": "تعيين كلمة المرور",
   "authResetSuccess": "تم تغيير كلمة المرور. سجّل دخولك بكلمة المرور الجديدة.",
-  "trailsLogoEn": "Qimmah"
+  "trailsLogoEn": "Qimmah",
+  "deleteAccount": "حذف الحساب",
+  "deleteAccountTitle": "حذف حسابك نهائياً؟",
+  "deleteAccountMessage": "بينحذف حسابك مع كل تقييماتك ومساراتك المحفوظة نهائياً، وما نقدر نرجعها.",
+  "deleteAccountDone": "تم حذف حسابك",
+  "deleteAccountFailed": "ما قدرنا نحذف الحساب، حاول مرة ثانية",
+  "reportReview": "الإبلاغ عن التقييم",
+  "reportReviewSubject": "بلاغ عن تقييم",
+  "reportReviewFailed": "ما قدرنا نفتح تطبيق البريد"
 }

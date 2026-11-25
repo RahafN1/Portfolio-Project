@@ -906,4 +906,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get trailsLogoEn => 'Qimmah';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
+
+  @override
+  String get deleteAccountTitle => 'حذف حسابك نهائياً؟';
+
+  @override
+  String get deleteAccountMessage =>
+      'بينحذف حسابك مع كل تقييماتك ومساراتك المحفوظة نهائياً، وما نقدر نرجعها.';
+
+  @override
+  String get deleteAccountDone => 'تم حذف حسابك';
+
+  @override
+  String get deleteAccountFailed => 'ما قدرنا نحذف الحساب، حاول مرة ثانية';
+
+  @override
+  String get reportReview => 'الإبلاغ عن التقييم';
+
+  @override
+  String get reportReviewSubject => 'بلاغ عن تقييم';
+
+  @override
+  String get reportReviewFailed => 'ما قدرنا نفتح تطبيق البريد';
 }

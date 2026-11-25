@@ -1723,6 +1723,54 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'Qimmah'**
   String get trailsLogoEn;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الحساب'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف حسابك نهائياً؟'**
+  String get deleteAccountTitle;
+
+  /// No description provided for @deleteAccountMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'بينحذف حسابك مع كل تقييماتك ومساراتك المحفوظة نهائياً، وما نقدر نرجعها.'**
+  String get deleteAccountMessage;
+
+  /// No description provided for @deleteAccountDone.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم حذف حسابك'**
+  String get deleteAccountDone;
+
+  /// No description provided for @deleteAccountFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما قدرنا نحذف الحساب، حاول مرة ثانية'**
+  String get deleteAccountFailed;
+
+  /// No description provided for @reportReview.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإبلاغ عن التقييم'**
+  String get reportReview;
+
+  /// No description provided for @reportReviewSubject.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلاغ عن تقييم'**
+  String get reportReviewSubject;
+
+  /// No description provided for @reportReviewFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما قدرنا نفتح تطبيق البريد'**
+  String get reportReviewFailed;
 }
 
 class _AppLocalizationsDelegate
