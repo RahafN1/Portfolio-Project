@@ -11,6 +11,7 @@ class ReviewTile extends StatelessWidget {
   final bool isMine;
   final VoidCallback? onDelete;
   final VoidCallback? onEdit;
+  final VoidCallback? onReport;
 
   const ReviewTile({
     super.key,
@@ -18,6 +19,7 @@ class ReviewTile extends StatelessWidget {
     this.isMine = false,
     this.onDelete,
     this.onEdit,
+    this.onReport,
   });
 
   @override
@@ -91,6 +93,12 @@ class ReviewTile extends StatelessWidget {
                   tooltip: context.l10n.reviewsDeleteYours,
                   icon: const Icon(Icons.delete_outline,
                       color: AppColors.hardFg),
+                ),
+              if (!isMine && onReport != null)
+                IconButton(
+                  onPressed: onReport,
+                  tooltip: context.l10n.reportReview,
+                  icon: const Icon(Icons.flag_outlined, color: AppColors.grey),
                 ),
             ],
           ),

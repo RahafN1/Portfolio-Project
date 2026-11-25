@@ -960,4 +960,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportReviewFailed => 'Couldn\'t open the mail app';
+
+  @override
+  String get deleteAccountConfirm => 'Delete my account';
+
+  @override
+  String get reportReviewTitle => 'Why are you reporting this review?';
+
+  @override
+  String get reportReasonSpam => 'Spam or advertising';
+
+  @override
+  String get reportReasonOffensive => 'Offensive or abusive';
+
+  @override
+  String get reportReasonInappropriate => 'Inappropriate content';
+
+  @override
+  String get reportReasonOther => 'Other';
+
+  @override
+  String get reportSent => 'Report received. Thank you, we\'ll review it soon.';
+
+  @override
+  String get reportAlready => 'You already reported this review';
+
+  @override
+  String get reportFailed => 'We couldn\'t send your report. Please try again.';
+
+  @override
+  String get reportGuestLogin => 'Log in to report a review';
 }

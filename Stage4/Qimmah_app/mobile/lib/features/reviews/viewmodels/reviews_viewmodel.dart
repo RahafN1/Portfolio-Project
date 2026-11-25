@@ -93,4 +93,18 @@ class ReviewsViewModel extends ChangeNotifier {
     await load();
     return true;
   }
+
+  // يرجّع null لو نجح، أو رسالة الخطأ لو فشل
+  Future<String?> reportReview(Review review, String reason) async {
+    try {
+      await repository.reportReview(review.id, reason);
+    } on ApiException catch (e) {
+      if (e.statusCode == 401) return L10n.tr.reviewsSessionExpired;
+      if (e.statusCode == 409) return L10n.tr.reportAlready;
+      return L10n.tr.reportFailed;
+    } catch (_) {
+      return L10n.tr.reportFailed;
+    }
+    return null;
+  }
 }

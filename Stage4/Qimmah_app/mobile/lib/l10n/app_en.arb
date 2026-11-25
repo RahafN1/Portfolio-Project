@@ -465,5 +465,15 @@
   "deleteAccountFailed": "Couldn't delete your account, please try again",
   "reportReview": "Report review",
   "reportReviewSubject": "Review report",
-  "reportReviewFailed": "Couldn't open the mail app"
+  "reportReviewFailed": "Couldn't open the mail app",
+    "deleteAccountConfirm": "Delete my account",
+  "reportReviewTitle": "Why are you reporting this review?",
+  "reportReasonSpam": "Spam or advertising",
+  "reportReasonOffensive": "Offensive or abusive",
+  "reportReasonInappropriate": "Inappropriate content",
+  "reportReasonOther": "Other",
+  "reportSent": "Report received. Thank you, we'll review it soon.",
+  "reportAlready": "You already reported this review",
+  "reportFailed": "We couldn't send your report. Please try again.",
+  "reportGuestLogin": "Log in to report a review"
 }

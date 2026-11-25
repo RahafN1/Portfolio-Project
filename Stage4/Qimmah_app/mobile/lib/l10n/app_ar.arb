@@ -479,5 +479,15 @@
   "deleteAccountFailed": "ما قدرنا نحذف الحساب، حاول مرة ثانية",
   "reportReview": "الإبلاغ عن التقييم",
   "reportReviewSubject": "بلاغ عن تقييم",
-  "reportReviewFailed": "ما قدرنا نفتح تطبيق البريد"
+  "reportReviewFailed": "ما قدرنا نفتح تطبيق البريد",
+  "deleteAccountConfirm": "احذف حسابي",
+  "reportReviewTitle": "ليش تبلّغ عن هذا التقييم؟",
+  "reportReasonSpam": "مزعج أو إعلان",
+  "reportReasonOffensive": "مسيء أو كلام جارح",
+  "reportReasonInappropriate": "محتوى غير لائق",
+  "reportReasonOther": "سبب آخر",
+  "reportSent": "وصلنا بلاغك، شكراً لك. بنراجعه قريباً.",
+  "reportAlready": "سبق وبلّغت عن هذا التقييم",
+  "reportFailed": "ما قدرنا نرسل البلاغ، حاول مرة ثانية",
+  "reportGuestLogin": "سجّل دخولك عشان تبلّغ عن تقييم"
 }

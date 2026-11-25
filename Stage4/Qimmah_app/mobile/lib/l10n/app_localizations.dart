@@ -1771,6 +1771,66 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ما قدرنا نفتح تطبيق البريد'**
   String get reportReviewFailed;
+
+  /// No description provided for @deleteAccountConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'احذف حسابي'**
+  String get deleteAccountConfirm;
+
+  /// No description provided for @reportReviewTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ليش تبلّغ عن هذا التقييم؟'**
+  String get reportReviewTitle;
+
+  /// No description provided for @reportReasonSpam.
+  ///
+  /// In ar, this message translates to:
+  /// **'مزعج أو إعلان'**
+  String get reportReasonSpam;
+
+  /// No description provided for @reportReasonOffensive.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسيء أو كلام جارح'**
+  String get reportReasonOffensive;
+
+  /// No description provided for @reportReasonInappropriate.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتوى غير لائق'**
+  String get reportReasonInappropriate;
+
+  /// No description provided for @reportReasonOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبب آخر'**
+  String get reportReasonOther;
+
+  /// No description provided for @reportSent.
+  ///
+  /// In ar, this message translates to:
+  /// **'وصلنا بلاغك، شكراً لك. بنراجعه قريباً.'**
+  String get reportSent;
+
+  /// No description provided for @reportAlready.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبق وبلّغت عن هذا التقييم'**
+  String get reportAlready;
+
+  /// No description provided for @reportFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما قدرنا نرسل البلاغ، حاول مرة ثانية'**
+  String get reportFailed;
+
+  /// No description provided for @reportGuestLogin.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجّل دخولك عشان تبلّغ عن تقييم'**
+  String get reportGuestLogin;
 }
 
 class _AppLocalizationsDelegate

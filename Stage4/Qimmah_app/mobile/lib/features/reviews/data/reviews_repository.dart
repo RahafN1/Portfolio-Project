@@ -53,4 +53,9 @@ class ReviewsRepository {
       'comment': comment.trim(),
     });
   }
+
+  // التبليغ عن تقييم (يحتاج تسجيل دخول)
+  Future<void> reportReview(int reviewId, String reason) async {
+    await api.post(ApiEndpoints.reportReview(reviewId), {'reason': reason});
+  }
 }

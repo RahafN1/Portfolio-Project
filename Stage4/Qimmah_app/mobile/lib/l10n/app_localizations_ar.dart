@@ -931,4 +931,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reportReviewFailed => 'ما قدرنا نفتح تطبيق البريد';
+
+  @override
+  String get deleteAccountConfirm => 'احذف حسابي';
+
+  @override
+  String get reportReviewTitle => 'ليش تبلّغ عن هذا التقييم؟';
+
+  @override
+  String get reportReasonSpam => 'مزعج أو إعلان';
+
+  @override
+  String get reportReasonOffensive => 'مسيء أو كلام جارح';
+
+  @override
+  String get reportReasonInappropriate => 'محتوى غير لائق';
+
+  @override
+  String get reportReasonOther => 'سبب آخر';
+
+  @override
+  String get reportSent => 'وصلنا بلاغك، شكراً لك. بنراجعه قريباً.';
+
+  @override
+  String get reportAlready => 'سبق وبلّغت عن هذا التقييم';
+
+  @override
+  String get reportFailed => 'ما قدرنا نرسل البلاغ، حاول مرة ثانية';
+
+  @override
+  String get reportGuestLogin => 'سجّل دخولك عشان تبلّغ عن تقييم';
 }

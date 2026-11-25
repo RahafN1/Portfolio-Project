@@ -75,6 +75,73 @@ class ProfileScreen extends StatelessWidget {
     auth.loginAsGuest(); // نرجع كزائر
   }
 
+  // حقت حذف الحساب عشان التفاحه تقبل تطبيقنا
+  Future<void> _confirmDeleteAccount(BuildContext context) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(context.l10n.deleteAccountTitle),
+        content: Text(context.l10n.deleteAccountMessage),
+        actions: [
+          Row(
+            children: [
+              // الإلغاء والحذف نفس العرض (flex متساوي) ونفس الارتفاع
+              Expanded(
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(0, 48),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                  ),
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      context.l10n.profileCancel,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.red.shade700,
+                    minimumSize: const Size(0, 48),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                  ),
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      context.l10n.deleteAccount,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+    if (ok != true || !context.mounted) return;
+
+    final auth = context.read<AuthViewModel>();
+    final messenger = ScaffoldMessenger.of(context);
+    final success = await auth.deleteAccount();
+    if (success) {
+      auth.loginAsGuest(); // نرجع كزائر مثل تسجيل الخروج
+      messenger.showSnackBar(
+          SnackBar(content: Text(L10n.tr.deleteAccountDone)));
+    } else {
+      messenger.showSnackBar(SnackBar(
+          content: Text(auth.errorMessage ?? L10n.tr.deleteAccountFailed)));
+    }
+  }
+  
   // زر زجاجي (نفس اللي في السبلاش)
   Widget _glassButton({
     required bool isDark,
@@ -206,6 +273,16 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () => _confirmLogout(context),
               icon: const Icon(Icons.logout),
               label:  Text(AppLocalizations.of(context).logout),
+            ),
+                        const SizedBox(height: 8),
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red.shade700,
+                minimumSize: const Size.fromHeight(44),
+              ),
+              onPressed: () => _confirmDeleteAccount(context),
+              icon: const Icon(Icons.delete_forever_outlined),
+              label: Text(AppLocalizations.of(context).deleteAccount),
             ),
           ] else
             _guestCard(context),
