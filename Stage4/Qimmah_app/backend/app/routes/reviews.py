@@ -13,6 +13,7 @@ from sqlalchemy import func
 from app.errors import APIError
 from app.extensions import db
 from app.models.review import Review
+from app.models.review_report import ReviewReport
 from app.models.trail import Trail
 from app.models.user import User
 from app.utils.decorators import login_required
@@ -234,3 +235,43 @@ def delete_review(current_user, review_id):
     # delete_review (في الـ model) يتأكد إنه صاحب التقييم
     Review.delete_review(review_id, current_user.id)
     return "", 204
+
+
+# ---------- Report a review ----------
+
+@reviews_bp.post("/reviews/<int:review_id>/report")
+@login_required
+def report_review(current_user, review_id):
+    """Report a review as inappropriate.
+    ---
+    tags:
+      - Reviews
+    security:
+      - Bearer: []
+    parameters:
+      - in: path
+        name: review_id
+        type: integer
+        required: true
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            reason:
+              type: string
+              example: offensive
+    responses:
+      201:
+        description: Report received
+      400:
+        description: Invalid reason or own review
+      404:
+        description: Review not found
+      409:
+        description: Already reported
+    """
+    data = request.get_json(silent=True) or {}
+    ReviewReport.add_report(review_id, current_user.id, data.get("reason"))
+    return jsonify({"message": "Report received"}), 201
