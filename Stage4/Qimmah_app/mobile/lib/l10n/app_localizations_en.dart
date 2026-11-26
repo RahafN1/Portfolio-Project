@@ -990,4 +990,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportGuestLogin => 'Log in to report a review';
+
+  @override
+  String get privacyPolicy => 'Privacy policy';
+
+  @override
+  String get contactUs => 'Contact us';
 }

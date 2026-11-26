@@ -1831,6 +1831,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'سجّل دخولك عشان تبلّغ عن تقييم'**
   String get reportGuestLogin;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In ar, this message translates to:
+  /// **'سياسة الخصوصية'**
+  String get privacyPolicy;
+
+  /// No description provided for @contactUs.
+  ///
+  /// In ar, this message translates to:
+  /// **'تواصل معنا'**
+  String get contactUs;
 }
 
 class _AppLocalizationsDelegate

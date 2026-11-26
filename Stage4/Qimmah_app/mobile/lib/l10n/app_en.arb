@@ -475,5 +475,7 @@
   "reportSent": "Report received. Thank you, we'll review it soon.",
   "reportAlready": "You already reported this review",
   "reportFailed": "We couldn't send your report. Please try again.",
-  "reportGuestLogin": "Log in to report a review"
+  "reportGuestLogin": "Log in to report a review",
+    "privacyPolicy": "Privacy policy",
+  "contactUs": "Contact us"
 }

@@ -961,4 +961,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reportGuestLogin => 'سجّل دخولك عشان تبلّغ عن تقييم';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get contactUs => 'تواصل معنا';
 }
