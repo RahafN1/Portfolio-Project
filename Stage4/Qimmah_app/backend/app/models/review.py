@@ -1,6 +1,6 @@
 from app.errors import APIError
 from app.extensions import db
-
+from app.services.content_filter import check_clean
 
 class Review(db.Model):
     """A rating (1-5) with a comment (UML: Review)."""
@@ -40,7 +40,7 @@ class Review(db.Model):
         comment = (comment or "").strip()
         if not comment:
             raise APIError("Comment cannot be empty", 400)
-        return comment
+        return check_clean(comment)
 
     # ---------- Methods (UML) ----------
     @staticmethod

@@ -43,6 +43,9 @@ def create_app(config_class=Config):
     from app.routes.health import health_bp
     app.register_blueprint(health_bp, url_prefix="/api")
 
+    from app.routes.legal import legal_bp
+    app.register_blueprint(legal_bp)
+
     from app.routes.trails import trails_bp
     app.register_blueprint(trails_bp, url_prefix="/api/trails")
 
