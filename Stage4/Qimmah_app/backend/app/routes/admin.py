@@ -370,6 +370,11 @@ def list_reviews(current_user):
         type: integer
         default: 20
         description: Items per page (1 to 100)
+      - in: query
+        name: reported
+        type: boolean
+        default: false
+        description: If true, only reviews that have reports
     responses:
       200:
         description: Reviews returned with the page number and the total
@@ -379,7 +384,8 @@ def list_reviews(current_user):
         description: Admin only
     """
     page, limit = _page_args()
-    reviews, total = current_user.list_reviews(page, limit)
+    reported_only = request.args.get("reported", "").lower() == "true"
+    reviews, total = current_user.list_reviews(page, limit, reported_only)
     return jsonify({"reviews": reviews, "page": page, "total": total}), 200
 
 
