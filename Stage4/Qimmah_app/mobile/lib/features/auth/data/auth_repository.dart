@@ -84,6 +84,13 @@ class AuthRepository {
       api.clearCache();
     }
   }
+  
+  // حذف الحساب نهائياً (شرط آبل)
+  Future<void> deleteAccount() async {
+    await api.delete(ApiEndpoints.updateMe); // DELETE /api/users/me
+    await storage.clear();
+    api.clearCache();
+  }
 
   // الرد شكله: { "token": "...", "user": {...} }
   Future<User> _saveLogin(Map<String, dynamic> data) async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart'; // عناصر الواجهة
 import 'package:provider/provider.dart'; // نقرأ الـ ViewModels
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/routing/app_router.dart'; // أسماء الصفحات
 import '../../../core/theme/app_colors.dart'; // الألوان
@@ -8,6 +9,8 @@ import '../../auth/viewmodels/auth_viewmodel.dart'; // حالة تسجيل ال�
 import '../../favorites/viewmodels/favorites_viewmodel.dart'; // أرقام مساراتي
 import '../../../core/locale/locale_viewmodel.dart';
 import '../../../l10n/l10n.dart';
+import '../../../core/constants/api_endpoints.dart';
+
 
 // صفحة حسابي: زائر أو مسجّلة
 class ProfileScreen extends StatelessWidget {
@@ -75,6 +78,73 @@ class ProfileScreen extends StatelessWidget {
     auth.loginAsGuest(); // نرجع كزائر
   }
 
+  // حقت حذف الحساب عشان التفاحه تقبل تطبيقنا
+  Future<void> _confirmDeleteAccount(BuildContext context) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(context.l10n.deleteAccountTitle),
+        content: Text(context.l10n.deleteAccountMessage),
+        actions: [
+          Row(
+            children: [
+              // الإلغاء والحذف نفس العرض (flex متساوي) ونفس الارتفاع
+              Expanded(
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(0, 48),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                  ),
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      context.l10n.profileCancel,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.red.shade700,
+                    minimumSize: const Size(0, 48),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                  ),
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      context.l10n.deleteAccount,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+    if (ok != true || !context.mounted) return;
+
+    final auth = context.read<AuthViewModel>();
+    final messenger = ScaffoldMessenger.of(context);
+    final success = await auth.deleteAccount();
+    if (success) {
+      auth.loginAsGuest(); // نرجع كزائر مثل تسجيل الخروج
+      messenger.showSnackBar(
+          SnackBar(content: Text(L10n.tr.deleteAccountDone)));
+    } else {
+      messenger.showSnackBar(SnackBar(
+          content: Text(auth.errorMessage ?? L10n.tr.deleteAccountFailed)));
+    }
+  }
+  
   // زر زجاجي (نفس اللي في السبلاش)
   Widget _glassButton({
     required bool isDark,
@@ -207,8 +277,33 @@ class ProfileScreen extends StatelessWidget {
               icon: const Icon(Icons.logout),
               label:  Text(AppLocalizations.of(context).logout),
             ),
+                        const SizedBox(height: 8),
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red.shade700,
+                minimumSize: const Size.fromHeight(44),
+              ),
+              onPressed: () => _confirmDeleteAccount(context),
+              icon: const Icon(Icons.delete_forever_outlined),
+              label: Text(AppLocalizations.of(context).deleteAccount),
+            ),
           ] else
             _guestCard(context),
+                      const SizedBox(height: 16),
+          ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: Text(context.l10n.privacyPolicy),
+            onTap: () => launchUrl(Uri.parse(ApiEndpoints.privacyPolicy),
+                mode: LaunchMode.externalApplication),
+          ),
+          ListTile(
+            leading: const Icon(Icons.mail_outline),
+            title: Text(context.l10n.contactUs),
+            subtitle: const Text(ApiEndpoints.supportEmail,
+                textDirection: TextDirection.ltr),
+            onTap: () => launchUrl(
+                Uri(scheme: 'mailto', path: ApiEndpoints.supportEmail)),
+          ),
         ],
       ),
     );

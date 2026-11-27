@@ -8,6 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app.errors import APIError
 from app.extensions import db
 from app.services.email_service import send_otp_email
+from app.services.content_filter import check_clean
 
 EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 MIN_PASSWORD_LENGTH = 8
@@ -83,6 +84,7 @@ class User(db.Model):
         password = _text(password)
         if not name:
             raise APIError("Name is required", 400)
+        check_clean(name)
         if not EMAIL_PATTERN.match(email):
             raise APIError("Invalid email", 400)
         cls._validate_password(password)
@@ -159,7 +161,7 @@ class User(db.Model):
         if not name:
             raise APIError("Name is required", 400)
 
-        self.name = name
+        self.name = check_clean(name)
         db.session.commit()
         return self
     

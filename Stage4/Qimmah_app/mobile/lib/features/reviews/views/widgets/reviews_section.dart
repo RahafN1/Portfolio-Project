@@ -10,6 +10,7 @@ import '../../viewmodels/reviews_viewmodel.dart';
 import '../delete_review_dialog.dart';
 import '../write_review_sheet.dart';
 import 'review_tile.dart';
+import '../report_review_sheet.dart';
 
 // قسم التقييمات في صفحة التفاصيل
 class ReviewsSection extends StatelessWidget {
@@ -57,6 +58,20 @@ class ReviewsSection extends StatelessWidget {
     if (edited == true && context.mounted) {
       _toast(context, context.l10n.reviewsPosted);
     }
+  }
+
+  Future<void> _onReport(BuildContext context, Review review) async {
+    if (context.read<AuthViewModel>().isGuest) {
+      showGuestLoginSheet(context, title: context.l10n.reportGuestLogin);
+      return;
+    }
+    final reason = await showReportReasonSheet(context);
+    if (reason == null || !context.mounted) return;
+
+    final error =
+        await context.read<ReviewsViewModel>().reportReview(review, reason);
+    if (!context.mounted) return;
+    _toast(context, error ?? context.l10n.reportSent);
   }
 
   Future<void> _onDelete(BuildContext context, Review review) async {
@@ -135,7 +150,11 @@ class ReviewsSection extends StatelessWidget {
               onDelete: () => _onDelete(context, mine),
             ),
           for (final review in vm.reviews)
-            if (review.id != mine?.id) ReviewTile(review: review),
+              if (review.id != mine?.id)
+              ReviewTile(
+                review: review,
+                onReport: () => _onReport(context, review),
+              ),
         ],
       ],
     );

@@ -13,12 +13,14 @@
 Protect each route with @login_required from app.utils.decorators.
 """
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import get_jwt
 
 from app.errors import APIError
 from app.extensions import db
 from app.models.completed_trail import CompletedTrail
 from app.models.favorite import Favorite
 from app.models.review import Review
+from app.models.token_blocklist import TokenBlocklist
 from app.models.trail import Trail
 from app.utils.decorators import login_required
 
@@ -41,6 +43,7 @@ def get_current_user(current_user):
         description: Missing or expired token
     """
     return jsonify({"user": current_user.to_dict()}), 200
+
 
 @users_bp.put("/me")
 @login_required
@@ -72,6 +75,8 @@ def update_current_user(current_user):
     data = request.get_json(silent=True) or {}
     user = current_user.update_name(data.get("name"))
     return jsonify({"user": user.to_dict()}), 200
+
+
 # ---------- Reviews (endpoint 7) ----------
 
 @users_bp.get("/me/reviews")
@@ -304,3 +309,28 @@ def remove_completed_trail(current_user, trail_id):
     """
     CompletedTrail.remove_completed_trail(current_user.id, trail_id)
     return "", 204
+
+
+@users_bp.delete("/me")
+@login_required
+def delete_current_user(current_user):
+    """Delete my account (admin accounts can't be deleted).
+    ---
+    tags:
+      - Users
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: Account deleted
+      401:
+        description: Missing or expired token
+      403:
+        description: Admin accounts can't be deleted
+    """
+    if current_user.role == "admin":
+        raise APIError("Admin accounts cannot be deleted here", 403)
+    db.session.add(TokenBlocklist(jti=get_jwt()["jti"]))
+    db.session.delete(current_user)
+    db.session.commit()
+    return jsonify({"message": "Account deleted"}), 200

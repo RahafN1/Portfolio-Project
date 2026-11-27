@@ -180,16 +180,30 @@ class Admin(User):
             data.append(item)
         return data, total
 
-    def list_reviews(self, page, limit):
+    def list_reviews(self, page, limit, reported_only=False):
         """All reviews with the author and trail names (endpoint 29)."""
+        from sqlalchemy import func
         from app.models.review import Review
+        from app.models.review_report import ReviewReport
 
-        total = Review.query.count()
-        rows = (
+        # عدد البلاغات لكل تقييم: {رقم التقييم: العدد}
+        report_counts = dict(
+            db.session.query(ReviewReport.review_id, func.count(ReviewReport.id))
+            .group_by(ReviewReport.review_id).all()
+        )
+
+        query = (
             db.session.query(Review, User, Trail)
             .join(User, Review.user_id == User.id)
             .join(Trail, Review.trail_id == Trail.id)
-            .order_by(Review.created_at.desc())
+        )
+        # لو الأدمن طلب المبلّغ عنها بس، نخلي التقييمات اللي عليها بلاغ فقط
+        if reported_only:
+            query = query.filter(Review.id.in_(list(report_counts.keys())))
+
+        total = query.count()
+        rows = (
+            query.order_by(Review.created_at.desc())
             .offset((page - 1) * limit).limit(limit).all()
         )
         data = []
@@ -197,6 +211,7 @@ class Admin(User):
             item = review.to_dict()
             item["user"] = {"id": user.id, "name": user.name}
             item["trail"] = {"id": trail.id, "name": trail.name}
+            item["reports_count"] = report_counts.get(review.id, 0)
             data.append(item)
         return data, total
 

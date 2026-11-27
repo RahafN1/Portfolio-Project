@@ -2,6 +2,8 @@ class ApiEndpoints {
  // رابط الرايل واي
   static const String baseUrl = 'https://portfolio-project-production-d5d7.up.railway.app';
 
+  static const String privacyPolicy = '$baseUrl/privacy';
+  static const String supportEmail = 'qimmah.info@gmail.com';
   static const String register = '/api/auth/register';
   static const String forgotPassword = '/api/auth/forgot-password';
   static const String resetPassword = '/api/auth/reset-password';
@@ -18,6 +20,7 @@ class ApiEndpoints {
     // التقييمات
   static String trailReviews(int trailId) => '/api/trails/$trailId/reviews';
   static String review(int reviewId) => '/api/reviews/$reviewId';
+  static String reportReview(int reviewId) => '/api/reviews/$reviewId/report';
     // الأدمن
   static const String adminStats = '/api/admin/stats';
   static const String adminUsers = '/api/admin/users';
